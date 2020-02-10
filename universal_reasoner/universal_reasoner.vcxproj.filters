@@ -12,5 +12,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="universal_reasoner.cpp" />
+    <ClCompile Include="executableWithCost.cpp" />
+    <ClCompile Include="executionCost.cpp" />
+    <ClCompile Include="fact.cpp" />
+    <ClCompile Include="Metadata.cpp" />
+    <ClCompile Include="rule.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="executableWithCost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="executionCost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fact.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="metadata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

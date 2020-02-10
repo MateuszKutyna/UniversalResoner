@@ -19,7 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="executableWithCost.cpp" />
+    <ClCompile Include="executionCost.cpp" />
+    <ClCompile Include="fact.cpp" />
+    <ClCompile Include="Metadata.cpp" />
+    <ClCompile Include="rule.cpp" />
     <ClCompile Include="universal_reasoner.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="executableWithCost.h" />
+    <ClInclude Include="executionCost.h" />
+    <ClInclude Include="fact.h" />
+    <ClInclude Include="metadata.h" />
+    <ClInclude Include="rule.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
