@@ -10,16 +10,16 @@ namespace ureasoner
 	class Premise
 	{
 	public:
-		Premise(const Fact compareTo, const std::shared_ptr<const Fact> factToCheck, const bool (*comparer)(const std::shared_ptr<const Fact>, const Fact&))
-			: compareTo(compareTo), factToCheck(factToCheck), comparer(comparer) {};
+		Premise(const std::shared_ptr<const Fact> compareTo, const std::shared_ptr<const Fact> factToCheck, const bool (*comparer)(const std::shared_ptr<const Fact>, const Fact&))
+			: compareTo(compareTo), factToCheck(factToCheck)/*, comparer(comparer) */{};
 		bool Evaluate()
 		{
-			return comparer(factToCheck, compareTo);
+			return false;//comparer(factToCheck, compareTo);
 		}
 	protected:
-		const Fact compareTo;
+		const std::shared_ptr<const Fact> compareTo;
 		const std::shared_ptr<const Fact> factToCheck;
-		const bool (*comparer)(const std::shared_ptr<const Fact>, const Fact&);
+//		const bool (*comparer)(const std::shared_ptr<const Fact>, const std::shared_ptr < const Fact>);
 	};
 
 	template<typename COST>
@@ -27,7 +27,7 @@ namespace ureasoner
 		public ExecutableWithCost<COST>
 	{
 	public:
-		Rule()
+//		Rule() = 0;
 	};
 }
 #endif // universal_reasoner_rule_h__

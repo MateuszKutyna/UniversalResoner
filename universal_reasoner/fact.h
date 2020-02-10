@@ -2,9 +2,22 @@
 #define universal_reasoner_fact_h__
 #include <memory>
 
+#include <concepts>
+
+
+// tested feature - to be used to choose Fact with and without operator<() member
+template<typename T>
+concept has_type_member = requires { typename T::type; };
 
 namespace ureasoner
 {
+
+	// This concept tests whether 'T::type' is a valid type
+
+// 
+// 	template<typename T> requires std::totally_ordered<T> // or right after a template parameter list
+// 		T add(T a, T b) { return a + b; }
+
 	class Fact
 	{
 	public:
