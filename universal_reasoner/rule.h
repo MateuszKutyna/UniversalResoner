@@ -10,15 +10,24 @@ namespace ureasoner
 	class Premise
 	{
 	public:
-		Premise(const std::shared_ptr<const Fact> compareTo, const std::shared_ptr<const Fact> factToCheck, const bool (*comparer)(const std::shared_ptr<const Fact>, const Fact&))
-			: compareTo(compareTo), factToCheck(factToCheck)/*, comparer(comparer) */{};
-		bool Evaluate()
+		virtual bool Evaluate() = 0;
+	};
+
+	template<typename T>
+	class PremiseWithType : public Premise
+	{
+	public:
+		typedef  FactWithValue<T> LocalFact;
+		PremiseWithType(std::shared_ptr<const LocalFact> compareTo, /*const bool (*comparer)(const std::shared_ptr<const LocalFact>, */const LocalFact& comp2)
+			: compareTo(compareTo), factToCheck(comp2)/*, comparer(comparer) */{};
+		virtual bool Evaluate()
 		{
-			return false;//comparer(factToCheck, compareTo);
+			return (factToCheck.isEqual(compareTo));
+			//comparer(factToCheck, compareTo);
 		}
 	protected:
-		const std::shared_ptr<const Fact> compareTo;
-		const std::shared_ptr<const Fact> factToCheck;
+		/*const */std::shared_ptr<const LocalFact> compareTo;
+		/*const*/ LocalFact factToCheck;
 //		const bool (*comparer)(const std::shared_ptr<const Fact>, const std::shared_ptr < const Fact>);
 	};
 
