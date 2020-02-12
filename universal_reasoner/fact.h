@@ -112,6 +112,23 @@ namespace ureasoner
 	protected:
 		const std::shared_ptr<ValueType> factValue;
 	};
+
+	template<typename VALUE>
+	class FactSettable
+	{
+	public:
+		using ValueType = VALUE;
+		void SetValue(const VALUE& valueToSet)
+		{
+			if (IsStillSettable())
+			{
+				SetValueIfValid(valueToSet);
+			}
+		};
+	protected:
+		virtual bool IsStillSettable() = 0;
+		virtual void SetValueIfValid(const VALUE&) = 0;
+	};
 }
 
 #endif // universal_reasoner_fact_h__

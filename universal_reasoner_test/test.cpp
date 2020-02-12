@@ -7,7 +7,7 @@ TEST(BasicPremises, MakingPremise)
 {
 	auto a1 = std::make_shared<FactWithValue<double>>(2.0);
 	FactWithValue<double> a2(2.0);
-	PremiseWithType<double> p(a1, a2, [](const double& x, const double& y)->bool { return x == y; });
+	PremiseWithType<double> p(a1, a2);
 	EXPECT_TRUE(p.Evaluate());
 }
 
@@ -15,6 +15,6 @@ TEST(BasicPremises, MakingPremiseWithVirtual)
 {
 	auto a1 = std::make_shared<FactWithValue<double>>(2.0);
 	FactWithValue<double> a2(2.0);
-	std::shared_ptr<Premise> p = std::make_shared<PremiseWithType<double>>(a1, a2, [](const double& x, const double& y)->bool { return x == y; });
+	std::shared_ptr<Premise> p = std::make_shared<PremiseWithType<double>>(a1, a2);
 	EXPECT_TRUE(p->Evaluate());
 }
