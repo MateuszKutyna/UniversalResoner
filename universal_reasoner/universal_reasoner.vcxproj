@@ -30,6 +30,7 @@
     <ClInclude Include="executableWithCost.h" />
     <ClInclude Include="executionCost.h" />
     <ClInclude Include="fact.h" />
+    <ClInclude Include="factsRepository.h" />
     <ClInclude Include="metadata.h" />
     <ClInclude Include="rule.h" />
   </ItemGroup>

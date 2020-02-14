@@ -34,5 +34,8 @@
     <ClInclude Include="rule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="factsRepository.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
