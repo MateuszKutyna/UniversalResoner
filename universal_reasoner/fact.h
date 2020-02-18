@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <concepts>
+#include <stdexcept>
 
 
 // tested feature - to be used to choose Fact with and without operator<() member
@@ -74,6 +75,7 @@ namespace ureasoner
 // 		}
 	};
 
+
 	template<typename VALUE>
 	class FactWithValue;
 
@@ -103,14 +105,25 @@ namespace ureasoner
 		typedef VALUE ValueType;
 		FactWithValue(std::shared_ptr<ValueType> factValue) : factValue(factValue) {};
 		FactWithValue(const ValueType& factValue) : factValue(std::make_shared<ValueType>(factValue)) {};
-		const ValueType GetValue() const { return *factValue; };
+		FactWithValue() {};
+		const ValueType GetValue() const 
+		{
+			if (factValue)
+			{
+				return *factValue;
+			} 
+			else
+			{
+				throw std::logic_error("Value of the fact is not set.");
+			}
+		};
 
 		bool isEqual(const std::shared_ptr<const FactWithValue<VALUE>> second)
 		{
-			return(*factValue==second->GetValue());
+			return(GetValue()==second->GetValue());
 		};
 	protected:
-		const std::shared_ptr<ValueType> factValue;
+		std::shared_ptr<ValueType> factValue;
 	};
 
 	template<typename VALUE>

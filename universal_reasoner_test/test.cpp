@@ -32,6 +32,10 @@ TEST(FRepo, basicTest)
 	FactWithValue<int> i1(1);
 	FactWithValue<bool> b1(true);
 	FactWithValue<std::string> s1("test");
+
+	FactWithValue<double> fempty;
+	b.AddFact(fempty, "fempty");
+
 	a.AddFact(f1, "f1");
 // Command below, if uncommented, must result with compilation error since there is no integer storage in repository a
 //	a.AddFact(i1, "i1");
@@ -59,4 +63,7 @@ TEST(FRepo, basicTest)
 //	auto  resi1Fail = a.GetFactByName<int>("i1");
 
 	EXPECT_THROW(b.GetFactByName<int>("i1"),std::exception);
+
+	auto  resfempty = b.GetFactByName<double>("fempty");
+	EXPECT_THROW(resb1->GetValue(), std::logic_error);
 }
