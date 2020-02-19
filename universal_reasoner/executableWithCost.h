@@ -14,8 +14,8 @@ namespace ureasoner
 		typedef COST CostType;
 		virtual const CostType GetEstimatedCost() const = 0;
 //		virtual void CheckAndFire() const = 0; // or Conclusions to fire?
- 		virtual const std::vector<const Fact> GetFactsNeeded() const = 0;
- 		virtual const std::vector<const Fact> GetFactsProvided() const = 0;
+// 		virtual const std::vector<const Fact> GetFactsNeeded() const = 0;
+// 		virtual const std::vector<const Fact> GetFactsProvided() const = 0;
 	};
 }
 

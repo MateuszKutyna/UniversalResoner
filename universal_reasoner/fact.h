@@ -7,141 +7,146 @@
 
 
 // tested feature - to be used to choose Fact with and without operator<() member
-template<typename T>
-concept has_type_member = requires {totally_ordered <T>; };
-
-class T1
-{
-public:
-	int i;
-};
-
-inline bool operator==(const T1& lhs, const T1& rhs) { return (lhs.i == rhs.i); }
-inline bool operator!=(const T1& lhs, const T1& rhs) { return !(lhs == rhs); }
-
-template<class T>
-struct test1
-{
-	int secVal;
-	static const int val = 0;
-};
-
-template<class T>
-struct wrapper {
-	static const int val = 0;
-};;
-
-template<std::totally_ordered T>
-struct wrapper<T>
-{
-	static const int val = 1;
-};
-
-template<std::equality_comparable T>
-struct wrapper<T>
-{
-	static const int val = 2;
- };
-
- 
+// template<typename T>
+// concept has_type_member = requires {totally_ordered <T>; };
+// 
+// class T1
+// {
+// public:
+// 	int i;
+// };
+// 
+// inline bool operator==(const T1& lhs, const T1& rhs) { return (lhs.i == rhs.i); }
+// inline bool operator!=(const T1& lhs, const T1& rhs) { return !(lhs == rhs); }
+// 
+// template<class T>
+// struct test1
+// {
+// 	int secVal;
+// 	static const int val = 0;
+// };
+// 
+// template<class T>
+// struct wrapper {
+// 	static const int val = 0;
+// };;
+// 
+// template<std::totally_ordered T>
+// struct wrapper<T>
+// {
+// 	static const int val = 1;
+// };
+// 
+// template<std::equality_comparable T>
+// struct wrapper<T>
+// {
+// 	static const int val = 2;
+//  };
+// 
+//  
 
 
 namespace ureasoner
 {
+	template<typename VALUE>
 	class Fact
 	{
 	public:
-// 		virtual bool isEqual(const std::shared_ptr<const Fact> second) = 0;
-// 		virtual bool isNotEqual(const std::shared_ptr<const Fact> second)
-// 		{
-// 			return !this->isEqual(second);
-// 		}
-	};
+		typedef VALUE ValueType;
 
-	class FactLG : public Fact
-	{
-// 		virtual bool isLt(const std::shared_ptr<const FactLG> second) = 0;
-// 		virtual bool isLeq(const std::shared_ptr<const FactLG> second)
-// 		{
-// 			return (this->isEqual(second)) || (this->isLt(second));
-// 		}
-// 		virtual bool isGt(const std::shared_ptr<const FactLG> second)
-// 		{
-// 			return !(this->isEqual(second)) || (this->isLt(second));
-// 		}
-// 		virtual bool operator>=(const std::shared_ptr<const FactLG> second)
-// 		{
-// 			return (this->isEqual(second)) || (this->isGt(second));
-// 		}
+		virtual const ValueType GetValue() const = 0;
+		virtual void SetValue(const ValueType&) = 0;
 	};
-
 
 	template<typename VALUE>
-	class FactWithValue;
-
-// 	template<std::totally_ordered VALUE>
-// 	class FactWithValue<VALUE> : public FactLG
-// 	{
-// 	public:
-// 		typedef VALUE ValueType;
-// 		FactWithValue(std::unique_ptr<ValueType> factValue) : factValue(std::move(factValue)) {};
-// 		const ValueType GetValue() const {};
-// 		virtual bool operator==(const std::shared_ptr<const Fact> second) override
-// 		{
-// 			return(*factValue == *second);
-// 		};
-// 		virtual bool operator<(const std::shared_ptr<const FactLG> second) override
-// 		{
-// 			return(false/*factValue < *second*/);
-// 		};
-// 	protected:
-// 		const std::unique_ptr<ValueType> factValue;
-// 	};
-
-	template<std::equality_comparable VALUE>
-	class FactWithValue<VALUE> : public Fact
+	class FactConst : public Fact<VALUE>
 	{
 	public:
-		typedef VALUE ValueType;
-		FactWithValue(std::shared_ptr<ValueType> factValue) : factValue(factValue) {};
-		FactWithValue(const ValueType& factValue) : factValue(std::make_shared<ValueType>(factValue)) {};
-		FactWithValue() {};
-		const ValueType GetValue() const 
-		{
-			if (factValue)
-			{
-				return *factValue;
-			} 
-			else
-			{
-				throw std::logic_error("Value of the fact is not set.");
-			}
-		};
+		using ValueType = VALUE;
 
-		bool isEqual(const std::shared_ptr<const FactWithValue<VALUE>> second)
-		{
-			return(GetValue()==second->GetValue());
-		};
+		FactConst(std::shared_ptr<ValueType> factValue) : factValue(factValue) {};
+		FactConst(const ValueType& factValue) : factValue(std::make_shared<ValueType>(factValue))	{};
+
+		virtual const ValueType GetValue() const override {return *factValue;}
+		virtual void SetValue(const ValueType&) override {throw std::logic_error("Value of the fact is already set.");}
+
 	protected:
 		std::shared_ptr<ValueType> factValue;
 	};
 
+
 	template<typename VALUE>
-	class FactSettable
+	class FactSettable : public Fact<VALUE>
 	{
 	public:
 		using ValueType = VALUE;
-		void SetValue(const VALUE& valueToSet)
+
+		virtual const ValueType GetValue() const override;
+		virtual void SetValue(const VALUE& valueToSet) override;
+
+	protected:
+		bool IsStillSettable() { return settable; };
+		void SetValueIfValid(const VALUE& value) { factValue = std::make_shared< ValueType>(value); }
+		bool settable = true;
+		std::shared_ptr<ValueType> factValue;
+	};
+
+
+	template<typename VALUE, template <typename> typename FACT_CONST = FactConst, template <typename> typename FACT_SETTABLE = FactSettable>
+	class FactWithValue;
+
+	template<std::equality_comparable VALUE, template <typename> typename FACT_CONST, template <typename> typename FACT_SETTABLE>
+	class FactWithValue<VALUE, FACT_CONST, FACT_SETTABLE>
+	{
+	public:
+		using ValueType = VALUE;
+		using FactConstType = FACT_CONST<VALUE>;
+		using FactSettableType = FACT_SETTABLE<VALUE>;
+
+		FactWithValue(std::shared_ptr<ValueType> factValue)
+			: factValue(std::make_shared< FactConstType>(factValue)) {};
+		FactWithValue(const ValueType& factValue)
+			: factValue(std::make_shared< FactConstType>(factValue)) {};
+		FactWithValue() : factValue(std::make_shared<FactSettableType>())
+		{};
+		const ValueType GetValue() const { return factValue->GetValue(); };
+		void SetValue(const ValueType& val)
 		{
-			if (IsStillSettable())
-			{
-				SetValueIfValid(valueToSet);
-			}
+			factValue->SetValue(val);
+		}
+
+		bool isEqual(const std::shared_ptr<const FactWithValue<VALUE>> second)
+		{
+			return(GetValue() == second->GetValue());
 		};
 	protected:
-		virtual bool IsStillSettable() = 0;
-		virtual void SetValueIfValid(const VALUE&) = 0;
+		std::shared_ptr<Fact<ValueType>> factValue;
 	};
+
+// Implementation
+
+	template<typename VALUE>
+	void ureasoner::FactSettable<VALUE>::SetValue(const VALUE& valueToSet)
+	{
+		if (IsStillSettable())
+		{
+			SetValueIfValid(valueToSet);
+			settable = false;
+		}
+	}
+
+	template<typename VALUE>
+	const VALUE ureasoner::FactSettable<VALUE>::GetValue() const
+	{
+		if (settable)
+		{
+			throw std::logic_error("Value of the fact is not set.");
+		}
+		else
+		{
+			return *factValue;
+		}
+	}
 }
 
 #endif // universal_reasoner_fact_h__

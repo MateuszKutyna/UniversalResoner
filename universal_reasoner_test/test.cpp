@@ -65,5 +65,8 @@ TEST(FRepo, basicTest)
 	EXPECT_THROW(b.GetFactByName<int>("i1"),std::exception);
 
 	auto  resfempty = b.GetFactByName<double>("fempty");
-	EXPECT_THROW(resb1->GetValue(), std::logic_error);
+	EXPECT_THROW(resfempty->GetValue(), std::logic_error);
+
+	resfempty->SetValue(3.0);
+	EXPECT_EQ(resfempty->GetValue(), 3.0);
 }
