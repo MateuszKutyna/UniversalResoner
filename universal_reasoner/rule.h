@@ -12,10 +12,11 @@ namespace ureasoner
 	class Premise
 	{
 	public:
+		virtual bool Evaluate() const = 0 ;
 		virtual bool Evaluate() = 0;
 	};
 
-	template<typename T, template<typename> typename FACT_PROVIDER = FactWithValue>
+	template<typename T, template<typename> typename FACT_PROVIDER = FactWithGet>
 	class PremiseWithType : public Premise
 	{
 	public:
@@ -23,18 +24,25 @@ namespace ureasoner
 		using FactProvider = FACT_PROVIDER<TF>;
 		typedef FactProvider<T> LocalFact;
 		using FactValue = T;
-		PremiseWithType(std::shared_ptr<const LocalFact> compareTo, 
-						const LocalFact& comp2,
-			bool (*comparer)(const FactValue&, const FactValue&) = [](const FactValue& x, const FactValue& y)->bool { return x == y; })
-			: compareTo(compareTo), factToCheck(comp2), comparer(comparer) {};
-		virtual bool Evaluate()
+		PremiseWithType(const std::shared_ptr<LocalFact> compareLeft, const FactValue& compareRight,
+			bool (*constComparer)(const FactValue&, const FactValue&) = [](const FactValue& x, const FactValue& y)->bool { return x == y; },
+			bool (*comparer)(FactValue&, FactValue&) = [](FactValue& x, FactValue& y)->bool { return x == y; })
+			: compareLeft(compareLeft), compareRight(std::make_unique<FactConst<T>>(compareRight)), comparer(comparer), constComparer(constComparer) {}
+		virtual bool Evaluate() const override
 		{
-			return comparer(factToCheck.GetValue(), compareTo->GetValue());
+			return constComparer(compareLeft->GetValue(), compareRight->GetValue());
+		}
+		virtual bool Evaluate() override
+		{
+			auto r = compareRight->GetValueShared();
+			auto l = compareLeft->GetValueShared();
+			return comparer(*l, *r);
 		}
 	protected:
-		/*const */std::shared_ptr<const LocalFact> compareTo;
-		/*const*/ LocalFact factToCheck;
-		bool (*comparer)(const FactValue&, const FactValue&);
+		const std::shared_ptr<LocalFact> compareLeft;
+		const std::unique_ptr<LocalFact> compareRight;
+		bool (*comparer)(FactValue&, FactValue&);
+		bool (*constComparer)(const FactValue&, const FactValue&);
 	};
 
 
@@ -48,15 +56,16 @@ namespace ureasoner
 	class ConclusionSettingFact : public Conclusion
 	{
 	public:
+		ConclusionSettingFact(std::shared_ptr<FactSettable<T>> factToSet, const T& valueToBeSet) : factToBeSet(factToSet), valueToBeSet(std::make_unique<T>(valueToBeSet)) {};
 		using FactValue = T;
 		virtual void Execute() override
 		{
-			factToBeSet->SetValue(valueToBeSet);
+			factToBeSet->SetValue(*valueToBeSet);
 		}
 
 	protected:
-		const std::shared_ptr<FactSettable<FactValue>> factToBeSet;
-		const FactValue valueToBeSet;
+		std::shared_ptr<FactSettable<FactValue>> factToBeSet;
+		const std::unique_ptr<FactValue> valueToBeSet;
 	};
 
 	template<std::invocable T>
@@ -85,13 +94,19 @@ namespace ureasoner
 	class RuleImpl : public Rule<COST>
 	{
 	public:
+		using CostType = COST;
+		RuleImpl(std::vector<std::shared_ptr<Premise>> premises, std::vector<std::shared_ptr<Conclusion>> conclusions) : premises(premises), conclusions(conclusions) {};
+		RuleImpl(std::shared_ptr<Premise> premise, std::vector<std::shared_ptr<Conclusion>> conclusions) : premises(std::vector<std::shared_ptr<Premise>>{premise}), conclusions(conclusions) {};
+		RuleImpl(std::shared_ptr<Premise> premise, std::shared_ptr<Conclusion> conclusion)
+			: premises(std::vector<std::shared_ptr<Premise>>{premise}), 
+			conclusions(std::vector<std::shared_ptr<Conclusion>>{conclusion}) {};
 		virtual bool CheckAndFire() override
 		{
 			bool allSatisfied = true;
 			auto iter = premises.begin();
 			while (allSatisfied && (iter != premises.end()))
 			{
-				allSatisfied = (*iter)->Evaluate();
+				allSatisfied = (*iter++)->Evaluate();
 			}
 			if (allSatisfied)
 			{
@@ -101,6 +116,12 @@ namespace ureasoner
 				}
 			} 
 			return allSatisfied;
+		}
+
+
+		virtual const CostType GetEstimatedCost() const override
+		{
+			throw std::logic_error("The method or operation is not implemented.");
 		}
 
 	protected:

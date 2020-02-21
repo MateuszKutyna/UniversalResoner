@@ -6,19 +6,52 @@
 using namespace ureasoner;
 TEST(BasicPremises, MakingPremise) 
 {
-	auto a1 = std::make_shared<FactWithValue<double>>(2.0);
-	FactWithValue<double> a2(2.0);
-	PremiseWithType<double> p(a1, a2);
+	auto a1 = std::make_shared<FactConst<double>>(2.0);
+	PremiseWithType<double> p(a1, 2.0);
 	EXPECT_TRUE(p.Evaluate());
 }
 
-TEST(BasicPremises, MakingPremiseWithVirtual)
+TEST(BasicPremises, MakingPremiseWithComparer)
 {
-	auto a1 = std::make_shared<FactWithValue<double>>(2.0);
-	FactWithValue<double> a2(2.0);
-	std::shared_ptr<Premise> p = std::make_shared<PremiseWithType<double>>(a1, a2);
-	EXPECT_TRUE(p->Evaluate());
+	auto a1 = std::make_shared<FactConst<double>>(2.0);
+	auto constComparer = [](const double& x, const double& y)->bool { return x < y; };
+	auto comparer = [](double& x, double& y)->bool { return x < y; };
+
+	PremiseWithType<double> p(a1, 3.0, constComparer, comparer);
+	EXPECT_TRUE(p.Evaluate());
 }
+
+
+TEST(BasicPremises, MakingPremiseFromRepo)
+{
+	FactsRepository<double, int, std::string> repo;
+	FactWithValue<int> i1(1);
+	FactWithValue<std::string> s1("test");
+	FactWithValue<double> fempty;
+	
+	
+	repo.AddFact(i1, "i1");
+	repo.AddFact(s1, "s1");
+	repo.AddFact(fempty, "fempty");
+
+	auto resi1 = repo.GetFactByName<int>("i1")->GetValueShared();
+
+	PremiseWithType<int> p(resi1, 1);
+	EXPECT_TRUE(p.Evaluate());
+
+	auto ress1 = repo.GetFactByName<std::string>("s1")->GetValueShared();
+
+	PremiseWithType<std::string> p2(ress1, "test");
+	EXPECT_TRUE(p2.Evaluate());
+
+	auto resd1 = repo.GetFactByName<double>("fempty")->GetValueShared();
+
+	PremiseWithType<double> p3(resd1, 2.0);
+	EXPECT_THROW(p3.Evaluate(), std::logic_error);
+	resd1->SetValue(2.0);
+	EXPECT_TRUE(p3.Evaluate());
+}
+
 
 TEST(FRepo, basicTest)
 {
@@ -69,4 +102,34 @@ TEST(FRepo, basicTest)
 
 	resfempty->SetValue(3.0);
 	EXPECT_EQ(resfempty->GetValue(), 3.0);
+}
+
+TEST(BasicConclusions, MakingConclusion)
+{
+	auto f1 = std::make_shared<FactSettable<double>>();
+	double d = 2.0;
+	auto a1 = std::make_shared<ConclusionSettingFact<double>>(f1, d);
+	EXPECT_THROW(f1->GetValue(), std::logic_error);
+	a1->Execute();
+	auto res = f1->GetValue();
+	EXPECT_DOUBLE_EQ(res,2.0);
+}
+
+TEST(BasicRules, SimpleRule)
+{
+	auto f1 = std::make_shared<FactSettable<double>>();
+	double d = 2.0;
+	auto conclusion1 = std::make_shared<ConclusionSettingFact<double>>(f1, d);
+
+	auto a1 = std::make_shared<FactConst<double>>(2.0);
+	std::shared_ptr<Premise> premis1 = std::make_shared<PremiseWithType<double>>(a1, 2.0);
+
+
+	RuleImpl<double> rule1(premis1, conclusion1);
+
+	EXPECT_THROW(f1->GetValue(), std::logic_error);
+	EXPECT_TRUE(rule1.CheckAndFire());
+
+	auto res = f1->GetValue();
+	EXPECT_DOUBLE_EQ(res, 2.0);
 }
