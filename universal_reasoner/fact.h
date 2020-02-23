@@ -5,7 +5,8 @@
 #include <concepts>
 #include <stdexcept>
 
-
+using std::shared_ptr;
+using std::make_shared;
 // tested feature - to be used to choose Fact with and without operator<() member
 // template<typename T>
 // concept has_type_member = requires {totally_ordered <T>; };
@@ -134,6 +135,8 @@ namespace ureasoner
 		FactWithValue(const ValueType& factValue)
 			: factValue(std::make_shared< FactConstType>(factValue)) {};
 		FactWithValue() : factValue(std::make_shared<FactSettableType>())
+		{};
+		FactWithValue(shared_ptr<FactSettableType> fact) : factValue(fact)
 		{};
 		const ValueType GetValue() const { return factValue->GetValue(); };
 		std::shared_ptr<Fact<ValueType>> GetValueShared() { return factValue; };

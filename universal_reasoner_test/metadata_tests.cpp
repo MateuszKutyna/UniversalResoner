@@ -2,6 +2,7 @@
 #include "../universal_reasoner/metadata.h"
 #include "../universal_reasoner/factsRepository.h"
 #include <memory>
+#include "../universal_reasoner/rule.h"
 
 using namespace ureasoner;
 using namespace std;
@@ -51,6 +52,32 @@ TEST(BasicMetadata, AddingMoreComplexFacts)
 
 	auto  ress2 = repo->GetFactByName<string>("test3");
 	EXPECT_THROW(ress2->GetValue(), std::logic_error);
+}
+
+TEST(BasicMetadata, AddingRules)
+{
+
+	auto repo = make_shared<FactsRepository<string, int, double>>();
+	Metadata<decltype(repo)::element_type> data(repo);
+
+	repo->AddFact(FactWithValue < std::string>("test1"), "test1");
+	repo->AddFact("test2", "test2");
+
+	auto s3 = std::make_shared<FactSettable<string>>(); //should be gettable from repo!
+	EXPECT_TRUE(false);
+	repo->AddFact(FactWithValue<string>(s3), "test3");
+	repo->AddFact(2.0, "d1");
+	repo->AddFact(2, "i1");
+
+
+	auto conclusion1 = std::make_shared<ConclusionSettingFact<string>>(s3, "test3");
+
+
+	std::shared_ptr<Premise> premis1 = std::make_shared<PremiseWithType<string>>(repo->GetFactByName<std::string>("test1")->GetValueShared(), "test1");
+
+
+	RuleImpl<double> rule1(premis1, conclusion1);
+	EXPECT_TRUE(rule1.CheckAndFire());
 }
 TEST(BasicMetadata, BackwardReasoning)
 {
