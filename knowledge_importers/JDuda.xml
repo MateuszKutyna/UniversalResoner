@@ -1,0 +1,2298 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml-stylesheet type='text/xsl' href='rebit.xslt'?>
+<Package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <PackageHeader>
+    <KnowledgeBaseName></KnowledgeBaseName>
+    <Description></Description>
+    <Version></Version>
+    <Author></Author>
+    <CreationDate>2017-04-11</CreationDate>
+    <LastModifiedDate>2017-04-11</LastModifiedDate>
+  </PackageHeader>
+  <DecisionTables>
+    <DecisionTable Id="CechyOsobowe">
+      <Types>
+        <Type>
+          <EnumType Id="KM">
+            <String Id="KID0" Value="K" />
+            <String Id="MID1" Value="M" />
+          </EnumType>
+        </Type>
+        <Type>
+          <EnumType Id="wiek">
+            <String Id="ponizej_25_latID0" Value="poniżej 25 lat" />
+            <String Id="od_25_do_40_latID1" Value="od 25 do 40 lat" />
+            <String Id="powyzej_40_latID2" Value="powyżej 40 lat" />
+          </EnumType>
+        </Type>
+        <Type>
+          <EnumType Id="ZSD">
+            <String Id="zlyID0" Value="zły" />
+            <String Id="sredniID1" Value="średni" />
+            <String Id="dobryID2" Value="dobry" />
+          </EnumType>
+        </Type>
+        <Type>
+          <EnumType Id="WZ">
+            <String Id="wolnyID0" Value="wolny" />
+            <String Id="zajetyID1" Value="zajęty" />
+          </EnumType>
+        </Type>
+        <Type>
+          <EnumType Id="ocena">
+            <String Id="bardzo_niskaID0" Value="bardzo niska" />
+            <String Id="niskaID1" Value="niska" />
+            <String Id="przecietnaID2" Value="przeciętna" />
+            <String Id="dobraID3" Value="dobra" />
+            <String Id="bardzo_dobraID4" Value="bardzo dobra" />
+          </EnumType>
+        </Type>
+      </Types>
+      <PremiseRows>
+        <PremiseRow Id="Plec">
+          <PremiseRowType>
+            <EnumType IdRef="KM" />
+          </PremiseRowType>
+          <PremiseCells>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>K</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>M</String>
+              </Constant>
+            </PremiseCell>
+          </PremiseCells>
+        </PremiseRow>
+        <PremiseRow Id="Wiek">
+          <PremiseRowType>
+            <EnumType IdRef="wiek" />
+          </PremiseRowType>
+          <PremiseCells>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>poniżej 25 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>poniżej 25 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>poniżej 25 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>poniżej 25 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>poniżej 25 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>poniżej 25 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>od 25 do 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>od 25 do 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>od 25 do 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>od 25 do 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>od 25 do 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>od 25 do 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>powyżej 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>powyżej 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>powyżej 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>powyżej 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>powyżej 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>powyżej 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>poniżej 25 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>poniżej 25 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>poniżej 25 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>poniżej 25 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>poniżej 25 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>poniżej 25 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>od 25 do 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>od 25 do 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>od 25 do 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>od 25 do 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>od 25 do 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>od 25 do 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>powyżej 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>powyżej 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>powyżej 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>powyżej 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>powyżej 40 lat</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>powyżej 40 lat</String>
+              </Constant>
+            </PremiseCell>
+          </PremiseCells>
+        </PremiseRow>
+        <PremiseRow Id="StanZdrowia">
+          <PremiseRowType>
+            <EnumType IdRef="ZSD" />
+          </PremiseRowType>
+          <PremiseCells>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zły</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zły</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>średni</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>średni</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>dobry</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>dobry</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zły</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zły</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>średni</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>średni</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>dobry</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>dobry</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zły</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zły</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>średni</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>średni</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>dobry</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>dobry</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zły</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zły</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>średni</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>średni</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>dobry</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>dobry</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zły</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zły</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>średni</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>średni</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>dobry</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>dobry</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zły</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zły</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>średni</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>średni</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>dobry</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>dobry</String>
+              </Constant>
+            </PremiseCell>
+          </PremiseCells>
+        </PremiseRow>
+        <PremiseRow Id="StanCywilny">
+          <PremiseRowType>
+            <EnumType IdRef="WZ" />
+          </PremiseRowType>
+          <PremiseCells>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>wolny</String>
+              </Constant>
+            </PremiseCell>
+            <PremiseCell Operator="eq">
+              <Constant Multiplicity="Single">
+                <String>zajęty</String>
+              </Constant>
+            </PremiseCell>
+          </PremiseCells>
+        </PremiseRow>
+      </PremiseRows>
+      <ConclusionRow Id="OcenaCechOsobowych">
+        <ConclusionRowType>
+          <EnumType IdRef="ocena" />
+        </ConclusionRowType>
+        <ConclusionCells>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>przeciętna</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>przeciętna</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>dobra</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>dobra</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo dobra</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>przeciętna</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>dobra</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>dobra</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo dobra</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>przeciętna</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>przeciętna</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>dobra</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo dobra</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>bardzo niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>niska</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>przeciętna</String>
+            </Constant>
+          </ConclusionCell>
+          <ConclusionCell Operator="eq">
+            <Constant Multiplicity="Single">
+              <String>dobra</String>
+            </Constant>
+          </ConclusionCell>
+        </ConclusionCells>
+      </ConclusionRow>
+    </DecisionTable>
+  </DecisionTables>
+  <Grids />
+  <RuleSets>
+    <RuleSet Id="CechyOsobowe_rules" Source="GeneratedFromDecisionTable" IdRef="CechyOsobowe">
+      <Dialect>Basic</Dialect>
+      <Types>
+        <Type>
+          <EnumType Id="KM">
+            <String Id="KID0" Value="K" />
+            <String Id="MID1" Value="M" />
+          </EnumType>
+        </Type>
+        <Type>
+          <EnumType Id="wiek">
+            <String Id="ponizej_25_latID0" Value="poniżej 25 lat" />
+            <String Id="od_25_do_40_latID1" Value="od 25 do 40 lat" />
+            <String Id="powyzej_40_latID2" Value="powyżej 40 lat" />
+          </EnumType>
+        </Type>
+        <Type>
+          <EnumType Id="ZSD">
+            <String Id="zlyID0" Value="zły" />
+            <String Id="sredniID1" Value="średni" />
+            <String Id="dobryID2" Value="dobry" />
+          </EnumType>
+        </Type>
+        <Type>
+          <EnumType Id="WZ">
+            <String Id="wolnyID0" Value="wolny" />
+            <String Id="zajetyID1" Value="zajęty" />
+          </EnumType>
+        </Type>
+        <Type>
+          <EnumType Id="ocena">
+            <String Id="bardzo_niskaID0" Value="bardzo niska" />
+            <String Id="niskaID1" Value="niska" />
+            <String Id="przecietnaID2" Value="przeciętna" />
+            <String Id="dobraID3" Value="dobra" />
+            <String Id="bardzo_dobraID4" Value="bardzo dobra" />
+          </EnumType>
+        </Type>
+      </Types>
+      <Variables>
+        <Variable Multiplicity="Single" Id="OcenaCechOsobowych">
+          <EnumType IdRef="ocena" />
+        </Variable>
+        <Variable Multiplicity="Single" Id="Plec">
+          <EnumType IdRef="KM" />
+        </Variable>
+        <Variable Multiplicity="Single" Id="Wiek">
+          <EnumType IdRef="wiek" />
+        </Variable>
+        <Variable Multiplicity="Single" Id="StanZdrowia">
+          <EnumType IdRef="ZSD" />
+        </Variable>
+        <Variable Multiplicity="Single" Id="StanCywilny">
+          <EnumType IdRef="WZ" />
+        </Variable>
+      </Variables>
+      <Rules>
+        <Rule Id="OcenaCechOsobowych_0">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>zły</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>bardzo niska</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_1">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobry</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>powyżej 40 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>M</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanCywilny" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>wolny</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>przeciętna</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_2">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobry</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>powyżej 40 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>M</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanCywilny" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>zajęty</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobra</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_3">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobry</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>powyżej 40 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>K</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanCywilny" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>wolny</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobra</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_4">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobry</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>powyżej 40 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>K</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanCywilny" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>zajęty</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>bardzo dobra</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_5">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobry</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>od 25 do 40 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanCywilny" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>wolny</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobra</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_6">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobry</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>od 25 do 40 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanCywilny" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>zajęty</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>bardzo dobra</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_7">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobry</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>poniżej 25 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>M</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>niska</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_8">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobry</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>poniżej 25 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>K</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanCywilny" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>wolny</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>niska</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_9">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobry</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>poniżej 25 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>K</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanCywilny" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>zajęty</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>przeciętna</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_10">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>średni</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>powyżej 40 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>M</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>niska</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_11">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>średni</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>powyżej 40 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>K</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanCywilny" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>wolny</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>przeciętna</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_12">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>średni</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>powyżej 40 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>K</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanCywilny" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>zajęty</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobra</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_13">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>średni</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>od 25 do 40 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>M</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>przeciętna</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_14">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>średni</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>od 25 do 40 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>K</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanCywilny" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>wolny</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>przeciętna</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_15">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>średni</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>od 25 do 40 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>K</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanCywilny" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>zajęty</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>dobra</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_16">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>średni</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>poniżej 25 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>K</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>niska</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+        <Rule Id="OcenaCechOsobowych_17">
+          <Description>Generated from decision table"CechyOsobowe" using Id3</Description>
+          <If>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="StanZdrowia" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>średni</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Wiek" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>poniżej 25 lat</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="Plec" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>M</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </If>
+          <Then>
+            <Atom Operator="eq">
+              <LeftHand>
+                <Term Content="Variable">
+                  <Variable IdRef="OcenaCechOsobowych" />
+                </Term>
+              </LeftHand>
+              <RightHand>
+                <Term Content="Constant">
+                  <Constant Multiplicity="Single">
+                    <String>bardzo niska</String>
+                  </Constant>
+                </Term>
+              </RightHand>
+            </Atom>
+          </Then>
+        </Rule>
+      </Rules>
+    </RuleSet>
+  </RuleSets>
+</Package>

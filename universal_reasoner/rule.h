@@ -7,6 +7,9 @@
 #include <functional>
 #include <vector>
 
+using std::shared_ptr;
+using std::unique_ptr;
+
 namespace ureasoner
 {
 	class Premise
