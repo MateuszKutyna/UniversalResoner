@@ -36,11 +36,11 @@ namespace ureasoner
 		auto GetFactByName(const std::string& name);	// auto here allows to pass a result from inherited GetFact function!
 		template<typename T>
 		auto GetSettableFactByName(const std::string& name);	// auto here allows to pass a result from inherited GetFact function!
-		std::shared_ptr< FactWithValue<StoredType>> AddFact(FactWithValue<StoredType> fact, const std::string& name);
-		std::shared_ptr< FactWithValue<StoredType>> AddFact(const StoredType& fact, const std::string& name);
+		std::shared_ptr< FactRepresentation<StoredType>> AddFact(FactRepresentation<StoredType> fact, const std::string& name);
+		std::shared_ptr< FactRepresentation<StoredType>> AddFact(const StoredType& fact, const std::string& name);
 	protected:
-		std::unordered_map<std::string, std::shared_ptr< FactWithValue<StoredType>>> storage;
-		std::shared_ptr< FactWithValue<StoredType>> GetFact(const std::string& name, const StoredType*);
+		std::unordered_map<std::string, std::shared_ptr< FactRepresentation<StoredType>>> storage;
+		std::shared_ptr< FactRepresentation<StoredType>> GetFact(const std::string& name, const StoredType*);
 		std::shared_ptr< FactSettable<StoredType>> GetSettableFact(const std::string& name, const StoredType*);
 	};
 
@@ -51,13 +51,13 @@ namespace ureasoner
 		using StoredType = FIRST_STORED_TYPE;
 
 		template<typename T>
-		std::shared_ptr< FactWithValue<StoredType>> GetFactByName(const std::string& name);
-		std::shared_ptr< FactWithValue<StoredType>> GetSettableFactByName(const std::string& name);
-		std::shared_ptr< FactWithValue<StoredType>> AddFact(FactWithValue<StoredType> fact, const std::string& name);
-		std::shared_ptr< FactWithValue<StoredType>> AddFact(const StoredType& fact, const std::string& name);
+		std::shared_ptr< FactRepresentation<StoredType>> GetFactByName(const std::string& name);
+		std::shared_ptr< FactRepresentation<StoredType>> GetSettableFactByName(const std::string& name);
+		std::shared_ptr< FactRepresentation<StoredType>> AddFact(FactRepresentation<StoredType> fact, const std::string& name);
+		std::shared_ptr< FactRepresentation<StoredType>> AddFact(const StoredType& fact, const std::string& name);
 	protected:
-		std::unordered_map<std::string, std::shared_ptr< FactWithValue<StoredType>>> storage;
-		std::shared_ptr< FactWithValue<StoredType>> GetFact(const std::string& name, const StoredType*);
+		std::unordered_map<std::string, std::shared_ptr< FactRepresentation<StoredType>>> storage;
+		std::shared_ptr< FactRepresentation<StoredType>> GetFact(const std::string& name, const StoredType*);
 		std::shared_ptr< FactSettable<StoredType>> GetSettableFact(const std::string& name, const StoredType*);
 	};
 
@@ -65,21 +65,21 @@ namespace ureasoner
 
 
 	template <typename FIRST_STORED_TYPE>
-	std::shared_ptr<FactWithValue<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE>::AddFact(const FIRST_STORED_TYPE& fact, const std::string& name)
+	std::shared_ptr<FactRepresentation<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE>::AddFact(const FIRST_STORED_TYPE& fact, const std::string& name)
 	{
-		return AddFact(FactWithValue<FIRST_STORED_TYPE>(fact), name);
+		return AddFact(FactRepresentation<FIRST_STORED_TYPE>(fact), name);
 	}
 
 
 	template <typename FIRST_STORED_TYPE>
-	std::shared_ptr<FactWithValue<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE>::AddFact(FactWithValue<FIRST_STORED_TYPE> fact, const std::string& name)
+	std::shared_ptr<FactRepresentation<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE>::AddFact(FactRepresentation<FIRST_STORED_TYPE> fact, const std::string& name)
 	{
-		auto toRet = storage.insert(std::pair<std::string, std::shared_ptr< FactWithValue<StoredType>>>(name, std::make_shared<FactWithValue<StoredType>>(fact))).first->second;
+		auto toRet = storage.insert(std::pair<std::string, std::shared_ptr< FactRepresentation<StoredType>>>(name, std::make_shared<FactRepresentation<StoredType>>(fact))).first->second;
 		return toRet;
 	}
 
 	template <typename FIRST_STORED_TYPE>
-	std::shared_ptr<FactWithValue<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE>::GetFact(const std::string& name, const StoredType*)
+	std::shared_ptr<FactRepresentation<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE>::GetFact(const std::string& name, const StoredType*)
 	{
 		return storage.at(name);
 	}
@@ -100,7 +100,7 @@ namespace ureasoner
 
 	template <typename FIRST_STORED_TYPE>
 	template<typename T>
-	std::shared_ptr<FactWithValue<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE>::GetFactByName(const std::string& name)
+	std::shared_ptr<FactRepresentation<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE>::GetFactByName(const std::string& name)
 	{
 		static_assert(std::is_same<T, StoredType>::value, "FactRepository do not store this type");
 		T* trait = nullptr;
@@ -108,20 +108,20 @@ namespace ureasoner
 	};
 
 	template <typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	std::shared_ptr<FactWithValue<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE, STORED_TYPES...>::AddFact(const FIRST_STORED_TYPE& fact, const std::string& name)
+	std::shared_ptr<FactRepresentation<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE, STORED_TYPES...>::AddFact(const FIRST_STORED_TYPE& fact, const std::string& name)
 	{
-		return AddFact(FactWithValue<FIRST_STORED_TYPE>(fact), name);
+		return AddFact(FactRepresentation<FIRST_STORED_TYPE>(fact), name);
 	}
 
 	template <typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	std::shared_ptr<FactWithValue<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE, STORED_TYPES...>::AddFact(FactWithValue<FIRST_STORED_TYPE> fact, const std::string& name)
+	std::shared_ptr<FactRepresentation<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE, STORED_TYPES...>::AddFact(FactRepresentation<FIRST_STORED_TYPE> fact, const std::string& name)
 	{
-		auto toRet = storage.insert(std::pair<std::string, std::shared_ptr< FactWithValue<StoredType>>>(name, std::make_shared<FactWithValue<StoredType>>(fact))).first->second;
+		auto toRet = storage.insert(std::pair<std::string, std::shared_ptr< FactRepresentation<StoredType>>>(name, std::make_shared<FactRepresentation<StoredType>>(fact))).first->second;
 		return toRet;
 	}
 
 	template <typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	std::shared_ptr<FactWithValue<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE, STORED_TYPES...>::GetFact(const std::string& name, const FIRST_STORED_TYPE*)
+	std::shared_ptr<FactRepresentation<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE, STORED_TYPES...>::GetFact(const std::string& name, const FIRST_STORED_TYPE*)
 	{
 		return storage.at(name);
 	}

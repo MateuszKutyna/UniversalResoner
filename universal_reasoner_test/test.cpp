@@ -25,9 +25,9 @@ TEST(BasicPremises, MakingPremiseWithComparer)
 TEST(BasicPremises, MakingPremiseFromRepo)
 {
 	FactsRepository<double, int, std::string> repo;
-	FactWithValue<int> i1(1);
-	FactWithValue<std::string> s1("test");
-	FactWithValue<double> fempty;
+	FactRepresentation<int> i1(1);
+	FactRepresentation<std::string> s1("test");
+	FactRepresentation<double> fempty;
 	
 	
 	repo.AddFact(i1, "i1");
@@ -61,12 +61,12 @@ TEST(FRepo, basicTest)
 // Command below, if uncommented, must result with compilation error since the list of types is not unique
 //	FactsRepository<double, short, double, int, long, bool> d;
 
-	FactWithValue<double> f1(2.0);
-	FactWithValue<int> i1(1);
-	FactWithValue<bool> b1(true);
-	FactWithValue<std::string> s1("test");
+	FactRepresentation<double> f1(2.0);
+	FactRepresentation<int> i1(1);
+	FactRepresentation<bool> b1(true);
+	FactRepresentation<std::string> s1("test");
 
-	FactWithValue<double> fempty;
+	FactRepresentation<double> fempty;
 	b.AddFact(fempty, "fempty");
 
 	a.AddFact(f1, "f1");

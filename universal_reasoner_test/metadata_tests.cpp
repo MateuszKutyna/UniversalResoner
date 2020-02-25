@@ -22,9 +22,9 @@ TEST(BasicMetadata, AddingFacts)
 	auto repo = make_shared<FactsRepository<std::string>>();
 	Metadata<FactsRepository<std::string>> data(repo);
 
-	repo->AddFact(FactWithValue < std::string>("test1"), "test1");
+	repo->AddFact(FactRepresentation <string>("test1"), "test1");
 	repo->AddFact("test2", "test2");
-	repo->AddFact(FactWithValue<string>(),"test3");
+	repo->AddFact(FactRepresentation<string>(),"test3");
 
 	auto  ress1 = repo->GetFactByName<std::string>("test1");
 	EXPECT_EQ(ress1->GetValue(), "test1");
@@ -38,9 +38,9 @@ TEST(BasicMetadata, AddingMoreComplexFacts)
 	auto repo = make_shared<FactsRepository<string, int, double>>();
 	Metadata<decltype(repo)::element_type> data(repo);
 
-	repo->AddFact(FactWithValue < std::string>("test1"), "test1");
+	repo->AddFact(FactRepresentation < std::string>("test1"), "test1");
 	repo->AddFact("test2", "test2");
-	repo->AddFact(FactWithValue<string>(), "test3");
+	repo->AddFact(FactRepresentation<string>(), "test3");
 	repo->AddFact(2.0, "d1");
 	repo->AddFact(2, "i1");
 
@@ -60,11 +60,11 @@ TEST(BasicMetadata, AddingRules)
 	auto repo = make_shared<FactsRepository<string, int, double>>();
 	Metadata<decltype(repo)::element_type> data(repo);
 
-	repo->AddFact(FactWithValue < std::string>("test1"), "test1");
+	repo->AddFact(FactRepresentation < std::string>("test1"), "test1");
 	repo->AddFact("test2", "test2");
 
 	
-	repo->AddFact(FactWithValue<string>(), "test3");
+	repo->AddFact(FactRepresentation<string>(), "test3");
  	auto s3 = repo->GetSettableFactByName<string>("test3");
 	repo->AddFact(2.0, "d1");
 	repo->AddFact(2, "i1");

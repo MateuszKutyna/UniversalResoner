@@ -123,23 +123,23 @@ namespace ureasoner
 
 
 	template<typename VALUE, template <typename> typename FACT_CONST = FactConst, template <typename> typename FACT_SETTABLE = FactSettable>
-	class FactWithValue;
+	class FactRepresentation;
 
 	template<std::equality_comparable VALUE, template <typename> typename FACT_CONST, template <typename> typename FACT_SETTABLE>
-	class FactWithValue<VALUE, FACT_CONST, FACT_SETTABLE>
+	class FactRepresentation<VALUE, FACT_CONST, FACT_SETTABLE>
 	{
 	public:
 		using ValueType = VALUE;
 		using FactConstType = FACT_CONST<VALUE>;
 		using FactSettableType = FACT_SETTABLE<VALUE>;
 
-		FactWithValue(std::shared_ptr<ValueType> factValue)
+		FactRepresentation(std::shared_ptr<ValueType> factValue)
 			: factValue(std::make_shared< FactConstType>(factValue)) {};
-		FactWithValue(const ValueType& factValue)
+		FactRepresentation(const ValueType& factValue)
 			: factValue(std::make_shared< FactConstType>(factValue)) {};
-		FactWithValue() : factValue(std::make_shared<FactSettableType>())
+		FactRepresentation() : factValue(std::make_shared<FactSettableType>())
 		{};
-		FactWithValue(shared_ptr<FactSettableType> fact) : factValue(fact)
+		FactRepresentation(shared_ptr<FactSettableType> fact) : factValue(fact)
 		{};
 		const ValueType GetValue() const { return factValue->GetValue(); };
 		std::shared_ptr<Fact<ValueType>> GetValueShared() { return factValue; };
@@ -148,7 +148,7 @@ namespace ureasoner
 			factValue->SetValue(val);
 		}
 
-		bool isEqual(const std::shared_ptr<const FactWithValue<VALUE>> second)
+		bool isEqual(const std::shared_ptr<const FactRepresentation<VALUE>> second)
 		{
 			return(GetValue() == second->GetValue());
 		};
