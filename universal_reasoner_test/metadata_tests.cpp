@@ -60,7 +60,7 @@ TEST(BasicMetadata, AddingRules)
 	auto repo = make_shared<FactsRepository<string, int, double>>();
 	Metadata<decltype(repo)::element_type> data(repo);
 
-	repo->AddFact(FactRepresentation < std::string>("test1"), "test1");
+	repo->AddFact(FactRepresentation<string>("test1"), "test1");
 	repo->AddFact("test2", "test2");
 
 	
@@ -77,8 +77,9 @@ TEST(BasicMetadata, AddingRules)
 
 	auto  ress3 = repo->GetFactByName<string>("test3");
 	EXPECT_THROW(ress3->GetValue(), std::logic_error);
-	RuleImpl<double> rule1(premis1, conclusion1);
- 	EXPECT_TRUE(rule1.CheckAndFire());
+	auto rule1 = make_shared<RuleImpl<double>>(premis1, conclusion1);
+	data.AddRule(rule1);
+ 	EXPECT_TRUE(rule1->CheckAndFire());
 	EXPECT_EQ(ress3->GetValue(), "test3");
 }
 TEST(BasicMetadata, BackwardReasoning)

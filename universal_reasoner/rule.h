@@ -24,6 +24,7 @@ namespace ureasoner
 		using FactProvider = FACT_PROVIDER<TF>;
 		typedef FactProvider<T> LocalFact;
 		using FactValue = T;
+
 		PremiseWithType(const std::shared_ptr<LocalFact> compareLeft, const FactValue& compareRight,
 			bool (*constComparer)(const FactValue&, const FactValue&) = [](const FactValue& x, const FactValue& y)->bool { return x == y; },
 			bool (*comparer)(FactValue&, FactValue&) = [](FactValue& x, FactValue& y)->bool { return x == y; })
@@ -90,7 +91,7 @@ namespace ureasoner
 		virtual bool CheckAndFire() = 0;
 	};
 
-	template<typename COST>
+	template<typename COST = double>
 	class RuleImpl : public Rule<COST>
 	{
 	public:

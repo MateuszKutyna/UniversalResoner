@@ -6,16 +6,25 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
+#include "rule.h"
+#include <vector>
 
 using std::shared_ptr;
+using std::vector;
+
 namespace ureasoner
 {
-	template<typename FACTS_REPOSITORY, typename EXECUTABLE = ExecutableWithCost<double>>
+	template<typename FACTS_REPOSITORY, typename COST_TYPE = double, typename EXECUTABLE = ExecutableWithCost<COST_TYPE>>
 	class Metadata
 	{
 	public:
 		using ExecutableWithCost = EXECUTABLE;
 		using FactsRepository = FACTS_REPOSITORY;
+
+		void AddRule(shared_ptr<Rule<COST_TYPE>> rule)
+		{
+			rules.push_back(rule);
+		}
 
 		Metadata(shared_ptr<FactsRepository> factsRepository) : factsRepository(factsRepository) {};
 // 		std::unordered_map<Fact, bool> GetAllFacts();
@@ -25,6 +34,7 @@ namespace ureasoner
 // 		std::vector<ExecutableWithCost> GetExecutablesUsingOnlyFacts(const std::vector<Fact> facts);
 	protected:
 		shared_ptr< FACTS_REPOSITORY> factsRepository;
+		vector<shared_ptr<Rule<COST_TYPE>>> rules;
 	};
 }
 
