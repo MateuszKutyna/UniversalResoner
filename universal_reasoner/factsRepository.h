@@ -34,11 +34,14 @@ namespace ureasoner
 
 		template<typename T>
 		auto GetFactByName(const std::string& name);	// auto here allows to pass a result from inherited GetFact function!
+		template<typename T>
+		auto GetSettableFactByName(const std::string& name);	// auto here allows to pass a result from inherited GetFact function!
 		std::shared_ptr< FactWithValue<StoredType>> AddFact(FactWithValue<StoredType> fact, const std::string& name);
 		std::shared_ptr< FactWithValue<StoredType>> AddFact(const StoredType& fact, const std::string& name);
 	protected:
 		std::unordered_map<std::string, std::shared_ptr< FactWithValue<StoredType>>> storage;
 		std::shared_ptr< FactWithValue<StoredType>> GetFact(const std::string& name, const StoredType*);
+		std::shared_ptr< FactSettable<StoredType>> GetSettableFact(const std::string& name, const StoredType*);
 	};
 
 	template <typename FIRST_STORED_TYPE>
@@ -49,11 +52,13 @@ namespace ureasoner
 
 		template<typename T>
 		std::shared_ptr< FactWithValue<StoredType>> GetFactByName(const std::string& name);
+		std::shared_ptr< FactWithValue<StoredType>> GetSettableFactByName(const std::string& name);
 		std::shared_ptr< FactWithValue<StoredType>> AddFact(FactWithValue<StoredType> fact, const std::string& name);
 		std::shared_ptr< FactWithValue<StoredType>> AddFact(const StoredType& fact, const std::string& name);
 	protected:
 		std::unordered_map<std::string, std::shared_ptr< FactWithValue<StoredType>>> storage;
 		std::shared_ptr< FactWithValue<StoredType>> GetFact(const std::string& name, const StoredType*);
+		std::shared_ptr< FactSettable<StoredType>> GetSettableFact(const std::string& name, const StoredType*);
 	};
 
 	//????????????????????????????????????? IMPLEMENTATION //////////////////////////////////////////////////////////////////////////////////
@@ -77,6 +82,20 @@ namespace ureasoner
 	std::shared_ptr<FactWithValue<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE>::GetFact(const std::string& name, const StoredType*)
 	{
 		return storage.at(name);
+	}
+
+	template <typename FIRST_STORED_TYPE>
+	std::shared_ptr<FactSettable<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE>::GetSettableFact(const std::string& name, const StoredType*)
+	{
+		auto toRet = storage.at(name);
+		if (storage->IsSettable())
+		{
+			return toRet;
+		}
+		else
+		{
+			throw std::logic_error("Value of the fact is not settable.");
+		}
 	}
 
 	template <typename FIRST_STORED_TYPE>
@@ -108,11 +127,33 @@ namespace ureasoner
 	}
 
 	template <typename FIRST_STORED_TYPE, typename... STORED_TYPES>
+	std::shared_ptr<FactSettable<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE, STORED_TYPES...>::GetSettableFact(const std::string& name, const FIRST_STORED_TYPE*)
+	{
+		auto toRet = storage.at(name);
+		if (toRet->IsSettable())
+		{
+			return dynamic_pointer_cast<FactSettable<FIRST_STORED_TYPE>>(toRet->GetValueShared());
+		} 
+		else
+		{
+			throw std::logic_error("Value of the fact is not settable.");
+		}
+	}
+
+	template <typename FIRST_STORED_TYPE, typename... STORED_TYPES>
 	template<typename T>
 	auto FactsRepository<FIRST_STORED_TYPE, STORED_TYPES...>::GetFactByName(const std::string& name)
 	{
 		T* trait = nullptr;
 		return GetFact(name, trait);
+	}
+
+	template <typename FIRST_STORED_TYPE, typename... STORED_TYPES>
+	template<typename T>
+	auto FactsRepository<FIRST_STORED_TYPE, STORED_TYPES...>::GetSettableFactByName(const std::string& name)
+	{
+		T* trait = nullptr;
+		return GetSettableFact(name, trait);
 	}
 
 }

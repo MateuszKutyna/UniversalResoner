@@ -63,9 +63,9 @@ TEST(BasicMetadata, AddingRules)
 	repo->AddFact(FactWithValue < std::string>("test1"), "test1");
 	repo->AddFact("test2", "test2");
 
-	auto s3 = std::make_shared<FactSettable<string>>(); //should be gettable from repo!
-	EXPECT_TRUE(false);
-	repo->AddFact(FactWithValue<string>(s3), "test3");
+	
+	repo->AddFact(FactWithValue<string>(), "test3");
+ 	auto s3 = repo->GetSettableFactByName<string>("test3");
 	repo->AddFact(2.0, "d1");
 	repo->AddFact(2, "i1");
 
@@ -75,9 +75,11 @@ TEST(BasicMetadata, AddingRules)
 
 	std::shared_ptr<Premise> premis1 = std::make_shared<PremiseWithType<string>>(repo->GetFactByName<std::string>("test1")->GetValueShared(), "test1");
 
-
+	auto  ress3 = repo->GetFactByName<string>("test3");
+	EXPECT_THROW(ress3->GetValue(), std::logic_error);
 	RuleImpl<double> rule1(premis1, conclusion1);
-	EXPECT_TRUE(rule1.CheckAndFire());
+ 	EXPECT_TRUE(rule1.CheckAndFire());
+	EXPECT_EQ(ress3->GetValue(), "test3");
 }
 TEST(BasicMetadata, BackwardReasoning)
 {
