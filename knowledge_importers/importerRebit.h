@@ -10,8 +10,8 @@ using std::vector;
 using std::shared_ptr;
 
 
-// void AddFact(vector<shared_ptr<ureasoner::Premise>> &premises, const nlohmann::json& value);
-// void AddFact(vector<shared_ptr<ureasoner::Conclusion>> &conclusions, const nlohmann::json& value);
+ void AddFact(vector<ureasoner::importer::ImportedPremise> &premises, const nlohmann::json& value);
+ void AddFact(vector<ureasoner::importer::ImportedConclusion > &conclusions, const nlohmann::json& value);
 
 namespace ureasoner
 {
@@ -19,7 +19,7 @@ namespace ureasoner
 	{
 
 		template<typename T>
-		void AddFacts(nlohmann::json::const_iterator jsonNode, vector<shared_ptr<T>>& container)
+		void AddFacts(nlohmann::json::const_iterator jsonNode, vector<T>& container)
 		{
 			auto items = jsonNode->size();
 			if (items == 1) //atom

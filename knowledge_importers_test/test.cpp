@@ -9,5 +9,8 @@ TEST(TestCaseName, TestName) {
 TEST(Importers, BasicRebitJsonImport)
 {
 	auto facts = ureasoner::importer::ReadFacts("JDuda.json"); //copy JDuda to universal reasoner\x64\Debug
-	EXPECT_EQ(facts.size(), 18);
+	EXPECT_EQ(facts.size(), 5);
+
+	auto rules = ureasoner::importer::ReadRulesFromRebitJSON("JDuda.json"); //copy JDuda to universal reasoner\x64\Debug
+	EXPECT_EQ(rules.size(), 18);
 }
