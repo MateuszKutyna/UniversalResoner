@@ -83,9 +83,7 @@ void AddFact(std::vector<ImportedConclusion> &conclusions, const json& value)
 	conclusions.push_back(ImportedConclusion({conclusion.first, conclusion.second}));
 }
 
-
-
-std::vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFacts(const std::string& filename)
+std::vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFactsFromRebitJSON(const std::string& filename)
 {
 	auto j = ReadJson(filename);
 	auto facts = DigToNode(j, { "RuleSets" , "RuleSet", "Variables" });
@@ -98,7 +96,6 @@ std::vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFacts(co
 		factsContainer.push_back({ id,type });
 	}
 	return factsContainer;
-
 }
 
 vector<ureasoner::importer::ImportedRule> ureasoner::importer::ReadRulesFromRebitJSON(const std::string& filename)
