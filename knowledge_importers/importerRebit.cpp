@@ -89,12 +89,7 @@ std::vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFacts(co
 	auto facts = DigToNode(j, { "RuleSets" , "RuleSet", "Variables" });
 	vector<ImportedFact> factsContainer;
 	// 
-	for (auto& [key, value] : facts->items())
-	{
-		auto id = ExtractStringValue(value, "@Id");
-		auto type = ExtractStringValue(value, { "EnumType", "@IdRef" });
-		factsContainer.push_back({ id,type });
-	}
+	for (auto&[key, value] : facts->items())
 	// 	{
 	// 		auto ifs = value.find("If");
 	// 		auto thens = value.find("Then");
