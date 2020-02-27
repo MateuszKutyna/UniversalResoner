@@ -26,6 +26,8 @@ namespace ureasoner
 			rules.push_back(rule);
 		}
 
+		template <typename STORED_TYPE>
+		void AddFact(FactRepresentation<STORED_TYPE> fact, const std::string& name) { factsRepository->AddFact(fact, name); }
 		Metadata(shared_ptr<FactsRepository> factsRepository) : factsRepository(factsRepository) {};
 // 		std::unordered_map<Fact, bool> GetAllFacts();
 // 		std::unordered_set<Fact> GetKnownFacts();

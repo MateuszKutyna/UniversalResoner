@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include "../universal_reasoner/import.h"
+#include "../universal_reasoner/metadata.h"
 
 using namespace ureasoner;
 using namespace std;
@@ -27,12 +28,22 @@ TEST(BasicImport, ImportFactSmarterWay)
 
 TEST(BasicImport, ImportToRepo)
 {
+
 	importer::ImportedFact if1{ "OcenaCechOsobowych","ocena" };
-	FactsRepository<std::string> repo;
-	auto s1 = FactFromImport<std::string>(if1);
-	repo.AddFact(*s1, if1.name);
-	auto  ressempty = repo.GetFactByName<std::string>("OcenaCechOsobowych");
-	EXPECT_THROW(ressempty->GetValue(), std::logic_error);
+	auto repo = make_shared<FactsRepository<std::string>>();
+	Metadata<FactsRepository<std::string>> data(repo);
+
+
+	auto inserter = Inserter<decltype(data)>(data, if1);
+	inserter(data, if1);
+
+	auto  ress = repo->GetFactByName<string>("OcenaCechOsobowych");
+	EXPECT_THROW(ress->GetValue(), std::logic_error);
+// 	
+// 	auto s1 = FactFromImport<std::string>(if1);
+// 	repo.AddFact(*s1, if1.name);
+// 	auto  ressempty = repo.GetFactByName<std::string>("OcenaCechOsobowych");
+// 	EXPECT_THROW(ressempty->GetValue(), std::logic_error);
 }
 
 

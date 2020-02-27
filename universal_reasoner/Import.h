@@ -13,6 +13,24 @@ namespace ureasoner
 		return !str[h] ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];
 	}
 
+	template<typename METADATA>
+	auto Inserter(METADATA& metadata, const importer::ImportedFact& importedFact)
+	{
+		string typeName = importedFact.type;
+		switch (str2int(typeName.c_str()))
+		{
+		case str2int("ocena"):
+		case str2int("WZ"):
+		case str2int("ZSD"):
+		case str2int("wiek"):
+		case str2int("KM"):
+			return [](METADATA& metadata, const importer::ImportedFact& importedFact) {metadata.AddFact(FactRepresentation<string>(), importedFact.name); };
+			break;
+		default:
+			throw std::logic_error("AddToRepo tried to create a variable of type not registered in repository");
+			break;
+		}
+	};
 
 	template<typename VALUE, template <typename> typename FACT_CONST = FactConst, template <typename> typename FACT_SETTABLE = FactSettable>
 	std::shared_ptr < FactRepresentation<VALUE, FACT_CONST, FACT_SETTABLE>> FactFromImport(const importer::ImportedFact& importedFact)
