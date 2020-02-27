@@ -11,6 +11,8 @@ using std::string;
 using json = nlohmann::json;
 using equalPair = std::pair<std::string, std::string>;
 
+using namespace ureasoner::importer;
+
 json::const_iterator DigToNode(const json& currentNode, const vector<string>& labels)
 {
 	auto newNode = currentNode.find(labels[0]);
@@ -69,64 +71,54 @@ json ReadJson(const string& filename)
 	return j;
 }
 
-// void AddFact(std::vector<shared_ptr<ureasoner::Premise>> &premises, const json& value)
-// {
-// 	auto premise = PrintSingleCondition(value);
-// 	premises.push_back(make_shared<ureasoner::StringPremise>(premise.first, premise.second));
-// }
-// 
-// void AddFact(std::vector<shared_ptr<ureasoner::Conclusion>> &conclusions, const json& value)
-// {
-// 	auto conclusion = PrintSingleCondition(value);
-// 	conclusions.push_back(make_shared<ureasoner::ConclusionAddingFact>(std::make_shared<reasoner::FactSourceString>(conclusion.first), conclusion.second));
-// }
-// 
+void AddFact(std::vector<ImportedPremise> &premises, const json& value)
+{
+	auto premise = PrintSingleCondition(value);
+	premises.push_back(ImportedPremise({premise.first, premise.second}));
+}
 
+void AddFact(std::vector<ImportedConclusion> &conclusions, const json& value)
+{
+	auto conclusion = PrintSingleCondition(value);
+	conclusions.push_back(ImportedConclusion({conclusion.first, conclusion.second}));
+}
 
-std::vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFacts(const std::string& filename)
+std::vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFactsFromRebitJSON(const std::string& filename)
 {
 	auto j = ReadJson(filename);
 	auto facts = DigToNode(j, { "RuleSets" , "RuleSet", "Variables" });
 	vector<ImportedFact> factsContainer;
 	// 
-	for (auto&[key, value] : facts->items())
-	// 	{
-	// 		auto ifs = value.find("If");
-	// 		auto thens = value.find("Then");
-	// 
-	// 		std::vector<shared_ptr<reasoner::Premise>> premises;
-	// 		AddFacts(ifs, premises);
-	// 
-	// 		std::vector<shared_ptr<reasoner::Conclusion>> conclusions;
-	// 		AddFacts(thens, conclusions);
-	// 
-	// 		rulesStorage.push_back(std::make_shared<reasoner::Rule>(reasoner::Rule(premises, conclusions)));
-	// 	}
-	 	return factsContainer;
-
+	for (auto& [key, value] : facts->items())
+	{
+		auto id = ExtractStringValue(value, "@Id");
+		auto type = ExtractStringValue(value, {"EnumType","@IdRef"});
+		factsContainer.push_back({ id,type });
+	}
+	return factsContainer;
 }
 
-// vector < shared_ptr<Rule>> importer::ReadRulesFromRebitJSON(const string& filename)
-// {
-// 	auto j = ReadJson(filename);
-// 	auto rules = DigToNode(j, { "RuleSets" , "RuleSet", "Rules" });
-// 	std::vector < shared_ptr<reasoner::Rule>> rulesStorage;
+vector<ureasoner::importer::ImportedRule> ureasoner::importer::ReadRulesFromRebitJSON(const std::string& filename)
+ {
+ 	auto j = ReadJson(filename);
+ 	auto rules = DigToNode(j, { "RuleSets" , "RuleSet", "Rules" });
+ 	vector <ImportedRule> rulesStorage;
 // 
-// 	for (auto&[key, value] : rules->items())
-// 	{
-// 		auto ifs = value.find("If");
-// 		auto thens = value.find("Then");
+ 	for (auto&[key, value] : rules->items())
+ 	{
+ 		auto ifs = value.find("If");
+ 		auto thens = value.find("Then");
 // 
-// 		std::vector<shared_ptr<reasoner::Premise>> premises;
-// 		AddFacts(ifs, premises);
+ 		std::vector<ImportedPremise> premises;
+ 		AddFacts(ifs, premises);
 // 
-// 		std::vector<shared_ptr<reasoner::Conclusion>> conclusions;
-// 		AddFacts(thens, conclusions);
+ 		std::vector<ImportedConclusion> conclusions;
+ 		AddFacts(thens, conclusions);
 // 
-// 		rulesStorage.push_back(std::make_shared<reasoner::Rule>(reasoner::Rule(premises, conclusions)));
-// 	}
-// 	return rulesStorage;
-// }
+ 		rulesStorage.push_back(ImportedRule({premises, conclusions}));
+ 	}
+ 	return rulesStorage;
+ }
 // 
 // 
 // 

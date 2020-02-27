@@ -2,10 +2,10 @@
 #define knowledgeImporters_knowledgeImporters_h__
 
 #include <vector>
-#include "../universal_reasoner/rule.h"
 #include <string>
 
 using std::string;
+using std::vector;
 
 namespace ureasoner
 {
@@ -16,9 +16,28 @@ namespace ureasoner
 			string name;
 			string type;
 		};
-		std::vector<ImportedFact> ReadFacts(const std::string& filename);
 
-		//std::vector < shared_ptr<reasoner::Rule>> ReadRulesFromRebitJSON(const std::string& filename);
+		struct ImportedPremise
+		{
+			string factName;
+			string expectedValue;
+		};
+
+		struct ImportedConclusion
+		{
+			string factName;
+			string valueToSet;
+		};
+
+		struct ImportedRule
+		{
+			vector<ImportedPremise> premises;
+			vector<ImportedConclusion> conclusions;
+		};
+
+		vector<ImportedFact> ReadFactsFromRebitJSON(const std::string& filename);
+		vector<ImportedRule> ReadRulesFromRebitJSON(const std::string& filename);
+
 	}
 }
 

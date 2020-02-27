@@ -2,6 +2,7 @@
 #define universal_reasoner_factsRepository_h__
 
 #include "fact.h"
+#include <unordered_map>
 
 namespace ureasoner
 {

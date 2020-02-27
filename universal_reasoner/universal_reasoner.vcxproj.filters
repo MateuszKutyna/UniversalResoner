@@ -37,5 +37,8 @@
     <ClInclude Include="factsRepository.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Import.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
