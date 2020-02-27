@@ -15,3 +15,34 @@ TEST(BasicImport, ImportFact)
 	auto  ressempty = repo.GetFactByName<std::string>("OcenaCechOsobowych");
 	EXPECT_THROW(ressempty->GetValue(), std::logic_error);
 }
+
+TEST(BasicImport, ImportFactSmarterWay)
+{
+	importer::ImportedFact if1{ "OcenaCechOsobowych","ocena" };
+	FactsRepository<std::string> repo;
+	AddToRepo(if1, repo);
+	auto  ressempty = repo.GetFactByName<std::string>("OcenaCechOsobowych");
+	EXPECT_THROW(ressempty->GetValue(), std::logic_error);
+}
+
+TEST(BasicImport, ImportToRepo)
+{
+	importer::ImportedFact if1{ "OcenaCechOsobowych","ocena" };
+	FactsRepository<std::string> repo;
+	auto s1 = FactFromImport<std::string>(if1);
+	repo.AddFact(*s1, if1.name);
+	auto  ressempty = repo.GetFactByName<std::string>("OcenaCechOsobowych");
+	EXPECT_THROW(ressempty->GetValue(), std::logic_error);
+}
+
+
+
+TEST(BasicImport, ImportRule)
+{
+// 	importer::ImportedFact if1{ "OcenaCechOsobowych","ocena" };
+// 	FactsRepository<std::string> repo;
+// 	auto s1 = FactFromImport<std::string>(if1);
+// 	repo.AddFact(*s1, if1.name);
+// 	auto  ressempty = repo.GetFactByName<std::string>("OcenaCechOsobowych");
+// 	EXPECT_THROW(ressempty->GetValue(), std::logic_error);
+}

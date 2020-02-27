@@ -42,6 +42,8 @@ TEST(BasicPremises, MakingPremiseFromRepo)
 	auto ress1 = repo.GetFactByName<std::string>("s1")->GetValueShared();
 
 	PremiseWithType<std::string> p2(ress1, "test");
+//	PremiseWithType<std::string> p2 = *MakePremise(ress1, (std::string)"test1");
+
 	EXPECT_TRUE(p2.Evaluate());
 
 	auto resd1 = repo.GetFactByName<double>("fempty")->GetValueShared();

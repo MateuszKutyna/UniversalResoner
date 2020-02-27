@@ -49,6 +49,11 @@ namespace ureasoner
 		bool (*constComparer)(const FactValue&, const FactValue&);
 	};
 
+	template<typename T, template<typename> typename FACT_PROVIDER = FactWithGet>
+	shared_ptr<PremiseWithType<T, FACT_PROVIDER>> MakePremise(const std::shared_ptr<FACT_PROVIDER<T>> compareLeft, const T& compareRight)
+	{
+		return make_shared< PremiseWithType<T, FACT_PROVIDER>>(compareLeft, compareRight);
+	}
 
 	class Conclusion
 	{
