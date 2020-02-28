@@ -68,10 +68,8 @@ TEST(BasicImport, ImportFromFile)
 
 	std::map<std::string, shared_ptr<FactWrapperInterface<decltype(data)>>> factsMap;
 
-	for each (auto fact in facts)
-	{
-		factsMap.insert(std::pair<std::string, shared_ptr<FactWrapperInterface<decltype(data)>>>(fact.name,MakeWrapper(data, fact)));
-	}
+	AddFacts(facts, factsMap, data);
+
 
 	auto  ress = repo->GetFactByName<string>("OcenaCechOsobowych");
 	EXPECT_THROW(ress->GetValue(), std::logic_error);
@@ -83,13 +81,7 @@ TEST(BasicImport, ImportFromFile)
 	EXPECT_THROW(ress->GetValue(), std::logic_error);
 	ress = repo->GetFactByName<string>("StanCywilny");
 	EXPECT_THROW(ress->GetValue(), std::logic_error);
+	AddRules(rules, factsMap, data);
 
-	for each (auto rule in rules)
-	{
-		for each (auto premise in rule.premises)
-		{
-			auto factName = premise.factName;
-			auto res = factsMap.find(factName); //zwraca iterator do wrappera, dlaej brakuje
-		}
-	}
+	EXPECT_TRUE(true); //test checks is everything loads without an error
 }

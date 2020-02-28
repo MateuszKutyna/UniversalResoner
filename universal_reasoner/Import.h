@@ -89,5 +89,41 @@ namespace ureasoner
 			break;
 		}
 	}
+
+	template <typename METADATA>
+	void AddFacts(vector<importer::ImportedFact>& facts, std::map<std::string, shared_ptr<FactWrapperInterface<METADATA>>>& factsMap, METADATA& data)
+	{
+		for each (auto fact in facts)
+		{
+			factsMap.insert(std::pair<std::string, shared_ptr<FactWrapperInterface<METADATA>>>(fact.name, MakeWrapper(data, fact)));
+		}
+	}
+
+
+
+	template <typename METADATA>
+	void AddRules(vector<importer::ImportedRule>& rules, std::map<std::string, shared_ptr<FactWrapperInterface<METADATA>>> factsMap, METADATA& data)
+	{
+
+		for each (auto rule in rules)
+		{
+			vector<shared_ptr<Premise>> premises;
+			for each (auto premise in rule.premises)
+			{
+				auto factName = premise.factName;
+				auto res = factsMap.find(factName);
+				premises.push_back(res->second->MakePremise(premise.expectedValue));
+			}
+			vector<shared_ptr<Conclusion>> conclusions;
+			for each (auto conclusion in rule.conclusions)
+			{
+				auto factName = conclusion.factName;
+				auto res = factsMap.find(factName);
+				conclusions.push_back(res->second->MakeConclusion(conclusion.valueToSet));
+			}
+			data.AddRule(make_shared<RuleImpl<double>>(premises, conclusions));
+		}
+	}
+
 }
 #endif // Import_h__
