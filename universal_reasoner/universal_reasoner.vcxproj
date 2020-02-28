@@ -33,6 +33,7 @@
     <ClInclude Include="factsRepository.h" />
     <ClInclude Include="Import.h" />
     <ClInclude Include="metadata.h" />
+    <ClInclude Include="planner.h" />
     <ClInclude Include="rule.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -40,5 +40,8 @@
     <ClInclude Include="Import.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="planner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

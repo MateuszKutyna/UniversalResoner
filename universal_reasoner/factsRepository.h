@@ -3,6 +3,7 @@
 
 #include "fact.h"
 #include <unordered_map>
+using std::vector;
 
 namespace ureasoner
 {
@@ -39,6 +40,9 @@ namespace ureasoner
 		auto GetSettableFactByName(const std::string& name);	// auto here allows to pass a result from inherited GetFact function!
 		std::shared_ptr< FactRepresentation<StoredType>> AddFact(FactRepresentation<StoredType> fact, const std::string& name);
 		std::shared_ptr< FactRepresentation<StoredType>> AddFact(const StoredType& fact, const std::string& name);
+		shared_ptr<vector<shared_ptr<CheckableFact>>> GetAllKnownFacts();
+
+
 	protected:
 		std::unordered_map<std::string, std::shared_ptr< FactRepresentation<StoredType>>> storage;
 		std::shared_ptr< FactRepresentation<StoredType>> GetFact(const std::string& name, const StoredType*);
@@ -56,6 +60,8 @@ namespace ureasoner
 		std::shared_ptr< FactRepresentation<StoredType>> GetSettableFactByName(const std::string& name);
 		std::shared_ptr< FactRepresentation<StoredType>> AddFact(FactRepresentation<StoredType> fact, const std::string& name);
 		std::shared_ptr< FactRepresentation<StoredType>> AddFact(const StoredType& fact, const std::string& name);
+		shared_ptr<vector<shared_ptr<CheckableFact>>> GetAllKnownFacts();
+
 	protected:
 		std::unordered_map<std::string, std::shared_ptr< FactRepresentation<StoredType>>> storage;
 		std::shared_ptr< FactRepresentation<StoredType>> GetFact(const std::string& name, const StoredType*);
@@ -63,6 +69,20 @@ namespace ureasoner
 	};
 
 	//????????????????????????????????????? IMPLEMENTATION //////////////////////////////////////////////////////////////////////////////////
+
+	template <typename FIRST_STORED_TYPE>
+	shared_ptr<vector<shared_ptr<CheckableFact>>> FactsRepository<FIRST_STORED_TYPE>::GetAllKnownFacts()
+	{
+		auto toRet = make_shared<vector<shared_ptr<CheckableFact>>>();
+		for each (auto fact in storage)
+		{
+			if (fact.second->GetValueShared()->IsKnown())
+			{
+				toRet->push_back(fact.second->GetValueShared());
+			}
+		}
+		return toRet;
+	}
 
 
 	template <typename FIRST_STORED_TYPE>
@@ -107,6 +127,20 @@ namespace ureasoner
 		T* trait = nullptr;
 		return GetFact(name, trait);
 	};
+
+	template <typename FIRST_STORED_TYPE, typename... STORED_TYPES>
+	shared_ptr<vector<shared_ptr<CheckableFact>>> FactsRepository<FIRST_STORED_TYPE, STORED_TYPES...>::GetAllKnownFacts()
+	{
+		auto toRet = FactsRepository<STORED_TYPES...>::GetAllKnownFacts();
+		for each (auto fact in storage)
+		{
+			if (fact.second->GetValueShared()->IsKnown())
+			{
+				toRet->push_back(fact.second->GetValueShared());
+			}
+		}
+		return toRet;
+	}
 
 	template <typename FIRST_STORED_TYPE, typename... STORED_TYPES>
 	std::shared_ptr<FactRepresentation<FIRST_STORED_TYPE>> FactsRepository<FIRST_STORED_TYPE, STORED_TYPES...>::AddFact(const FIRST_STORED_TYPE& fact, const std::string& name)

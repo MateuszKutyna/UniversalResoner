@@ -106,6 +106,37 @@ TEST(FRepo, basicTest)
 	EXPECT_EQ(resfempty->GetValue(), 3.0);
 }
 
+
+TEST(FRepo, gettingAllKnownFacts)
+{
+	FactsRepository<double> a;
+	FactsRepository<double, int, std::string> b;
+	FactsRepository<int, short, double, long, bool> c;
+	
+	FactRepresentation<double> f1(2.0);
+	FactRepresentation<int> i1(1);
+	FactRepresentation<bool> b1(true);
+	FactRepresentation<std::string> s1("test");
+
+	FactRepresentation<double> fempty;
+	b.AddFact(fempty, "fempty");
+
+	a.AddFact(f1, "f1");
+	b.AddFact(s1, "s1");
+	c.AddFact(i1, "i1");
+	c.AddFact(f1, "f1");
+	c.AddFact(b1, "b1");
+
+	EXPECT_EQ(a.GetAllKnownFacts()->size(), 1);
+	EXPECT_EQ(b.GetAllKnownFacts()->size(), 1);
+	EXPECT_EQ(c.GetAllKnownFacts()->size(), 3);
+
+
+	auto  resfempty = b.GetFactByName<double>("fempty");
+	resfempty->SetValue(3.0);
+	EXPECT_EQ(b.GetAllKnownFacts()->size(), 2);
+}
+
 TEST(BasicConclusions, MakingConclusion)
 {
 	auto f1 = std::make_shared<FactSettable<double>>();

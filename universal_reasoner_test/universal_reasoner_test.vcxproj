@@ -35,6 +35,7 @@
   <ItemGroup>
     <ClCompile Include="importer_test.cpp" />
     <ClCompile Include="metadata_tests.cpp" />
+    <ClCompile Include="planner_test.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>

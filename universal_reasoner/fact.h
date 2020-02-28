@@ -49,6 +49,12 @@ using std::make_shared;
 
 namespace ureasoner
 {
+	class CheckableFact
+	{
+	public:
+		virtual bool IsKnown() = 0;
+	};
+
 	template<typename VALUE>
 	class FactWithGet
 	{
@@ -56,7 +62,7 @@ namespace ureasoner
 		typedef VALUE ValueType;
 
 		virtual const ValueType GetValue() const = 0;
-		virtual std::shared_ptr<ValueType> GetValueShared() = 0;
+		virtual std::shared_ptr<ValueType> GetValueShared() = 0;	
 	};
 
 	template<typename VALUE>
@@ -69,14 +75,14 @@ namespace ureasoner
 	};
 
 	template<typename VALUE>
-	class Fact : public FactWithGet<VALUE>, FactWithSet<VALUE>
+	class Fact : public FactWithGet<VALUE>, public FactWithSet<VALUE>, public CheckableFact
 	{
 	public:
 		typedef VALUE ValueType;
 
-		virtual const ValueType GetValue() const = 0;
-		virtual std::shared_ptr<ValueType> GetValueShared() = 0;
-		virtual void SetValue(const ValueType&) = 0;
+// 		virtual const ValueType GetValue() const = 0;
+// 		virtual std::shared_ptr<ValueType> GetValueShared() = 0;
+// 		virtual void SetValue(const ValueType&) = 0;
 		virtual bool IsSettable() = 0;
 	};
 
@@ -97,6 +103,7 @@ namespace ureasoner
 		};
 		virtual void SetValue(const ValueType&) override {throw std::logic_error("Value of the fact is already set.");}
 		virtual bool IsSettable() override { return false; }
+		virtual bool IsKnown() override { return true; };
 
 	protected:
 		std::shared_ptr<ValueType> factValue;
@@ -113,6 +120,7 @@ namespace ureasoner
 		virtual void SetValue(const VALUE& valueToSet) override;
 		virtual std::shared_ptr<ValueType> GetValueShared() override;
 		virtual bool IsSettable() override { return settable; }
+		virtual bool IsKnown() override { return !IsSettable(); };
 
 	protected:
 		bool IsStillSettable() { return settable; };

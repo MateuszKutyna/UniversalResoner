@@ -31,7 +31,7 @@ namespace ureasoner
 		std::shared_ptr< FactRepresentation<STORED_TYPE>> AddFact(FactRepresentation<STORED_TYPE> fact, const std::string& name) { return factsRepository->AddFact(fact, name); }
 		Metadata(shared_ptr<FactsRepository> factsRepository) : factsRepository(factsRepository) {};
 // 		std::unordered_map<Fact, bool> GetAllFacts();
-// 		std::unordered_set<Fact> GetKnownFacts();
+ 		std::unordered_set<shared_ptr<CheckableFact>> GetKnownFacts();
 // 		std::vector<ExecutableWithCost> GetExecutablesProvidingFact(const Fact& fact);
 // 		std::vector<ExecutableWithCost> GetExecutablesUsingFact(const Fact& fact);
 // 		std::vector<ExecutableWithCost> GetExecutablesUsingOnlyFacts(const std::vector<Fact> facts);
@@ -39,6 +39,16 @@ namespace ureasoner
 		shared_ptr< FACTS_REPOSITORY> factsRepository;
 		vector<shared_ptr<Rule<COST_TYPE>>> rules;
 	};
+
+	template<typename FACTS_REPOSITORY, typename COST_TYPE /*= double*/, typename EXECUTABLE /*= ExecutableWithCost<COST_TYPE>*/>
+	std::unordered_set<shared_ptr<ureasoner::CheckableFact>> ureasoner::Metadata<FACTS_REPOSITORY, COST_TYPE, EXECUTABLE>::GetKnownFacts()
+	{
+		//for each (shared_ptr<CheckableFact> fact in FactsRepository->)
+		{
+
+		}
+	}
+
 }
 
 #endif // universal_reasoner_metadata_h__
