@@ -8,13 +8,44 @@
 
 namespace ureasoner
 {
+
+	template<typename METADATA>
+	class FactWrapperInterface
+	{
+	public:;
+		virtual std::shared_ptr<Premise> MakePremise(const string& expectedvalue) = 0;
+		virtual std::shared_ptr<Conclusion> MakeConclusion(const string& settabledvalue) = 0;
+	};
+
+	template <typename METADATA, typename T>
+	class FactWrapper : public FactWrapperInterface<METADATA>
+	{
+	public:
+
+
+		FactWrapper(METADATA& metadata, const importer::ImportedFact& importedFact) : fact(metadata.AddFact(FactRepresentation<T>(), importedFact.name)) {}
+
+
+		virtual std::shared_ptr<Premise> MakePremise(const string& expectedvalue) override
+		{
+			return make_shared<PremiseWithType<T>>(fact->GetValueShared(), (T)expectedvalue);
+		}
+
+		virtual std::shared_ptr<Conclusion> MakeConclusion(const string& settabledvalue) override
+		{
+			return make_shared<ConclusionSettingFact<T>>(std::dynamic_pointer_cast<FactSettable<T>>(fact->GetValueShared()), (T)settabledvalue);
+		}
+	protected:
+		const std::shared_ptr< FactRepresentation<T>> fact;
+	};
+
 	constexpr unsigned int str2int(const char* str, int h = 0)
 	{
 		return !str[h] ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];
 	}
 
 	template<typename METADATA>
-	auto Inserter(METADATA& metadata, const importer::ImportedFact& importedFact)
+	auto MakeWrapper(METADATA& metadata, const importer::ImportedFact& importedFact)
 	{
 		string typeName = importedFact.type;
 		switch (str2int(typeName.c_str()))
@@ -24,13 +55,14 @@ namespace ureasoner
 		case str2int("ZSD"):
 		case str2int("wiek"):
 		case str2int("KM"):
-			return [](METADATA& metadata, const importer::ImportedFact& importedFact) {metadata.AddFact(FactRepresentation<string>(), importedFact.name); };
+			return make_shared < FactWrapper < Metadata<FactsRepository<std::string>>, std::string>>(metadata, importedFact);
 			break;
 		default:
 			throw std::logic_error("AddToRepo tried to create a variable of type not registered in repository");
 			break;
 		}
 	};
+
 
 	template<typename VALUE, template <typename> typename FACT_CONST = FactConst, template <typename> typename FACT_SETTABLE = FactSettable>
 	std::shared_ptr < FactRepresentation<VALUE, FACT_CONST, FACT_SETTABLE>> FactFromImport(const importer::ImportedFact& importedFact)
@@ -57,20 +89,5 @@ namespace ureasoner
 			break;
 		}
 	}
-
-
-
-	// 	template <typename REPOSITORY, typename COST = double>
-	// 	shared_ptr<Rule<COST>> RuleFromImport(const importer::ImportedRule& importedRule, std::vector<importer::ImportedFact> facts, REPOSITORY& repo)
-	// 	{
-	// 		auto resi1 = repo.GetFactByName<int>("i1")->GetValueShared();
-	// 		auto conclusion1 = std::make_shared<ConclusionSettingFact<double>>(f1, d);
-	// 
-	// 		auto a1 = std::make_shared<FactConst<double>>(2.0);
-	// 		std::shared_ptr<Premise> premis1 = std::make_shared<PremiseWithType<double>>(a1, 2.0);
-	// 
-	// 
-	// 		RuleImpl<double> rule1(premis1, conclusion1);
-	// 	}
 }
 #endif // Import_h__

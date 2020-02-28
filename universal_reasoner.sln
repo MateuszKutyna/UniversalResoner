@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "universal_reasoner", "universal_reasoner\universal_reasoner.vcxproj", "{85FD9B0C-84EC-4D45-B974-9234CB8E267B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "universal_reasoner_test", "universal_reasoner_test\universal_reasoner_test.vcxproj", "{FF6F4F19-9A45-415A-8E03-4A5EA483B01A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{28DA478F-BF7F-49E7-A54A-4B3B81385BB0} = {28DA478F-BF7F-49E7-A54A-4B3B81385BB0}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "knowledge_importers", "knowledge_importers\knowledge_importers.vcxproj", "{28DA478F-BF7F-49E7-A54A-4B3B81385BB0}"
 EndProject

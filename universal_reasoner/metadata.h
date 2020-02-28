@@ -20,6 +20,7 @@ namespace ureasoner
 	public:
 		using ExecutableWithCost = EXECUTABLE;
 		using FactsRepository = FACTS_REPOSITORY;
+		using CostType = COST_TYPE;
 
 		void AddRule(shared_ptr<Rule<COST_TYPE>> rule)
 		{
@@ -27,7 +28,7 @@ namespace ureasoner
 		}
 
 		template <typename STORED_TYPE>
-		void AddFact(FactRepresentation<STORED_TYPE> fact, const std::string& name) { factsRepository->AddFact(fact, name); }
+		std::shared_ptr< FactRepresentation<STORED_TYPE>> AddFact(FactRepresentation<STORED_TYPE> fact, const std::string& name) { return factsRepository->AddFact(fact, name); }
 		Metadata(shared_ptr<FactsRepository> factsRepository) : factsRepository(factsRepository) {};
 // 		std::unordered_map<Fact, bool> GetAllFacts();
 // 		std::unordered_set<Fact> GetKnownFacts();

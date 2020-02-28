@@ -38,6 +38,9 @@
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\knowledge_importers\knowledge_importers.vcxproj">
+      <Project>{28da478f-bf7f-49e7-a54a-4b3b81385bb0}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\universal_reasoner\universal_reasoner.vcxproj">
       <Project>{85fd9b0c-84ec-4d45-b974-9234cb8e267b}</Project>
     </ProjectReference>
