@@ -52,11 +52,11 @@ namespace ureasoner
 	class CheckableFact
 	{
 	public:
-		virtual bool IsKnown() = 0;
+		virtual bool IsKnown() const = 0;
 	};
 
 	template<typename VALUE>
-	class FactWithGet
+	class FactWithGet: virtual public CheckableFact
 	{
 	public:
 		typedef VALUE ValueType;
@@ -66,7 +66,7 @@ namespace ureasoner
 	};
 
 	template<typename VALUE>
-	class FactWithSet
+	class FactWithSet: virtual public CheckableFact
 	{
 	public:
 		typedef VALUE ValueType;
@@ -75,7 +75,7 @@ namespace ureasoner
 	};
 
 	template<typename VALUE>
-	class Fact : public FactWithGet<VALUE>, public FactWithSet<VALUE>, public CheckableFact
+	class Fact : public FactWithGet<VALUE>, public FactWithSet<VALUE>
 	{
 	public:
 		typedef VALUE ValueType;
@@ -83,7 +83,7 @@ namespace ureasoner
 // 		virtual const ValueType GetValue() const = 0;
 // 		virtual std::shared_ptr<ValueType> GetValueShared() = 0;
 // 		virtual void SetValue(const ValueType&) = 0;
-		virtual bool IsSettable() = 0;
+		virtual bool IsSettable() const = 0;
 	};
 
 	template<typename VALUE>
@@ -102,8 +102,8 @@ namespace ureasoner
 			return factValue;
 		};
 		virtual void SetValue(const ValueType&) override {throw std::logic_error("Value of the fact is already set.");}
-		virtual bool IsSettable() override { return false; }
-		virtual bool IsKnown() override { return true; };
+		virtual bool IsSettable() const override { return false; }
+		virtual bool IsKnown() const override { return true; };
 
 	protected:
 		std::shared_ptr<ValueType> factValue;
@@ -119,8 +119,8 @@ namespace ureasoner
 		virtual const ValueType GetValue() const override;
 		virtual void SetValue(const VALUE& valueToSet) override;
 		virtual std::shared_ptr<ValueType> GetValueShared() override;
-		virtual bool IsSettable() override { return settable; }
-		virtual bool IsKnown() override { return !IsSettable(); };
+		virtual bool IsSettable() const override { return settable; }
+		virtual bool IsKnown() const override { return !IsSettable(); };
 
 	protected:
 		bool IsStillSettable() { return settable; };

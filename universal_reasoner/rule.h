@@ -18,7 +18,7 @@ namespace ureasoner
 	public:
 		virtual bool Evaluate() const = 0 ;
 		virtual bool Evaluate() = 0;
-		virtual shared_ptr<CheckableFact> GetFact() const = 0;
+		virtual const shared_ptr<CheckableFact> GetFact() const = 0;
 	};
 
 	template<typename T, template<typename> typename FACT_PROVIDER = FactWithGet>
@@ -45,9 +45,10 @@ namespace ureasoner
 			return comparer(*l, *r);
 		}
 
-		virtual shared_ptr<CheckableFact> GetFact() const override
+		virtual const shared_ptr<CheckableFact> GetFact() const override
 		{
-			return compareLeft->GetValueShared();
+			//shared_ptr<FactWithGet<T>> toRet = compareLeft;
+			return compareLeft;
 		}
 
 	protected:
@@ -67,7 +68,7 @@ namespace ureasoner
 	{
 	public:
 		virtual void Execute() = 0;
-		virtual shared_ptr<CheckableFact> GetFact() const = 0;
+		virtual const shared_ptr<CheckableFact> GetFact() const = 0;
 	};
 
 	template<typename T>
@@ -82,9 +83,9 @@ namespace ureasoner
 		}
 
 
-		virtual shared_ptr<CheckableFact> GetFact() const override
+		virtual const shared_ptr<CheckableFact> GetFact() const override
 		{
-			return factToBeSet->GetValueShared();
+			return (shared_ptr<FactSettable<T>>)factToBeSet;
 		}
 
 	protected:
@@ -158,6 +159,7 @@ namespace ureasoner
 			{
 				toRet.push_back(premise->GetFact());
 			}
+			return toRet;
 		}
 
 
@@ -168,6 +170,7 @@ namespace ureasoner
 			{
 				toRet.push_back(conclusion->GetFact());
 			}
+			return toRet;
 		}
 
 	protected:
