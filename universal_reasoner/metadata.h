@@ -32,6 +32,8 @@ namespace ureasoner
 		Metadata(shared_ptr<FactsRepository> factsRepository) : factsRepository(factsRepository) {};
 // 		std::unordered_map<Fact, bool> GetAllFacts();
  		std::unordered_set<shared_ptr<CheckableFact>> GetKnownFacts();
+		vector<shared_ptr<Rule<COST_TYPE>>> GetRules() { return rules; };
+
 // 		std::vector<ExecutableWithCost> GetExecutablesProvidingFact(const Fact& fact);
 // 		std::vector<ExecutableWithCost> GetExecutablesUsingFact(const Fact& fact);
 // 		std::vector<ExecutableWithCost> GetExecutablesUsingOnlyFacts(const std::vector<Fact> facts);

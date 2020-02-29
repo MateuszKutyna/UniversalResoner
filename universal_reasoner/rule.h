@@ -9,6 +9,7 @@
 
 using std::shared_ptr;
 using std::unique_ptr;
+using std::vector;
 
 namespace ureasoner
 {
@@ -17,6 +18,7 @@ namespace ureasoner
 	public:
 		virtual bool Evaluate() const = 0 ;
 		virtual bool Evaluate() = 0;
+		virtual shared_ptr<CheckableFact> GetFact() const = 0;
 	};
 
 	template<typename T, template<typename> typename FACT_PROVIDER = FactWithGet>
@@ -42,6 +44,12 @@ namespace ureasoner
 			auto l = compareLeft->GetValueShared();
 			return comparer(*l, *r);
 		}
+
+		virtual shared_ptr<CheckableFact> GetFact() const override
+		{
+			return compareLeft->GetValueShared();
+		}
+
 	protected:
 		const std::shared_ptr<LocalFact> compareLeft;
 		const std::unique_ptr<LocalFact> compareRight;
@@ -59,6 +67,7 @@ namespace ureasoner
 	{
 	public:
 		virtual void Execute() = 0;
+		virtual shared_ptr<CheckableFact> GetFact() const = 0;
 	};
 
 	template<typename T>
@@ -70,6 +79,12 @@ namespace ureasoner
 		virtual void Execute() override
 		{
 			factToBeSet->SetValue(*valueToBeSet);
+		}
+
+
+		virtual shared_ptr<CheckableFact> GetFact() const override
+		{
+			return factToBeSet->GetValueShared();
 		}
 
 	protected:
@@ -97,6 +112,8 @@ namespace ureasoner
 	{
 	public: 
 		virtual bool CheckAndFire() = 0;
+		virtual vector<shared_ptr<CheckableFact>> GetFactsForFiring() = 0;
+		virtual vector<shared_ptr<CheckableFact>> GetFactsConcluding() = 0;
 	};
 
 	template<typename COST = double>
@@ -131,6 +148,26 @@ namespace ureasoner
 		virtual const CostType GetEstimatedCost() const override
 		{
 			throw std::logic_error("The method or operation is not implemented.");
+		}
+
+
+		virtual vector<shared_ptr<CheckableFact>> GetFactsForFiring() override
+		{
+			vector<shared_ptr<CheckableFact>> toRet;
+			for each (std::shared_ptr<Premise> premise in premises)
+			{
+				toRet.push_back(premise->GetFact());
+			}
+		}
+
+
+		virtual vector<shared_ptr<CheckableFact>> GetFactsConcluding() override
+		{
+			vector<shared_ptr<CheckableFact>> toRet;
+			for each (std::shared_ptr<Conclusion> conclusion in conclusions)
+			{
+				toRet.push_back(conclusion->GetFact());
+			}
 		}
 
 	protected:
