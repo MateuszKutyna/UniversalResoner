@@ -115,6 +115,7 @@ namespace ureasoner
 		virtual bool CheckAndFire() = 0;
 		virtual vector<shared_ptr<CheckableFact>> GetFactsForFiring() = 0;
 		virtual vector<shared_ptr<CheckableFact>> GetFactsConcluding() = 0;
+		virtual COST GetCost() = 0;
 	};
 
 	template<typename COST = double>
@@ -127,6 +128,12 @@ namespace ureasoner
 		RuleImpl(std::shared_ptr<Premise> premise, std::shared_ptr<Conclusion> conclusion)
 			: premises(std::vector<std::shared_ptr<Premise>>{premise}), 
 			conclusions(std::vector<std::shared_ptr<Conclusion>>{conclusion}) {};
+
+		virtual COST GetCost() override
+		{
+			return cost;
+		}
+
 		virtual bool CheckAndFire() override
 		{
 			bool allSatisfied = true;
@@ -176,6 +183,7 @@ namespace ureasoner
 	protected:
 		std::vector<std::shared_ptr<Premise>> premises;
 		std::vector<std::shared_ptr<Conclusion>> conclusions;
+		const COST cost = 0;
 	};
 }
 #endif // universal_reasoner_rule_h__

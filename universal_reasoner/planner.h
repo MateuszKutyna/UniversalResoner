@@ -2,34 +2,52 @@
 #define planner_h__
 
 #include "metadata.h"
+#include <map>
 
 namespace ureasoner
 {
 	template<typename METADATA>
-	class Planer
+	class Planner
 	{
 	public:
+	
 		using Metadata = METADATA;
-		Planer(shared_ptr<Metadata> metadata) : metadata(metadata) {}
-		void BuildPlan();
+		using CostType = typename Metadata::CostType;
+		Planner(shared_ptr<Metadata> metadata) : metadata(metadata) {}
+		std::multimap < typename METADATA::CostType, shared_ptr<Rule<typename METADATA::CostType>>> BuildPlan();
 	protected:
 		const shared_ptr<Metadata> metadata;
 	};
 
 	template<typename METADATA>
-	void ureasoner::Planer<METADATA>::BuildPlan()
+	std::multimap < typename METADATA::CostType, shared_ptr<Rule<typename METADATA::CostType>>> ureasoner::Planner<METADATA>::BuildPlan()
 	{
 		auto facts = metadata->GetKnownFacts();
 		auto rules = metadata->GetRules();
 
-		// vector to be sorted
+		std::multimap < CostType, shared_ptr<Rule<CostType>>> allowedRules;
 
 		for each (shared_ptr<Rule<Metadata::CostType>> rule in rules)
 		{
 			auto neededFacts = rule->GetFactsForFiring();
 			auto providedFacts = rule->GetFactsConcluding();
+
+			bool allNeededFactsAvailable = true;
+			auto factIter = neededFacts.cbegin();
+			while (factIter!= neededFacts.cend() && allNeededFactsAvailable)
+			{
+				auto found = std::find(facts->cbegin(), facts->cend(), *factIter);
+				if (found == facts->cend()) allNeededFactsAvailable = false;
+				++factIter;
+			}
+			if (allNeededFactsAvailable)
+			{
+				allowedRules.insert(std::pair{ rule->GetCost(), rule });
+			}
+			
 		}
 
+		return allowedRules;
 		// Find allowable rules
 		// Sort with cost
 		// Fire cheapest
