@@ -33,7 +33,7 @@ TEST(BasicPlanner, ImportFromFile)
 	ress->SetValue("zly");
 
 
-	Planner< Metadata<FactsRepository<std::string>>> plan(data);
+	Planner< Metadata<FactsRepository<double, std::string>>> plan(data);
 	auto availableRules = plan.BuildPlan();
 	EXPECT_EQ(availableRules.size(),1); 
 

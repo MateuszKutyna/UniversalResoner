@@ -4,6 +4,7 @@
 #include "../universal_reasoner/factsRepository.h"
 
 using namespace ureasoner;
+using COST = double;
 TEST(BasicPremises, MakingPremise) 
 {
 	auto a1 = std::make_shared<FactConst<double>>(2.0);
@@ -17,14 +18,14 @@ TEST(BasicPremises, MakingPremiseWithComparer)
 	auto constComparer = [](const double& x, const double& y)->bool { return x < y; };
 	auto comparer = [](double& x, double& y)->bool { return x < y; };
 
-	PremiseWithType<double> p(a1, 3.0, constComparer, comparer);
+	PremiseWithType<double> p(a1, 3.0, 0.0, constComparer, comparer);
 	EXPECT_TRUE(p.Evaluate());
 }
 
 
 TEST(BasicPremises, MakingPremiseFromRepo)
 {
-	FactsRepository<double, int, std::string> repo;
+	FactsRepository<COST, double, int, std::string> repo;
 	FactRepresentation<int> i1(1);
 	FactRepresentation<std::string> s1("test");
 	FactRepresentation<double> fempty;
@@ -57,9 +58,9 @@ TEST(BasicPremises, MakingPremiseFromRepo)
 
 TEST(FRepo, basicTest)
 {
-	FactsRepository<double> a;
-	FactsRepository<double, int, std::string> b;
-	FactsRepository<int, short, double, long,bool> c;
+	FactsRepository<COST, double> a;
+	FactsRepository<COST, double, int, std::string> b;
+	FactsRepository<COST, int, short, double, long,bool> c;
 // Command below, if uncommented, must result with compilation error since the list of types is not unique
 //	FactsRepository<double, short, double, int, long, bool> d;
 
@@ -109,9 +110,9 @@ TEST(FRepo, basicTest)
 
 TEST(FRepo, gettingAllKnownFacts)
 {
-	FactsRepository<double> a;
-	FactsRepository<double, int, std::string> b;
-	FactsRepository<int, short, double, long, bool> c;
+	FactsRepository<COST, double> a;
+	FactsRepository<COST, double, int, std::string> b;
+	FactsRepository<COST, int, short, double, long, bool> c;
 	
 	FactRepresentation<double> f1(2.0);
 	FactRepresentation<int> i1(1);
