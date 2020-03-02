@@ -6,6 +6,7 @@
 
 using namespace ureasoner;
 using namespace std;
+using COST = double;
 TEST(BasicMetadata, ForwardReasoning)
 {
 	// Add Facts
@@ -19,8 +20,8 @@ TEST(BasicMetadata, ForwardReasoning)
 
 TEST(BasicMetadata, AddingFacts)
 {
-	auto repo = make_shared<FactsRepository<std::string>>();
-	Metadata<FactsRepository<std::string>> data(repo);
+	auto repo = make_shared<FactsRepository<COST, std::string>>();
+	Metadata<FactsRepository<COST, std::string>> data(repo);
 
 	repo->AddFact(FactRepresentation <string>("test1"), "test1");
 	repo->AddFact("test2", "test2");
@@ -35,7 +36,7 @@ TEST(BasicMetadata, AddingFacts)
 
 TEST(BasicMetadata, AddingMoreComplexFacts)
 {
-	auto repo = make_shared<FactsRepository<string, int, double>>();
+	auto repo = make_shared<FactsRepository<COST, string, int, double>>();
 	Metadata<decltype(repo)::element_type> data(repo);
 
 	repo->AddFact(FactRepresentation < std::string>("test1"), "test1");
@@ -57,7 +58,7 @@ TEST(BasicMetadata, AddingMoreComplexFacts)
 TEST(BasicMetadata, AddingRules)
 {
 
-	auto repo = make_shared<FactsRepository<string, int, double>>();
+	auto repo = make_shared<FactsRepository<COST, string, int, double>>();
 	Metadata<decltype(repo)::element_type> data(repo);
 
 	repo->AddFact(FactRepresentation<string>("test1"), "test1");
@@ -73,7 +74,7 @@ TEST(BasicMetadata, AddingRules)
 	auto conclusion1 = std::make_shared<ConclusionSettingFact<string>>(s3, "test3");
 
 
-	std::shared_ptr<Premise> premis1 = std::make_shared<PremiseWithType<string>>(repo->GetFactByName<std::string>("test1")->GetValueShared(), "test1");
+	std::shared_ptr<Premise<double>> premis1 = std::make_shared<PremiseWithType<string>>(repo->GetFactByName<std::string>("test1")->GetValueShared(), "test1");
 
 	auto  ress3 = repo->GetFactByName<string>("test3");
 	EXPECT_THROW(ress3->GetValue(), std::logic_error);

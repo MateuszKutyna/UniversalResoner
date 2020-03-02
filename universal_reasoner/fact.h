@@ -4,6 +4,7 @@
 
 #include <concepts>
 #include <stdexcept>
+#include "executableWithCost.h"
 
 using std::shared_ptr;
 using std::make_shared;
@@ -49,33 +50,49 @@ using std::make_shared;
 
 namespace ureasoner
 {
-	class CheckableFact
+	template<typename COST = double>
+	class CheckableFact: public ExecutableWithCost<COST>
 	{
 	public:
 		virtual bool IsKnown() const = 0;
 	};
 
-	template<typename VALUE>
-	class FactWithGet: virtual public CheckableFact
+	template<typename VALUE, typename COST = double>
+	class FactWithGet: virtual public CheckableFact<COST>
 	{
 	public:
 		typedef VALUE ValueType;
 
 		virtual const ValueType GetValue() const = 0;
 		virtual std::shared_ptr<ValueType> GetValueShared() = 0;	
+
+		virtual const COST GetEstimatedCost() const override
+		{
+			return GetEstimatedGetCost();
+		}
+	protected:
+		virtual const COST GetEstimatedGetCost() const = 0;
 	};
 
-	template<typename VALUE>
-	class FactWithSet: virtual public CheckableFact
+	template<typename VALUE, typename COST = double>
+	class FactWithSet: virtual public CheckableFact<COST>
 	{
 	public:
 		typedef VALUE ValueType;
 
 		virtual void SetValue(const ValueType&) = 0;
+
+		virtual const COST GetEstimatedCost() const override
+		{
+			return GetEstimatedSetCost();
+		}
+
+	protected:
+		virtual const COST GetEstimatedSetCost() const = 0;
 	};
 
-	template<typename VALUE>
-	class Fact : public FactWithGet<VALUE>, public FactWithSet<VALUE>
+	template<typename VALUE, typename COST = double>
+	class Fact : public FactWithGet<VALUE, COST>, public FactWithSet<VALUE, COST>
 	{
 	public:
 		typedef VALUE ValueType;
@@ -86,16 +103,16 @@ namespace ureasoner
 		virtual bool IsSettable() const = 0;
 	};
 
-	template<typename VALUE>
-	class FactConst : public Fact<VALUE>
+	template<typename VALUE, typename COST = double>
+	class FactConst : public Fact<VALUE, COST>
 	{
 	public:
 		using ValueType = VALUE;
 
-		FactConst(std::shared_ptr<ValueType> factValue) : factValue(factValue) {};
-		FactConst(const ValueType& factValue) : factValue(std::make_shared<ValueType>(factValue))	{};
+		FactConst(std::shared_ptr<ValueType> factValue, const COST& cost = 0) : factValue(factValue), cost(cost) {};
+		FactConst(const ValueType& factValue, const COST& cost = 0) : factValue(std::make_shared<ValueType>(factValue)), cost(cost) {};
 
-		FactConst() {};
+//		FactConst() {};
 
 		virtual const ValueType GetValue() const override {return *factValue;}
 		virtual  std::shared_ptr<ValueType> GetValueShared() override {
@@ -106,27 +123,69 @@ namespace ureasoner
 		virtual bool IsKnown() const override { return true; };
 
 	protected:
+		virtual const COST GetEstimatedGetCost() const override
+		{
+			return cost;
+		}
+		virtual const COST GetEstimatedSetCost() const override
+		{
+			return 0;
+		}
+
+
 		std::shared_ptr<ValueType> factValue;
+		const COST cost;
 	};
 
 
-	template<typename VALUE>
-	class FactSettable : public Fact<VALUE>
+	template<typename VALUE, typename COST = double>
+	class FactSettable : public Fact<VALUE, COST>
 	{
 	public:
 		using ValueType = VALUE;
 
-		virtual const ValueType GetValue() const override;
-		virtual void SetValue(const VALUE& valueToSet) override;
+		FactSettable(const COST& costGet, const COST& costSet) : costGet(costGet), costSet(costSet){};
+		virtual const ValueType GetValue() const override
+		{
+			if (settable)
+			{
+				throw std::logic_error("Value of the fact is not set.");
+			}
+			else
+			{
+				return *factValue;
+			}
+		}
+		virtual void SetValue(const VALUE& valueToSet) override
+		{
+			if (IsStillSettable())
+			{
+				SetValueIfValid(valueToSet);
+				settable = false;
+			}
+		}
 		virtual std::shared_ptr<ValueType> GetValueShared() override;
 		virtual bool IsSettable() const override { return settable; }
 		virtual bool IsKnown() const override { return !IsSettable(); };
+
 
 	protected:
 		bool IsStillSettable() { return settable; };
 		void SetValueIfValid(const VALUE& value) { factValue = std::make_shared< ValueType>(value); }
 		bool settable = true;
 		std::shared_ptr<ValueType> factValue;
+
+		const COST costGet;
+		const COST costSet;
+
+		virtual const COST GetEstimatedGetCost() const override
+		{
+			return costGet;
+		}
+		virtual const COST GetEstimatedSetCost() const override
+		{
+			return costSet;
+		}
 	};
 
 
@@ -170,32 +229,32 @@ namespace ureasoner
 	};
 
 // Implementation ///////////////////////////////////////////////////////////////////////////////////////////
+// 
+// 	template<typename VALUE, typename COST>
+// 	void ureasoner::FactSettable<VALUE>::SetValue(const VALUE& valueToSet)
+// 	{
+// 		if (IsStillSettable())
+// 		{
+// 			SetValueIfValid(valueToSet);
+// 			settable = false;
+// 		}
+// 	}
 
-	template<typename VALUE>
-	void ureasoner::FactSettable<VALUE>::SetValue(const VALUE& valueToSet)
-	{
-		if (IsStillSettable())
-		{
-			SetValueIfValid(valueToSet);
-			settable = false;
-		}
-	}
+// 	template<typename VALUE, typename COST>
+// 	const VALUE ureasoner::FactSettable<VALUE>::GetValue() const
+// 	{
+// 		if (settable)
+// 		{
+// 			throw std::logic_error("Value of the fact is not set.");
+// 		}
+// 		else
+// 		{
+// 			return *factValue;
+// 		}
+// 	}
 
-	template<typename VALUE>
-	const VALUE ureasoner::FactSettable<VALUE>::GetValue() const
-	{
-		if (settable)
-		{
-			throw std::logic_error("Value of the fact is not set.");
-		}
-		else
-		{
-			return *factValue;
-		}
-	}
-
-	template<typename VALUE>
-	std::shared_ptr<VALUE> ureasoner::FactSettable<VALUE>::GetValueShared()
+	template<typename VALUE, typename COST>
+	std::shared_ptr<VALUE> ureasoner::FactSettable<VALUE, COST>::GetValueShared()
 	{
 		if (settable)
 		{

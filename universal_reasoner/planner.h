@@ -42,7 +42,7 @@ namespace ureasoner
 			}
 			if (allNeededFactsAvailable)
 			{
-				allowedRules.insert(std::pair{ rule->GetCost(), rule });
+				allowedRules.insert(std::pair{ rule->GetEstimatedCost(), rule });
 			}
 			
 		}

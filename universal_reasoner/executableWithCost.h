@@ -2,7 +2,7 @@
 #define universal_reasoner_executableWithCost_h__
 
 #include "executionCost.h"
-#include "fact.h"
+#//include "fact.h"
 #include <vector>
 
 namespace ureasoner

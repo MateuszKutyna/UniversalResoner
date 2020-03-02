@@ -12,16 +12,18 @@ namespace ureasoner
 	template<typename METADATA>
 	class FactWrapperInterface
 	{
-	public:;
-		virtual std::shared_ptr<Premise> MakePremise(const string& expectedvalue) = 0;
-		virtual std::shared_ptr<Conclusion> MakeConclusion(const string& settabledvalue) = 0;
+	public:
+		virtual std::shared_ptr<Premise<typename METADATA::CostType>> MakePremise(const string& expectedvalue) = 0;
+		virtual std::shared_ptr<Conclusion<typename METADATA::CostType>> MakeConclusion(const string& settabledvalue) = 0;
 	};
 
 	template <typename METADATA, typename T>
 	class FactWrapper : public FactWrapperInterface<METADATA>
 	{
 	public:
-
+		using CostType = typename METADATA::CostType;
+		using Premise = Premise<CostType>;
+		using Conclusion = Conclusion<CostType>;
 
 		FactWrapper(METADATA& metadata, const importer::ImportedFact& importedFact) : fact(metadata.AddFact(FactRepresentation<T>(), importedFact.name)) {}
 
@@ -55,7 +57,7 @@ namespace ureasoner
 		case str2int("ZSD"):
 		case str2int("wiek"):
 		case str2int("KM"):
-			return make_shared < FactWrapper < Metadata<FactsRepository<std::string>>, std::string>>(metadata, importedFact);
+			return make_shared < FactWrapper < Metadata<FactsRepository<COST, std::string>>, std::string>>(metadata, importedFact);
 			break;
 		default:
 			throw std::logic_error("AddToRepo tried to create a variable of type not registered in repository");
@@ -107,6 +109,8 @@ namespace ureasoner
 	template <typename METADATA>
 	void AddRules(vector<importer::ImportedRule>& rules, std::map<std::string, shared_ptr<FactWrapperInterface<METADATA>>> factsMap, METADATA& data)
 	{
+		using Premise = Premise<typename METADATA::CostType>;
+		using Conclusion = Conclusion<typename METADATA::CostType>;
 
 		for each (auto rule in rules)
 		{

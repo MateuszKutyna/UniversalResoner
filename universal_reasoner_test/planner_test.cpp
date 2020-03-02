@@ -7,7 +7,7 @@
 #include "../universal_reasoner/planner.h"
 
 using namespace ureasoner;
-
+using COST = double;
 TEST(BasicPlanner, ImportFromFile)
 {
 	auto facts = ureasoner::importer::ReadFactsFromRebitJSON("JDuda.json"); //copy JDuda to universal reasoner\x64\Debug
@@ -19,13 +19,12 @@ TEST(BasicPlanner, ImportFromFile)
 
 
 
-	auto repo = make_shared<FactsRepository<std::string>>();
-	auto data = make_shared<Metadata<FactsRepository<std::string>>>(repo);
+	auto repo = make_shared<FactsRepository<COST, std::string>>();
+	auto data = make_shared<Metadata<FactsRepository<COST, std::string>>>(repo);
 
 	
 
-	//Metadata<FactsRepository<std::string>> data(repo);
-	std::map<std::string, shared_ptr<FactWrapperInterface<Metadata<FactsRepository<std::string>>>>> factsMap;
+	std::map<std::string, shared_ptr<FactWrapperInterface<Metadata<FactsRepository<COST, std::string>>>>> factsMap;
 // 
 	AddFacts(facts, factsMap, *data);
 	AddRules(rules, factsMap, *data);
@@ -33,7 +32,23 @@ TEST(BasicPlanner, ImportFromFile)
 	auto  ress = repo->GetFactByName<string>("StanZdrowia");
 	ress->SetValue("zly");
 
+
 	Planner< Metadata<FactsRepository<std::string>>> plan(data);
 	auto availableRules = plan.BuildPlan();
-	EXPECT_EQ(availableRules.size(),1); //test checks is everything loads without an error
+	EXPECT_EQ(availableRules.size(),1); 
+
+	ress = repo->GetFactByName<string>("Wiek");
+	ress->SetValue("ponizej 25 lat");
+
+	ress = repo->GetFactByName<string>("Plec");
+	ress->SetValue("M");
+
+	availableRules = plan.BuildPlan();
+	EXPECT_EQ(availableRules.size(), 6);
+
+	ress = repo->GetFactByName<string>("StanCywilny");
+	ress->SetValue("wolny");
+
+	availableRules = plan.BuildPlan();
+	EXPECT_EQ(availableRules.size(), 18);
 }

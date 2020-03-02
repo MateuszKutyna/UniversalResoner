@@ -155,7 +155,7 @@ TEST(BasicRules, SimpleRule)
 	auto conclusion1 = std::make_shared<ConclusionSettingFact<double>>(f1, d);
 
 	auto a1 = std::make_shared<FactConst<double>>(2.0);
-	std::shared_ptr<Premise> premis1 = std::make_shared<PremiseWithType<double>>(a1, 2.0);
+	std::shared_ptr<Premise<double>> premis1 = std::make_shared<PremiseWithType<double>>(a1, 2.0);
 
 
 	RuleImpl<double> rule1(premis1, conclusion1);
