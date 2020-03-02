@@ -65,13 +65,8 @@ namespace ureasoner
 
 		virtual const ValueType GetValue() const = 0;
 		virtual std::shared_ptr<ValueType> GetValueShared() = 0;	
-
-		virtual const COST GetEstimatedCost() const override
-		{
-			return GetEstimatedGetCost();
-		}
-	protected:
 		virtual const COST GetEstimatedGetCost() const = 0;
+		
 	};
 
 	template<typename VALUE, typename COST = double>
@@ -81,14 +76,8 @@ namespace ureasoner
 		typedef VALUE ValueType;
 
 		virtual void SetValue(const ValueType&) = 0;
-
-		virtual const COST GetEstimatedCost() const override
-		{
-			return GetEstimatedSetCost();
-		}
-
-	protected:
 		virtual const COST GetEstimatedSetCost() const = 0;
+
 	};
 
 	template<typename VALUE, typename COST = double>
@@ -96,10 +85,6 @@ namespace ureasoner
 	{
 	public:
 		typedef VALUE ValueType;
-
-// 		virtual const ValueType GetValue() const = 0;
-// 		virtual std::shared_ptr<ValueType> GetValueShared() = 0;
-// 		virtual void SetValue(const ValueType&) = 0;
 		virtual bool IsSettable() const = 0;
 	};
 
@@ -112,20 +97,28 @@ namespace ureasoner
 		FactConst(std::shared_ptr<ValueType> factValue, const COST& cost = 0) : factValue(factValue), cost(cost) {};
 		FactConst(const ValueType& factValue, const COST& cost = 0) : factValue(std::make_shared<ValueType>(factValue)), cost(cost) {};
 
-//		FactConst() {};
+		//FactConst() {};
 
-		virtual const ValueType GetValue() const override {return *factValue;}
+		virtual const ValueType GetValue() const override {
+			return *factValue;
+		}
 		virtual  std::shared_ptr<ValueType> GetValueShared() override {
-			return factValue;
+			return std::shared_ptr<ValueType>(factValue);
 		};
 		virtual void SetValue(const ValueType&) override {throw std::logic_error("Value of the fact is already set.");}
 		virtual bool IsSettable() const override { return false; }
 		virtual bool IsKnown() const override { return true; };
 
+
+		virtual const COST GetEstimatedCost() const override
+		{
+			return GetEstimatedGetCost() + GetEstimatedSetCost();
+		}
+
 	protected:
 		virtual const COST GetEstimatedGetCost() const override
 		{
-			return cost;
+			return  cost;
 		}
 		virtual const COST GetEstimatedSetCost() const override
 		{
@@ -144,7 +137,7 @@ namespace ureasoner
 	public:
 		using ValueType = VALUE;
 
-		FactSettable(const COST& costGet, const COST& costSet) : costGet(costGet), costSet(costSet){};
+		FactSettable(const COST& costGet = 0, const COST& costSet = 0) : costGet(costGet), costSet(costSet){};
 		virtual const ValueType GetValue() const override
 		{
 			if (settable)
@@ -168,6 +161,18 @@ namespace ureasoner
 		virtual bool IsSettable() const override { return settable; }
 		virtual bool IsKnown() const override { return !IsSettable(); };
 
+
+
+		virtual const COST GetEstimatedCost() const override
+		{
+			return GetEstimatedGetCost() + GetEstimatedSetCost();
+		}
+
+
+// 		virtual void SetValue(const ValueType&) override
+// 		{
+// 			throw std::logic_error("The method or operation is not implemented.");
+// 		}
 
 	protected:
 		bool IsStillSettable() { return settable; };

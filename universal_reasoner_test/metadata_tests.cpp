@@ -74,14 +74,14 @@ TEST(BasicMetadata, AddingRules)
 	auto conclusion1 = std::make_shared<ConclusionSettingFact<string>>(s3, "test3");
 
 
-	std::shared_ptr<Premise<double>> premis1 = std::make_shared<PremiseWithType<string>>(repo->GetFactByName<std::string>("test1")->GetValueShared(), "test1");
+ 	std::shared_ptr<Premise<double>> premis1 = std::make_shared<PremiseWithType<string>>(repo->GetFactByName<std::string>("test1")->GetValueShared(), "test1");
 
 	auto  ress3 = repo->GetFactByName<string>("test3");
 	EXPECT_THROW(ress3->GetValue(), std::logic_error);
 	auto rule1 = make_shared<RuleImpl<double>>(premis1, conclusion1);
 	data.AddRule(rule1);
  	EXPECT_TRUE(rule1->CheckAndFire());
-	EXPECT_EQ(ress3->GetValue(), "test3");
+ 	EXPECT_EQ(ress3->GetValue(), "test3");
 }
 TEST(BasicMetadata, BackwardReasoning)
 {

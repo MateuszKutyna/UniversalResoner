@@ -46,7 +46,7 @@ namespace ureasoner
 	protected:
 		std::unordered_map<std::string, std::shared_ptr< FactRepresentation<StoredType>>> storage;
 		std::shared_ptr< FactRepresentation<StoredType>> GetFact(const std::string& name, const StoredType*);
-		std::shared_ptr< FactSettable<StoredType>> GetSettableFact(const std::string& name, const StoredType*);
+		std::shared_ptr< FactSettable<StoredType, COST>> GetSettableFact(const std::string& name, const StoredType*);
 	};
 
 	template <typename COST, typename FIRST_STORED_TYPE>
@@ -65,7 +65,7 @@ namespace ureasoner
 	protected:
 		std::unordered_map<std::string, std::shared_ptr< FactRepresentation<StoredType>>> storage;
 		std::shared_ptr< FactRepresentation<StoredType>> GetFact(const std::string& name, const StoredType*);
-		std::shared_ptr< FactSettable<StoredType>> GetSettableFact(const std::string& name, const StoredType*);
+		std::shared_ptr< FactSettable<StoredType, COST>> GetSettableFact(const std::string& name, const StoredType*);
 	};
 
 	//????????????????????????????????????? IMPLEMENTATION //////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ namespace ureasoner
 	template <typename COST, typename FIRST_STORED_TYPE>
 	shared_ptr<vector<shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE>::GetAllKnownFacts()
 	{
-		auto toRet = make_shared<vector<shared_ptr<CheckableFact>>>();
+		auto toRet = make_shared<vector<shared_ptr<CheckableFact<COST>>>>();
 		for each (auto fact in storage)
 		{
 			if (fact.second->GetValueShared()->IsKnown())
@@ -106,7 +106,7 @@ namespace ureasoner
 	}
 
 	template <typename COST, typename FIRST_STORED_TYPE>
-	std::shared_ptr<FactSettable<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE>::GetSettableFact(const std::string& name, const StoredType*)
+	std::shared_ptr<FactSettable<FIRST_STORED_TYPE, COST>> FactsRepository<COST, FIRST_STORED_TYPE>::GetSettableFact(const std::string& name, const StoredType*)
 	{
 		auto toRet = storage.at(name);
 		if (storage->IsSettable())
@@ -131,7 +131,7 @@ namespace ureasoner
 	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
 	shared_ptr<vector<shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetAllKnownFacts()
 	{
-		auto toRet = FactsRepository<STORED_TYPES...>::GetAllKnownFacts();
+		auto toRet = FactsRepository<COST, STORED_TYPES...>::GetAllKnownFacts();
 		for each (auto fact in storage)
 		{
 			if (fact.second->GetValueShared()->IsKnown())
@@ -162,7 +162,7 @@ namespace ureasoner
 	}
 
 	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	std::shared_ptr<FactSettable<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetSettableFact(const std::string& name, const FIRST_STORED_TYPE*)
+	std::shared_ptr<FactSettable<FIRST_STORED_TYPE, COST>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetSettableFact(const std::string& name, const FIRST_STORED_TYPE*)
 	{
 		auto toRet = storage.at(name);
 		if (toRet->IsSettable())

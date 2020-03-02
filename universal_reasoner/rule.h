@@ -31,16 +31,21 @@ namespace ureasoner
 		typedef FactProvider<T> LocalFact;
 		using FactValue = T;
 
-		PremiseWithType(const std::shared_ptr<LocalFact> compareLeft, const FactValue& compareRight, COST cost = 0,
+		PremiseWithType(const std::shared_ptr<LocalFact> compareLeft, const FactValue& compareRight, const COST& cost = 0,
 			bool (*constComparer)(const FactValue&, const FactValue&) = [](const FactValue& x, const FactValue& y)->bool { return x == y; },
 			bool (*comparer)(FactValue&, FactValue&) = [](FactValue& x, FactValue& y)->bool { return x == y; })
-			: compareLeft(compareLeft), compareRight(std::make_unique<FactConst<T>>(compareRight)), comparer(comparer), constComparer(constComparer), cost(cost){}
+			: compareLeft(compareLeft), compareRight(std::make_unique<FactConst<T>>(compareRight)), comparer(comparer), constComparer(constComparer), cost(cost) {};
+// 		{
+// 			//this->compareRight = std::make_unique<FactConst<T>>();
+// 			this->compareRight = std::make_unique<FactConst<T>>(compareRight);
+// 		}
 		virtual bool Evaluate() const override
 		{
 			return constComparer(compareLeft->GetValue(), compareRight->GetValue());
 		}
 		virtual bool Evaluate() override
 		{
+			//return false;
 			auto r = compareRight->GetValueShared();
 			auto l = compareLeft->GetValueShared();
 			return comparer(*l, *r);
@@ -48,19 +53,20 @@ namespace ureasoner
 
 		virtual const shared_ptr<CheckableFact<COST>> GetFact() const override
 		{
-			//shared_ptr<FactWithGet<T>> toRet = compareLeft;
+//			return shared_ptr<CheckableFact<COST>>();
 			return compareLeft;
 		}
 
 
 		virtual const COST GetEstimatedCost() const override
 		{
+		//	return 0;
 			return cost + compareLeft->GetEstimatedCost() + compareRight->GetEstimatedCost();
 		}
 
 	protected:
 		const std::shared_ptr<LocalFact> compareLeft;
-		const std::unique_ptr<LocalFact> compareRight;
+		/*const*/ std::unique_ptr<LocalFact> compareRight;
 		bool (*comparer)(FactValue&, FactValue&);
 		bool (*constComparer)(const FactValue&, const FactValue&);
 		COST cost;
