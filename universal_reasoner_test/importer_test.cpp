@@ -83,7 +83,7 @@ TEST(BasicImport, ImportFromFile)
 	EXPECT_THROW(ress->GetValue(), std::logic_error);
 	ress = repo->GetFactByName<string>("StanCywilny");
 	EXPECT_THROW(ress->GetValue(), std::logic_error);
-//	AddRules(rules, factsMap, data);
-// 
+	AddRules(rules, factsMap, data);
+ 
  	EXPECT_TRUE(true); //test checks is everything loads without an error
 }

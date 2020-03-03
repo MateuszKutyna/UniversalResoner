@@ -97,10 +97,7 @@ namespace ureasoner
 	{
 		for each (auto fact in facts)
 		{
-			//factsMap.insert(std::pair<std::string, shared_ptr<FactWrapperInterface<METADATA>>>(fact.name, MakeWrapper(data, fact)));
-			shared_ptr<FactWrapperInterface<METADATA>>  wrapped = MakeWrapper(data, fact);
-			std::pair< std::string, shared_ptr<FactWrapperInterface<METADATA>> > pr = std::make_pair(fact.name, wrapped);
-			factsMap.insert(pr);
+			factsMap.insert(std::pair<std::string, shared_ptr<FactWrapperInterface<METADATA>>>(fact.name, MakeWrapper(data, fact)));
 		}
 	}
 

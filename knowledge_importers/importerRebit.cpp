@@ -16,7 +16,7 @@ using namespace ureasoner::importer;
 json::const_iterator DigToNode(const json& currentNode, const vector<string>& labels)
 {
 	auto newNode = currentNode.find(labels[0]);
-	for (int i = 1; i < labels.size(); i++)
+	for (size_t i = 1; i < labels.size(); i++)
 	{
 		newNode = newNode->find(labels[i]);
 	}

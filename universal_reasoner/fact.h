@@ -8,44 +8,6 @@
 
 using std::shared_ptr;
 using std::make_shared;
-// tested feature - to be used to choose Fact with and without operator<() member
-// template<typename T>
-// concept has_type_member = requires {totally_ordered <T>; };
-// 
-// class T1
-// {
-// public:
-// 	int i;
-// };
-// 
-// inline bool operator==(const T1& lhs, const T1& rhs) { return (lhs.i == rhs.i); }
-// inline bool operator!=(const T1& lhs, const T1& rhs) { return !(lhs == rhs); }
-// 
-// template<class T>
-// struct test1
-// {
-// 	int secVal;
-// 	static const int val = 0;
-// };
-// 
-// template<class T>
-// struct wrapper {
-// 	static const int val = 0;
-// };;
-// 
-// template<std::totally_ordered T>
-// struct wrapper<T>
-// {
-// 	static const int val = 1;
-// };
-// 
-// template<std::equality_comparable T>
-// struct wrapper<T>
-// {
-// 	static const int val = 2;
-//  };
-// 
-//  
 
 
 namespace ureasoner
