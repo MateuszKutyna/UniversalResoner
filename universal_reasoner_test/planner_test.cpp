@@ -26,6 +26,7 @@ TEST(BasicPlanner, ImportFromFile)
 
 	auto  ress = repo->GetFactByName<string>("StanZdrowia");
 	ress->SetValue("zly");
+	ress->GetValueShared()->SetCost(5.0);
 
 	Planner< Metadata<FactsRepository<double, std::string>>> plan(data);
 	auto availableRules = plan.BuildPlan();
@@ -33,16 +34,31 @@ TEST(BasicPlanner, ImportFromFile)
 
 	ress = repo->GetFactByName<string>("Wiek");
 	ress->SetValue("ponizej 25 lat");
+	ress->GetValueShared()->SetCost(10.0);
 
 	ress = repo->GetFactByName<string>("Plec");
 	ress->SetValue("M");
+	ress->GetValueShared()->SetCost(15.0);
 
 	availableRules = plan.BuildPlan();
 	EXPECT_EQ(availableRules.size(), 6);
 
+
 	ress = repo->GetFactByName<string>("StanCywilny");
 	ress->SetValue("wolny");
+	ress->GetValueShared()->SetCost(50.0);
 
 	availableRules = plan.BuildPlan();
 	EXPECT_EQ(availableRules.size(), 18);
+
+	EXPECT_EQ(availableRules.count(5), 1);
+	EXPECT_EQ(availableRules.count(30), 5);
+	EXPECT_EQ(availableRules.count(65), 2);
+	EXPECT_EQ(availableRules.count(80), 10);
+
+	availableRules.begin()->second->CheckAndFire();
+
+	ress = repo->GetFactByName<string>("OcenaCechOsobowych");
+	auto value = ress->GetValue();
+	EXPECT_EQ("bardzo niska", value);
 }

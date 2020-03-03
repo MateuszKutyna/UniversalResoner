@@ -19,7 +19,7 @@ namespace ureasoner
 		virtual void SetCost(const CostType& cost) { this->cost = cost; }
 	protected:
 		virtual CostType GetCost() const { return cost; };
-		CostType cost;
+		CostType cost{ 0 };
 	};
 }
 

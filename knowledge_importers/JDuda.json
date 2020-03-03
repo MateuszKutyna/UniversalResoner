@@ -57,7 +57,7 @@
                      },
                      {
                         "@Id": "sredniID1",
-                        "@Value": "średni"
+                        "@Value": "sredni"
                      },
                      {
                         "@Id": "dobryID2",
@@ -660,56 +660,14 @@
                      "@Operator": "eq",
                      "Constant": {
                         "@Multiplicity": "Single",
-                        "String": "średni"
+                        "String": "sredni"
                      }
                   },
                   {
                      "@Operator": "eq",
                      "Constant": {
                         "@Multiplicity": "Single",
-                        "String": "średni"
-                     }
-                  },
-                  {
-                     "@Operator": "eq",
-                     "Constant": {
-                        "@Multiplicity": "Single",
-                        "String": "dobry"
-                     }
-                  },
-                  {
-                     "@Operator": "eq",
-                     "Constant": {
-                        "@Multiplicity": "Single",
-                        "String": "dobry"
-                     }
-                  },
-                  {
-                     "@Operator": "eq",
-                     "Constant": {
-                        "@Multiplicity": "Single",
-                        "String": "zly"
-                     }
-                  },
-                  {
-                     "@Operator": "eq",
-                     "Constant": {
-                        "@Multiplicity": "Single",
-                        "String": "zly"
-                     }
-                  },
-                  {
-                     "@Operator": "eq",
-                     "Constant": {
-                        "@Multiplicity": "Single",
-                        "String": "średni"
-                     }
-                  },
-                  {
-                     "@Operator": "eq",
-                     "Constant": {
-                        "@Multiplicity": "Single",
-                        "String": "średni"
+                        "String": "sredni"
                      }
                   },
                   {
@@ -744,56 +702,14 @@
                      "@Operator": "eq",
                      "Constant": {
                         "@Multiplicity": "Single",
-                        "String": "średni"
+                        "String": "sredni"
                      }
                   },
                   {
                      "@Operator": "eq",
                      "Constant": {
                         "@Multiplicity": "Single",
-                        "String": "średni"
-                     }
-                  },
-                  {
-                     "@Operator": "eq",
-                     "Constant": {
-                        "@Multiplicity": "Single",
-                        "String": "dobry"
-                     }
-                  },
-                  {
-                     "@Operator": "eq",
-                     "Constant": {
-                        "@Multiplicity": "Single",
-                        "String": "dobry"
-                     }
-                  },
-                  {
-                     "@Operator": "eq",
-                     "Constant": {
-                        "@Multiplicity": "Single",
-                        "String": "zly"
-                     }
-                  },
-                  {
-                     "@Operator": "eq",
-                     "Constant": {
-                        "@Multiplicity": "Single",
-                        "String": "zly"
-                     }
-                  },
-                  {
-                     "@Operator": "eq",
-                     "Constant": {
-                        "@Multiplicity": "Single",
-                        "String": "średni"
-                     }
-                  },
-                  {
-                     "@Operator": "eq",
-                     "Constant": {
-                        "@Multiplicity": "Single",
-                        "String": "średni"
+                        "String": "sredni"
                      }
                   },
                   {
@@ -828,14 +744,14 @@
                      "@Operator": "eq",
                      "Constant": {
                         "@Multiplicity": "Single",
-                        "String": "średni"
+                        "String": "sredni"
                      }
                   },
                   {
                      "@Operator": "eq",
                      "Constant": {
                         "@Multiplicity": "Single",
-                        "String": "średni"
+                        "String": "sredni"
                      }
                   },
                   {
@@ -870,14 +786,98 @@
                      "@Operator": "eq",
                      "Constant": {
                         "@Multiplicity": "Single",
-                        "String": "średni"
+                        "String": "sredni"
                      }
                   },
                   {
                      "@Operator": "eq",
                      "Constant": {
                         "@Multiplicity": "Single",
-                        "String": "średni"
+                        "String": "sredni"
+                     }
+                  },
+                  {
+                     "@Operator": "eq",
+                     "Constant": {
+                        "@Multiplicity": "Single",
+                        "String": "dobry"
+                     }
+                  },
+                  {
+                     "@Operator": "eq",
+                     "Constant": {
+                        "@Multiplicity": "Single",
+                        "String": "dobry"
+                     }
+                  },
+                  {
+                     "@Operator": "eq",
+                     "Constant": {
+                        "@Multiplicity": "Single",
+                        "String": "zly"
+                     }
+                  },
+                  {
+                     "@Operator": "eq",
+                     "Constant": {
+                        "@Multiplicity": "Single",
+                        "String": "zly"
+                     }
+                  },
+                  {
+                     "@Operator": "eq",
+                     "Constant": {
+                        "@Multiplicity": "Single",
+                        "String": "sredni"
+                     }
+                  },
+                  {
+                     "@Operator": "eq",
+                     "Constant": {
+                        "@Multiplicity": "Single",
+                        "String": "sredni"
+                     }
+                  },
+                  {
+                     "@Operator": "eq",
+                     "Constant": {
+                        "@Multiplicity": "Single",
+                        "String": "dobry"
+                     }
+                  },
+                  {
+                     "@Operator": "eq",
+                     "Constant": {
+                        "@Multiplicity": "Single",
+                        "String": "dobry"
+                     }
+                  },
+                  {
+                     "@Operator": "eq",
+                     "Constant": {
+                        "@Multiplicity": "Single",
+                        "String": "zly"
+                     }
+                  },
+                  {
+                     "@Operator": "eq",
+                     "Constant": {
+                        "@Multiplicity": "Single",
+                        "String": "zly"
+                     }
+                  },
+                  {
+                     "@Operator": "eq",
+                     "Constant": {
+                        "@Multiplicity": "Single",
+                        "String": "sredni"
+                     }
+                  },
+                  {
+                     "@Operator": "eq",
+                     "Constant": {
+                        "@Multiplicity": "Single",
+                        "String": "sredni"
                      }
                   },
                   {
@@ -1475,7 +1475,7 @@
                      },
                      {
                         "@Id": "sredniID1",
-                        "@Value": "średni"
+                        "@Value": "sredni"
                      },
                      {
                         "@Id": "dobryID2",
@@ -2544,7 +2544,7 @@
                            "@Content": "Constant",
                            "Constant": {
                               "@Multiplicity": "Single",
-                              "String": "średni"
+                              "String": "sredni"
                            }
                         }
                      }
@@ -2632,7 +2632,7 @@
                            "@Content": "Constant",
                            "Constant": {
                               "@Multiplicity": "Single",
-                              "String": "średni"
+                              "String": "sredni"
                            }
                         }
                      }
@@ -2740,7 +2740,7 @@
                            "@Content": "Constant",
                            "Constant": {
                               "@Multiplicity": "Single",
-                              "String": "średni"
+                              "String": "sredni"
                            }
                         }
                      }
@@ -2848,7 +2848,7 @@
                            "@Content": "Constant",
                            "Constant": {
                               "@Multiplicity": "Single",
-                              "String": "średni"
+                              "String": "sredni"
                            }
                         }
                      }
@@ -2936,7 +2936,7 @@
                            "@Content": "Constant",
                            "Constant": {
                               "@Multiplicity": "Single",
-                              "String": "średni"
+                              "String": "sredni"
                            }
                         }
                      }
@@ -3044,7 +3044,7 @@
                            "@Content": "Constant",
                            "Constant": {
                               "@Multiplicity": "Single",
-                              "String": "średni"
+                              "String": "sredni"
                            }
                         }
                      }
@@ -3152,7 +3152,7 @@
                            "@Content": "Constant",
                            "Constant": {
                               "@Multiplicity": "Single",
-                              "String": "średni"
+                              "String": "sredni"
                            }
                         }
                      }
@@ -3240,7 +3240,7 @@
                            "@Content": "Constant",
                            "Constant": {
                               "@Multiplicity": "Single",
-                              "String": "średni"
+                              "String": "sredni"
                            }
                         }
                      }
