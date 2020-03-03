@@ -34,7 +34,9 @@ namespace ureasoner
 		PremiseWithType(const std::shared_ptr<LocalFact> compareLeft, const FactValue& compareRight, const COST& cost = 0,
 			bool (*constComparer)(const FactValue&, const FactValue&) = [](const FactValue& x, const FactValue& y)->bool { return x == y; },
 			bool (*comparer)(FactValue&, FactValue&) = [](FactValue& x, FactValue& y)->bool { return x == y; })
-			: compareLeft(compareLeft), compareRight(std::make_unique<FactConst<T>>(compareRight)), comparer(comparer), constComparer(constComparer), cost(cost) {};
+			: compareLeft(compareLeft), compareRight(std::make_unique<FactConst<T>>(compareRight)), comparer(comparer), constComparer(constComparer)/*, cost(cost)*/ {
+			Premise::ExecutableWithCost::SetCost(cost);
+		};
 
 		virtual bool Evaluate() const override
 		{
@@ -55,7 +57,7 @@ namespace ureasoner
 
 		virtual const COST GetEstimatedCost() const override
 		{
-			return cost + compareLeft->GetEstimatedCost() + compareRight->GetEstimatedCost();
+			return Premise::ExecutableWithCost::GetCost() + compareLeft->GetEstimatedCost() + compareRight->GetEstimatedCost();
 		}
 
 	protected:
@@ -63,7 +65,7 @@ namespace ureasoner
 		const std::unique_ptr<LocalFact> compareRight;
 		bool (*comparer)(FactValue&, FactValue&);
 		bool (*constComparer)(const FactValue&, const FactValue&);
-		COST cost;
+		//COST cost;
 	};
 
 	template<typename T, template<typename> typename FACT_PROVIDER = FactWithGet>
@@ -84,7 +86,9 @@ namespace ureasoner
 	class ConclusionSettingFact : public Conclusion<COST>
 	{
 	public:
-		ConclusionSettingFact(std::shared_ptr<FactSettable<T>> factToSet, const T& valueToBeSet, COST cost = 0) : factToBeSet(factToSet), valueToBeSet(std::make_unique<T>(valueToBeSet)), cost(cost){};
+		ConclusionSettingFact(std::shared_ptr<FactSettable<T>> factToSet, const T& valueToBeSet, COST cost = 0) : factToBeSet(factToSet), valueToBeSet(std::make_unique<T>(valueToBeSet))/*, cost(cost)*/ {
+			Conclusion::ExecutableWithCost::SetCost(cost);
+		};
 		using FactValue = T;
 		virtual void Execute() override
 		{
@@ -100,13 +104,13 @@ namespace ureasoner
 
 		virtual const COST GetEstimatedCost() const override
 		{
-			return cost + factToBeSet->GetEstimatedCost();
+			return Conclusion::ExecutableWithCost::GetCost() + factToBeSet->GetEstimatedCost();
 		}
 
 	protected:
 		std::shared_ptr<FactSettable<FactValue>> factToBeSet;
 		const std::unique_ptr<FactValue> valueToBeSet;
-		COST cost;
+		//COST cost;
 	};
 
 	template<std::invocable T, typename COST = double>
@@ -139,11 +143,15 @@ namespace ureasoner
 	public:
 		using CostType = COST;
 		
-		RuleImpl(std::vector<std::shared_ptr<Premise<CostType>>> premises, std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(premises), conclusions(conclusions), cost(cost) {};
-		RuleImpl(std::shared_ptr<Premise<CostType>> premise, std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(std::vector<std::shared_ptr<Premise>>{premise}), conclusions(conclusions), cost(cost) {};
+		RuleImpl(std::vector<std::shared_ptr<Premise<CostType>>> premises, std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(premises), conclusions(conclusions)/*, cost(cost)*/ {
+			Rule::ExecutableWithCost::SetCost(cost);
+		};
+		RuleImpl(std::shared_ptr<Premise<CostType>> premise, std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(std::vector<std::shared_ptr<Premise>>{premise}), conclusions(conclusions) { Rule::ExecutableWithCost::SetCost(cost); };
 		RuleImpl(std::shared_ptr<Premise<CostType>> premise, std::shared_ptr<Conclusion<CostType>> conclusion, CostType cost = 0)
 			: premises(std::vector<std::shared_ptr<Premise<CostType>>>{premise}),
-			conclusions(std::vector<std::shared_ptr<Conclusion<CostType>>>{conclusion}), cost(cost) {};
+			conclusions(std::vector<std::shared_ptr<Conclusion<CostType>>>{conclusion}) {
+			Rule::ExecutableWithCost::SetCost(cost);
+		};
 
 
 		virtual bool CheckAndFire() override
@@ -167,7 +175,7 @@ namespace ureasoner
 
 		virtual const CostType GetEstimatedCost() const override
 		{
-			CostType sumCost = cost;
+			CostType sumCost = Rule::ExecutableWithCost::GetCost();
 			for each (auto premise in premises)
 			{
 				sumCost += premise->GetEstimatedCost();
@@ -205,7 +213,7 @@ namespace ureasoner
 	protected:
 		std::vector<std::shared_ptr<Premise<CostType>>> premises;
 		std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions;
-		const COST cost = 0;
+		//const COST cost = 0;
 	};
 }
 #endif // universal_reasoner_rule_h__

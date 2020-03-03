@@ -16,13 +16,8 @@ TEST(BasicPlanner, ImportFromFile)
 	auto rules = ureasoner::importer::ReadRulesFromRebitJSON("JDuda.json"); //copy JDuda to universal reasoner\x64\Debug
 	EXPECT_EQ(rules.size(), 18);
 
-
-
-
 	auto repo = make_shared<FactsRepository<COST, std::string>>();
 	auto data = make_shared<Metadata<FactsRepository<COST, std::string>>>(repo);
-
-	
 
 	std::map<std::string, shared_ptr<FactWrapperInterface<Metadata<FactsRepository<COST, std::string>>>>> factsMap;
 // 
@@ -31,7 +26,6 @@ TEST(BasicPlanner, ImportFromFile)
 
 	auto  ress = repo->GetFactByName<string>("StanZdrowia");
 	ress->SetValue("zly");
-
 
 	Planner< Metadata<FactsRepository<double, std::string>>> plan(data);
 	auto availableRules = plan.BuildPlan();

@@ -57,7 +57,7 @@ namespace ureasoner
 		using ValueType = VALUE;
 
 		FactConst(std::shared_ptr<ValueType> factValue, const COST& cost = 0) : factValue(factValue), cost(cost) {};
-		FactConst(const ValueType& factValue, const COST& cost = 0) : factValue(std::make_shared<ValueType>(factValue)), cost(cost) {};
+		FactConst(const ValueType& factValue, const COST& cost = 0) : factValue(std::make_shared<ValueType>(factValue))/*, Fact::FactWithGet::CheckableFact::CheckableFact::cost(cost)*/ { Fact::FactWithGet::CheckableFact::CheckableFact::cost = cost; };
 
 		//FactConst() {};
 
@@ -80,7 +80,7 @@ namespace ureasoner
 	protected:
 		virtual const COST GetEstimatedGetCost() const override
 		{
-			return  cost;
+			return Fact::FactWithGet::CheckableFact::ExecutableWithCost::GetCost();
 		}
 		virtual const COST GetEstimatedSetCost() const override
 		{
@@ -89,7 +89,7 @@ namespace ureasoner
 
 
 		std::shared_ptr<ValueType> factValue;
-		const COST cost;
+		//COST cost;
 	};
 
 
