@@ -14,7 +14,7 @@ namespace ureasoner
 	template <typename T, typename Head, typename... Tail>
 	struct IsContained<T, Head, Tail...>
 	{
-		enum { value = std::is_same<T, Head>::value || (IsContained<T, Tail...>::value && /*... && */true) };
+		enum { value = std::is_same<T, Head>::value || (IsContained<T, Tail...>::value) };
 	};
 
 	template <typename T>
