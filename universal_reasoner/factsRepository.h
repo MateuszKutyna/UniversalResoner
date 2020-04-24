@@ -68,6 +68,10 @@ namespace ureasoner
 		std::shared_ptr< FactSettable<StoredType, COST>> GetSettableFact(const std::string& name, const StoredType*);
 	};
 
+
+	template <typename... STORED_TYPES>
+	using FactsRepositoryDouble = typename FactsRepository<double, STORED_TYPES...>;
+
 	//????????????????????????????????????? IMPLEMENTATION //////////////////////////////////////////////////////////////////////////////////
 
 	template <typename COST, typename FIRST_STORED_TYPE>

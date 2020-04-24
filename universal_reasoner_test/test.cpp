@@ -58,9 +58,14 @@ TEST(BasicPremises, MakingPremiseFromRepo)
 
 TEST(FRepo, basicTest)
 {
+	/*
+	In this test, heterogeneous repositories are tested. FactsRepository is a structure, able to store values with different types, but only ones defined as template parameters.
+	The aim is to keep control of allowed types - a designer can configure FactsRepository specialization for a particular reasoning engine
+	All items stored in repository must share the same type of Cost (of evaluation a value), given by the first template parameter, COST
+	*/
 	FactsRepository<COST, double> a;
 	FactsRepository<COST, double, int, std::string> b;
-	FactsRepository<COST, int, short, double, long,bool> c;
+	FactsRepositoryDouble<int, short, double, long,bool> c; //template alias with COST = double specialization
 // Command below, if uncommented, must result with compilation error since the list of types is not unique
 //	FactsRepository<COST, double, short, double, int, long, bool> d;
 
