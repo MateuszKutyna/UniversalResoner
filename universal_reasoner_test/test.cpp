@@ -62,7 +62,7 @@ TEST(FRepo, basicTest)
 	FactsRepository<COST, double, int, std::string> b;
 	FactsRepository<COST, int, short, double, long,bool> c;
 // Command below, if uncommented, must result with compilation error since the list of types is not unique
-//	FactsRepository<double, short, double, int, long, bool> d;
+//	FactsRepository<COST, double, short, double, int, long, bool> d;
 
 	FactRepresentation<double> f1(2.0);
 	FactRepresentation<int> i1(1);

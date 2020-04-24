@@ -89,7 +89,7 @@ namespace ureasoner
 
 
 		std::shared_ptr<ValueType> factValue;
-		//COST cost;
+		COST cost;
 	};
 
 
