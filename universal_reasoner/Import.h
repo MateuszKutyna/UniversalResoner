@@ -41,15 +41,15 @@ namespace ureasoner
 		const std::shared_ptr< FactRepresentation<T>> fact;
 	};
 
-	constexpr unsigned int str2int(const char* str, int h = 0)
-	{
-		return !str[h] ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];
-	}
+
 
 	template<typename METADATA>
 	auto MakeWrapper(METADATA& metadata, const importer::ImportedFact& importedFact)
 	{
+		using namespace importer;
 		string typeName = importedFact.type;
+//		return make_shared < FactWrapper < Metadata<FactsRepository<COST, std::string>>, importer::TypeName2Type<importer::str2int(typeName.c_str())>>>(metadata, importedFact);
+
 		switch (str2int(typeName.c_str()))
 		{
 		case str2int("ocena"):
@@ -76,6 +76,7 @@ namespace ureasoner
 	template <typename  REPO>
 	void AddToRepo(const importer::ImportedFact& importedFact, REPO& repository)
 	{
+		using namespace importer;
 		string typeName = importedFact.type;
 		switch (str2int(typeName.c_str()))
 		{
@@ -100,6 +101,7 @@ namespace ureasoner
 			factsMap.insert(std::pair<std::string, shared_ptr<FactWrapperInterface<METADATA>>>(fact.name, MakeWrapper(data, fact)));
 		}
 	}
+
 
 	template <typename METADATA>
 	void AddRules(vector<importer::ImportedRule>& rules, std::map<std::string, shared_ptr<FactWrapperInterface<METADATA>>> factsMap, METADATA& data)
