@@ -13,7 +13,6 @@ namespace ureasoner
 	{
 		struct ImportedFact
 		{
-//			ImportedFact(ImportedFact&& fact) noexcept : name(fact.name), type(fact.type) {}
 			ImportedFact(string factName, string factType) noexcept : name(factName), type(factType) {}
 			string name;
 			string type;
@@ -39,8 +38,8 @@ namespace ureasoner
 
 		vector<ImportedFact> ReadFactsFromFirstRulesSetRebitJSON(const std::string& filename);
 		vector<ImportedFact> ReadFactsFromRebitJSON(const std::string& filename, const std::string& rulesetName);
-		vector<ImportedRule> ReadRulesFromRebitJSON(const std::string& filename);
-
+		vector<ImportedRule> ReadRulesFromFirstRulesSetRebitJSON(const std::string& filename);
+		vector<ImportedRule> ReadRulesFromRebitJSON(const std::string& filename, const std::string& rulesetName);
 
 
 	}

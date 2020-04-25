@@ -59,10 +59,10 @@ TEST(BasicImport, ImportRule)
 
 TEST(BasicImport, ImportFromFile)
 {
-	auto facts = ureasoner::importer::ReadFactsFromRebitJSON("JDuda.json"); //copy JDuda to universal reasoner\x64\Debug
+	auto facts = ureasoner::importer::ReadFactsFromFirstRulesSetRebitJSON("JDuda.json"); //copy JDuda to universal reasoner\x64\Debug
 	EXPECT_EQ(facts.size(), 5);
 
-	auto rules = ureasoner::importer::ReadRulesFromRebitJSON("JDuda.json"); //copy JDuda to universal reasoner\x64\Debug
+	auto rules = ureasoner::importer::ReadRulesFromFirstRulesSetRebitJSON("JDuda.json"); //copy JDuda to universal reasoner\x64\Debug
 	EXPECT_EQ(rules.size(), 18);
 
 	auto repo = make_shared<FactsRepository<COST, std::string>>();

@@ -113,6 +113,22 @@ vector<ImportedFact> ReadFactsIntoContainer(json::const_iterator facts)
 	return std::move(factsContainer);
 }
 
+vector<ImportedRule> ReadRulesIntoContainer(json::const_iterator rules)
+{
+	vector <ImportedRule> rulesStorage;
+	for (auto& [key, value] : rules->items())
+	{
+		auto ifs = value.find("If");
+		auto thens = value.find("Then");
+		std::vector<ImportedPremise> premises;
+		AddFacts(ifs, premises);
+		std::vector<ImportedConclusion> conclusions;
+		AddFacts(thens, conclusions);
+		rulesStorage.push_back(ImportedRule({ premises, conclusions }));
+	}
+	return std::move(rulesStorage);
+}
+
 std::vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFactsFromFirstRulesSetRebitJSON(const std::string& filename)
 {
 	auto j = ReadJson(filename);
@@ -130,8 +146,7 @@ std::vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFactsFro
 		if (id==rulesetName)
 		{
 			auto facts = DigToNode(value, "Variables"); //many rulestes!
-			vector<ImportedFact> factsContainer(ReadFactsIntoContainer(facts));
-			return factsContainer;
+			return vector<ImportedFact>(ReadFactsIntoContainer(facts));
 			break;	//the rulesSet name is unique
 		}
 		throw std::invalid_argument("Ruleset with name " + rulesetName + "not found");
@@ -139,7 +154,7 @@ std::vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFactsFro
 	return std::vector<ureasoner::importer::ImportedFact>();
 }
 
-vector<ureasoner::importer::ImportedRule> ureasoner::importer::ReadRulesFromRebitJSON(const std::string& filename)
+vector<ureasoner::importer::ImportedRule> ureasoner::importer::ReadRulesFromFirstRulesSetRebitJSON(const std::string& filename)
  {
  	auto j = ReadJson(filename);
  	auto rules = DigToNode(j, { "RuleSets" , "RuleSet", "Rules" });
@@ -160,6 +175,25 @@ vector<ureasoner::importer::ImportedRule> ureasoner::importer::ReadRulesFromRebi
  	}
  	return rulesStorage;
  }
+
+
+vector<ureasoner::importer::ImportedRule> ureasoner::importer::ReadRulesFromRebitJSON(const std::string& filename, const std::string& rulesetName)
+{
+	auto j = ReadJson(filename);
+	auto rulesets = DigToNode(j, "RuleSets");
+	for (auto& [key, value] : rulesets->items())
+	{
+		auto id = ExtractStringValue(value, "@Id");
+		if (id == rulesetName)
+		{
+			auto rules = DigToNode(value, "Rules");
+			return vector<ImportedRule>(ReadRulesIntoContainer(rules));
+			break;	//the rulesSet name is unique
+		}
+		throw std::invalid_argument("Ruleset with name " + rulesetName + "not found");
+	}
+	return std::vector<ureasoner::importer::ImportedRule>();
+}
 // 
 // 
 // 
