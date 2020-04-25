@@ -101,8 +101,6 @@ namespace ureasoner
 		}
 	}
 
-
-
 	template <typename METADATA>
 	void AddRules(vector<importer::ImportedRule>& rules, std::map<std::string, shared_ptr<FactWrapperInterface<METADATA>>> factsMap, METADATA& data)
 	{
