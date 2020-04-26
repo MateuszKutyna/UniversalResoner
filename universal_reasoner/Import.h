@@ -1,10 +1,12 @@
 #ifndef Import_h__
 #define Import_h__
 
-#include "../knowledge_importers/knowledge_importers.h"
+
 #include "fact.h"
 #include "rule.h"
 #include <memory>
+#include "../knowledge_importers/knowledge_importers.h"
+
 
 namespace ureasoner
 {
@@ -27,6 +29,8 @@ namespace ureasoner
 
 		FactWrapper(METADATA& metadata, const importer::ImportedFact& importedFact) : fact(metadata.AddFact(FactRepresentation<T>(), importedFact.name)) {}
 
+		FactWrapper(METADATA& metadata, const importer::EmptyVar<T>& emptyVar, const importer::ImportedFact& importedFact) : fact(metadata.AddFact(FactRepresentation<T>(), importedFact.name)) {}
+
 
 		virtual std::shared_ptr<Premise> MakePremise(const string& expectedvalue) override
 		{
@@ -46,9 +50,10 @@ namespace ureasoner
 	template<typename METADATA>
 	auto MakeWrapper(METADATA& metadata, const importer::ImportedFact& importedFact)
 	{
-		using namespace importer;
+		using importer::str2int;
 		string typeName = importedFact.type;
-//		return make_shared < FactWrapper < Metadata<FactsRepository<COST, std::string>>, importer::TypeName2Type<importer::str2int(typeName.c_str())>>>(metadata, importedFact);
+//		return importer::fillWrapper(metadata, importedFact);
+
 
 		switch (str2int(typeName.c_str()))
 		{
@@ -57,12 +62,16 @@ namespace ureasoner
 		case str2int("ZSD"):
 		case str2int("wiek"):
 		case str2int("KM"):
-			return make_shared < FactWrapper < Metadata<FactsRepository<COST, std::string>>, std::string>>(metadata, importedFact);
+			
+		{	auto fw = FactWrapper(metadata, importer::EmptyVar<std::string>(), importedFact);
+			//return make_shared < FactWrapper < Metadata<FactsRepository<COST, std::string>>, std::string>>(metadata, importer::EmptyVar<std::string>(), importedFact); 
+		return make_shared < decltype(fw)>(std::move(fw));
+		}
 			break;
 		default:
 			throw std::logic_error("AddToRepo tried to create a variable of type not registered in repository");
 			break;
-		}
+ 		}
 	};
 
 
@@ -76,21 +85,9 @@ namespace ureasoner
 	template <typename  REPO>
 	void AddToRepo(const importer::ImportedFact& importedFact, REPO& repository)
 	{
-		using namespace importer;
 		string typeName = importedFact.type;
-		switch (str2int(typeName.c_str()))
-		{
-		case str2int("ocena"):
-		case str2int("WZ"):
-		case str2int("ZSD"):
-		case str2int("wiek"):
-		case str2int("KM"):
-			repository.AddFact(*FactFromImport<std::string>(importedFact), importedFact.name);
-			break;
-		default:
-			throw std::logic_error("AddToRepo tried to create a variable of type not registered in repository");
-			break;
-		}
+		importer::fillFact(repository, importedFact);
+
 	}
 
 	template <typename METADATA>
