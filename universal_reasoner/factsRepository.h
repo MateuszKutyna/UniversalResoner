@@ -3,6 +3,7 @@
 
 #include "fact.h"
 #include <unordered_map>
+#include <type_traits>
 using std::vector;
 
 namespace ureasoner
@@ -33,9 +34,12 @@ namespace ureasoner
 		using FactsRepository<COST, STORED_TYPES...>::AddFact;
 		using FactsRepository<COST, STORED_TYPES...>::GetFact;
 		using StoredType = FIRST_STORED_TYPE;
+		using CostType = COST;
 
 		template<typename T>
 		auto GetFactByName(const std::string& name);	// auto here allows to pass a result from inherited GetFact function!
+		template<typename T>
+		auto GetFactByNameDynamic(const std::string& name);	// auto here allows to pass a result from inherited GetFact function!
 		template<typename T>
 		auto GetSettableFactByName(const std::string& name);	// auto here allows to pass a result from inherited GetFact function!
 		std::shared_ptr< FactRepresentation<StoredType>> AddFact(FactRepresentation<StoredType> fact, const std::string& name);
@@ -54,9 +58,13 @@ namespace ureasoner
 	{
 	public:
 		using StoredType = FIRST_STORED_TYPE;
+		using CostType = COST;
 
 		template<typename T>
 		std::shared_ptr< FactRepresentation<StoredType>> GetFactByName(const std::string& name);
+		template<typename T>
+		std::shared_ptr< FactRepresentation<T>> GetFactByNameDynamic(const std::string& name);
+		//std::shared_ptr< FactRepresentation<StoredType>> GetFactByNameDynamic(const std::string& name);
 		std::shared_ptr< FactRepresentation<StoredType>> GetSettableFactByName(const std::string& name);
 		std::shared_ptr< FactRepresentation<StoredType>> AddFact(FactRepresentation<StoredType> fact, const std::string& name);
 		std::shared_ptr< FactRepresentation<StoredType>> AddFact(const StoredType& fact, const std::string& name);
@@ -132,6 +140,18 @@ namespace ureasoner
 		return GetFact(name, trait);
 	};
 
+	template <typename COST, typename FIRST_STORED_TYPE>
+	template<typename T>
+	//std::shared_ptr<FactRepresentation<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE>::GetFactByNameDynamic(const std::string& name)
+	std::shared_ptr<FactRepresentation<T>> FactsRepository<COST, FIRST_STORED_TYPE>::GetFactByNameDynamic(const std::string& name)
+	{
+		if constexpr (std::is_same<T,FIRST_STORED_TYPE>::value)
+			return GetFactByName<T>(name);
+		else
+			throw std::logic_error("Error during type conversion");
+	};
+
+
 	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
 	shared_ptr<vector<shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetAllKnownFacts()
 	{
@@ -185,6 +205,13 @@ namespace ureasoner
 	{
 		T* trait = nullptr;
 		return GetFact(name, trait);
+	}
+
+	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
+	template<typename T>
+	auto FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetFactByNameDynamic(const std::string& name)
+	{
+		return GetFactByName<T>(name);
 	}
 
 	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>

@@ -68,9 +68,12 @@ TEST(BasicImport, ImportFromFile)
 	auto repo = make_shared<FactsRepository<COST, std::string>>();
 	Metadata<FactsRepository<COST, std::string>> data(repo);
 
-	std::map<std::string, shared_ptr<FactWrapperInterface<decltype(data)>>> factsMap;
 
- 	AddFacts(facts, factsMap, data);
+
+	std::map<std::string, shared_ptr<FactWrapperInterface<decltype(data)>>> factsMap;
+	
+	
+	  	auto map = AddFacts(facts, *repo);
 
 
 	auto  ress = repo->GetFactByName<string>("OcenaCechOsobowych");
@@ -83,7 +86,7 @@ TEST(BasicImport, ImportFromFile)
 	EXPECT_THROW(ress->GetValue(), std::logic_error);
 	ress = repo->GetFactByName<string>("StanCywilny");
 	EXPECT_THROW(ress->GetValue(), std::logic_error);
-	AddRules(rules, factsMap, data);
- 
- 	EXPECT_TRUE(true); //test checks is everything loads without an error
+ 	AddRules(rules, data, map);
+//  
+//  	EXPECT_TRUE(true); //test checks is everything loads without an error
 }

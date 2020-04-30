@@ -180,6 +180,12 @@ namespace ureasoner
 		FactRepresentation(const importer::EmptyVar<ValueType>&) : factValue(std::make_shared<FactSettableType>())
  		{};
 
+		template <typename T>
+		FactRepresentation(const importer::EmptyVar<T>&)
+		{
+			throw std::logic_error("Wrong type conversion during input");
+		};
+
 
 		FactRepresentation(shared_ptr<FactSettableType> fact) : factValue(fact)
 		{};

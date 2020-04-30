@@ -21,14 +21,15 @@ TEST(BasicPlanner, ImportFromFile)
 
 	std::map<std::string, shared_ptr<FactWrapperInterface<Metadata<FactsRepository<COST, std::string>>>>> factsMap;
 // 
-	AddFacts(facts, factsMap, *data);
-	AddRules(rules, factsMap, *data);
+	auto map = AddFacts(facts, *repo);
+	AddRules(rules, *data, map);
 
+// 
 	auto  ress = repo->GetFactByName<string>("StanZdrowia");
 	ress->SetValue("zly");
 	ress->GetValueShared()->SetCost(5.0);
-
-	Planner< Metadata<FactsRepository<double, std::string>>> plan(data);
+// 
+ 	Planner< Metadata<FactsRepository<double, std::string>>> plan(data);
 	auto availableRules = plan.BuildPlan();
 	EXPECT_EQ(availableRules.size(),1); 
 
@@ -56,7 +57,7 @@ TEST(BasicPlanner, ImportFromFile)
 	EXPECT_EQ(availableRules.count(65), 2);
 	EXPECT_EQ(availableRules.count(80), 10);
 
-	availableRules.begin()->second->CheckAndFire();
+//	availableRules.begin()->second->CheckAndFire();
 
 	ress = repo->GetFactByName<string>("OcenaCechOsobowych");
 	auto value = ress->GetValue();

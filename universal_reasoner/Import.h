@@ -90,39 +90,107 @@ namespace ureasoner
 
 	}
 
-	template <typename METADATA>
-	void AddFacts(vector<importer::ImportedFact>& facts, std::map<std::string, shared_ptr<FactWrapperInterface<METADATA>>>& factsMap, METADATA& data)
+// 	template <typename METADATA>
+// 	void AddFacts(vector<importer::ImportedFact>& facts, std::map<std::string, shared_ptr<FactWrapperInterface<METADATA>>>& factsMap, METADATA& data)
+// 	{
+// 		for each (auto fact in facts)
+// 		{
+// 			Inserter(factsMap, data, fact);
+// 			//factsMap.insert(std::pair(fact.name, MakeWrapper(data, fact)));
+// 		}
+// 	}
+
+	template <typename  REPO>
+	std::map<std::string, std::string> AddFacts(vector<importer::ImportedFact>& facts, REPO& repository)
 	{
+		std::map<std::string, std::string> nameTypeMapper;
 		for each (auto fact in facts)
 		{
-			factsMap.insert(std::pair<std::string, shared_ptr<FactWrapperInterface<METADATA>>>(fact.name, MakeWrapper(data, fact)));
+			string typeName = fact.type;
+			importer::fillFact(repository, fact);
+			nameTypeMapper.insert(std::pair(fact.name, fact.type));
 		}
+		return std::move(nameTypeMapper);
 	}
 
 
-	template <typename METADATA>
-	void AddRules(vector<importer::ImportedRule>& rules, std::map<std::string, shared_ptr<FactWrapperInterface<METADATA>>> factsMap, METADATA& data)
+	template<typename PREMISE, typename CONTAINER, typename REPO>
+	class PremiseInserter
+	{
+	public:
+		void SetContainer(shared_ptr < CONTAINER> cont) { this->cont = cont; }
+		void SetRepo(shared_ptr < REPO> repo) { this->repo = repo; }
+		template <typename T>
+		void Insert(const std::string& name, T& expectedValue)
+		{
+			//auto fact = repo->GetFactByNameDynamic<T>(name);
+			auto fact = repo->GetFactByNameDynamic<std::remove_cv_t<T>>(name);
+			auto test = fact->GetValueShared();
+			auto test2 = make_shared<PremiseWithType<std::remove_cv_t<T>>>((shared_ptr<FactWithGet<std::remove_cv_t<T>,double>>)fact->GetValueShared(), expectedValue);
+		}
+			;
+	protected:
+		shared_ptr<CONTAINER> cont;
+		shared_ptr<REPO> repo;
+
+	};
+
+
+	//return make_shared<ConclusionSettingFact<T>>(std::dynamic_pointer_cast<FactSettable<T>>(fact->GetValueShared()), (T)settabledvalue);
+	template<typename CONCLUSION, typename CONTAINER, typename REPO>
+	class ConclusionInserter
+	{
+	public:
+		void SetContainer(shared_ptr < CONTAINER> cont) { this->cont = cont; }
+		void SetRepo(shared_ptr < REPO> repo) { this->repo = repo; }
+		template <typename T>
+		void Insert(const std::string& name, T& expectedValue)
+		{
+			//auto fact = repo->GetFactByNameDynamic<T>(name);
+			auto fact = repo->GetFactByNameDynamic<std::remove_cv_t<T>>(name);
+			auto test = fact->GetValueShared();
+//			auto test2 = make_shared<ConclusionSettingFact<std::remove_cv_t<T>>>(std::dynamic_pointer_cast<FactSettable<std::remove_cv_t<T>>>(fact, expectedValue));
+		}
+		;
+	protected:
+		shared_ptr<CONTAINER> cont;
+		shared_ptr<REPO> repo;
+
+	};
+
+	template <typename  METADATA>
+	void AddRules(vector<importer::ImportedRule>& rules, METADATA& data, std::map<std::string, std::string>& map)
 	{
 		using Premise = Premise<typename METADATA::CostType>;
 		using Conclusion = Conclusion<typename METADATA::CostType>;
+		shared_ptr< METADATA::FactsRepository> factsRepo = data.GetFactsRepository();
 
 		for each (auto rule in rules)
 		{
-			vector<shared_ptr<Premise>> premises;
+			auto premises = make_shared<vector<shared_ptr<Premise>>>();
 			for each (auto premise in rule.premises)
 			{
 				auto factName = premise.factName;
-				auto res = factsMap.find(factName);
-				premises.push_back(res->second->MakePremise(premise.expectedValue));
+				auto factType = map.find(factName)->second;
+
+				PremiseInserter<Premise, vector<shared_ptr<Premise>>, METADATA::FactsRepository> premiseInserter;
+				premiseInserter.SetContainer(premises);
+				premiseInserter.SetRepo(factsRepo);
+				importer::fillPremise(premiseInserter, factName, factType, premise.expectedValue);
+
 			}
-			vector<shared_ptr<Conclusion>> conclusions;
+			auto conclusions = make_shared<vector<shared_ptr<Conclusion>>>();
 			for each (auto conclusion in rule.conclusions)
 			{
 				auto factName = conclusion.factName;
-				auto res = factsMap.find(factName);
-				conclusions.push_back(res->second->MakeConclusion(conclusion.valueToSet));
+				auto factType = map.find(factName)->second;
+
+				ConclusionInserter<Conclusion, vector<shared_ptr<Conclusion>>, METADATA::FactsRepository> conclusionInserter;
+				conclusionInserter.SetContainer(conclusions);
+				conclusionInserter.SetRepo(factsRepo);
+				importer::fillConclusion(conclusionInserter, factName, factType, conclusion.valueToSet);
 			}
-			data.AddRule(make_shared<RuleImpl<double>>(premises, conclusions));
+//			data.AddRule(make_shared<RuleImpl<double>>(premises, conclusions));
 		}
 	}
 

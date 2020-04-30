@@ -38,6 +38,14 @@ namespace ureasoner
 			Premise::ExecutableWithCost::SetCost(cost);
 		};
 
+		template<typename WRONG_TYPE>
+		PremiseWithType(const std::shared_ptr<FactProvider<WRONG_TYPE>> compareLeft, const WRONG_TYPE& compareRight, const COST& cost = 0,
+			bool (*constComparer)(const FactValue&, const FactValue&) = [](const FactValue& x, const FactValue& y)->bool { return x == y; },
+			bool (*comparer)(FactValue&, FactValue&) = [](FactValue& x, FactValue& y)->bool { return x == y; })
+			{
+			throw "Wrong type in premise initialization";
+		};
+
 		virtual bool Evaluate() const override
 		{
 			return constComparer(compareLeft->GetValue(), compareRight->GetValue());

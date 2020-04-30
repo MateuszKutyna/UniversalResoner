@@ -34,6 +34,7 @@ namespace ureasoner
 		shared_ptr<vector<shared_ptr<CheckableFact<CostType>>>> GetKnownFacts();
 		vector<shared_ptr<Rule<COST_TYPE>>> GetRules() { return rules; };
 
+		shared_ptr<FactsRepository> GetFactsRepository() { return factsRepository; }
 // 		std::vector<ExecutableWithCost> GetExecutablesProvidingFact(const Fact& fact);
 // 		std::vector<ExecutableWithCost> GetExecutablesUsingFact(const Fact& fact);
 // 		std::vector<ExecutableWithCost> GetExecutablesUsingOnlyFacts(const std::vector<Fact> facts);
