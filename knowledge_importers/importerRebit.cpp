@@ -129,6 +129,10 @@ vector<ImportedRule> ReadRulesIntoContainer(json::const_iterator rules)
 	return std::move(rulesStorage);
 }
 
+
+// Why here?
+
+
 std::vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFactsFromFirstRulesSetRebitJSON(const std::string& filename)
 {
 	auto j = ReadJson(filename);

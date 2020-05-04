@@ -121,12 +121,12 @@ namespace ureasoner
 		void SetContainer(shared_ptr < CONTAINER> cont) { this->cont = cont; }
 		void SetRepo(shared_ptr < REPO> repo) { this->repo = repo; }
 		template <typename T>
-		void Insert(const std::string& name, T& expectedValue)
+		void Insert(const std::string& name, T&& expectedValue)
 		{
 			//auto fact = repo->GetFactByNameDynamic<T>(name);
-			auto fact = repo->GetFactByNameDynamic<std::remove_cv_t<T>>(name);
+			auto fact = repo->GetFactByNameDynamic<std::remove_cvref_t<T>>(name);
 			auto test = fact->GetValueShared();
-			auto test2 = make_shared<PremiseWithType<std::remove_cv_t<T>>>((shared_ptr<FactWithGet<std::remove_cv_t<T>,double>>)fact->GetValueShared(), expectedValue);
+			auto test2 = make_shared<PremiseWithType<std::remove_cvref_t<T>>>((shared_ptr<FactWithGet<std::remove_cvref_t<T>,double>>)fact->GetValueShared(), expectedValue);
 			cont->push_back(test2);
 		}
 			;
@@ -145,13 +145,13 @@ namespace ureasoner
 		void SetContainer(shared_ptr < CONTAINER> cont) { this->cont = cont; }
 		void SetRepo(shared_ptr < REPO> repo) { this->repo = repo; }
 		template <typename T>
-		void Insert(const std::string& name, T& expectedValue)
+		void Insert(const std::string& name, T&& expectedValue)
 		{
 			//auto fact = repo->GetFactByNameDynamic<T>(name);
-			auto fact = repo->GetFactByNameDynamic<std::remove_cv_t<T>>(name);
+			auto fact = repo->GetFactByNameDynamic<std::remove_cvref_t<T>>(name);
 			auto test = fact->GetValueShared();
 //			auto test2 = make_shared<ConclusionSettingFact<std::remove_cv_t<T>>>(test, expectedValue);
-		auto test2 = make_shared<ConclusionSettingFact<std::remove_cv_t<T>>>(std::dynamic_pointer_cast<FactSettable<std::remove_cv_t<T>>>(test), expectedValue);
+		auto test2 = make_shared<ConclusionSettingFact<std::remove_cvref_t<T>>>(std::dynamic_pointer_cast<FactSettable<std::remove_cvref_t<T>>>(test), expectedValue);
 		cont->push_back(test2);
 		}
 		;
@@ -179,7 +179,7 @@ namespace ureasoner
 				PremiseInserter<Premise, vector<shared_ptr<Premise>>, METADATA::FactsRepository> premiseInserter;
 				premiseInserter.SetContainer(premises);
 				premiseInserter.SetRepo(factsRepo);
-				importer::fillPremise(premiseInserter, factName, factType, premise.expectedValue);
+				importer::ConvertImportedTypes(premiseInserter, factName, factType, premise.expectedValue);
 
 			}
 			auto conclusions = make_shared<vector<shared_ptr<Conclusion>>>();
@@ -191,7 +191,7 @@ namespace ureasoner
 				ConclusionInserter<Conclusion, vector<shared_ptr<Conclusion>>, METADATA::FactsRepository> conclusionInserter;
 				conclusionInserter.SetContainer(conclusions);
 				conclusionInserter.SetRepo(factsRepo);
-				importer::fillConclusion(conclusionInserter, factName, factType, conclusion.valueToSet);
+				importer::ConvertImportedTypes(conclusionInserter, factName, factType, conclusion.valueToSet);
 			}
 			data.AddRule(make_shared<RuleImpl<double>>(*premises, *conclusions));
 		}

@@ -8,8 +8,8 @@ namespace ureasoner
 	public:
 		typedef double CostType;
 
-		ExecutionCost(CostType cost) :cost(cost) {};
-		CostType EstimatedCost() const{
+		ExecutionCost(CostType cost) noexcept :cost(cost) {};
+		CostType EstimatedCost()  const noexcept{
 			return cost;
 		};
 	protected:
