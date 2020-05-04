@@ -127,6 +127,7 @@ namespace ureasoner
 			auto fact = repo->GetFactByNameDynamic<std::remove_cv_t<T>>(name);
 			auto test = fact->GetValueShared();
 			auto test2 = make_shared<PremiseWithType<std::remove_cv_t<T>>>((shared_ptr<FactWithGet<std::remove_cv_t<T>,double>>)fact->GetValueShared(), expectedValue);
+			cont->push_back(test2);
 		}
 			;
 	protected:
@@ -149,7 +150,9 @@ namespace ureasoner
 			//auto fact = repo->GetFactByNameDynamic<T>(name);
 			auto fact = repo->GetFactByNameDynamic<std::remove_cv_t<T>>(name);
 			auto test = fact->GetValueShared();
-//			auto test2 = make_shared<ConclusionSettingFact<std::remove_cv_t<T>>>(std::dynamic_pointer_cast<FactSettable<std::remove_cv_t<T>>>(fact, expectedValue));
+//			auto test2 = make_shared<ConclusionSettingFact<std::remove_cv_t<T>>>(test, expectedValue);
+		auto test2 = make_shared<ConclusionSettingFact<std::remove_cv_t<T>>>(std::dynamic_pointer_cast<FactSettable<std::remove_cv_t<T>>>(test), expectedValue);
+		cont->push_back(test2);
 		}
 		;
 	protected:
@@ -190,7 +193,7 @@ namespace ureasoner
 				conclusionInserter.SetRepo(factsRepo);
 				importer::fillConclusion(conclusionInserter, factName, factType, conclusion.valueToSet);
 			}
-//			data.AddRule(make_shared<RuleImpl<double>>(premises, conclusions));
+			data.AddRule(make_shared<RuleImpl<double>>(*premises, *conclusions));
 		}
 	}
 

@@ -57,7 +57,7 @@ TEST(BasicPlanner, ImportFromFile)
 	EXPECT_EQ(availableRules.count(65), 2);
 	EXPECT_EQ(availableRules.count(80), 10);
 
-//	availableRules.begin()->second->CheckAndFire();
+	availableRules.begin()->second->CheckAndFire();
 
 	ress = repo->GetFactByName<string>("OcenaCechOsobowych");
 	auto value = ress->GetValue();
