@@ -44,7 +44,7 @@ namespace ureasoner
 		auto GetSettableFactByName(const std::string& name);	// auto here allows to pass a result from inherited GetFact function!
 		std::shared_ptr< FactRepresentation<StoredType>> AddFact(FactRepresentation<StoredType> fact, const std::string& name);
 		std::shared_ptr< FactRepresentation<StoredType>> AddFact(const StoredType& fact, const std::string& name);
-		shared_ptr<vector<shared_ptr<CheckableFact<COST>>>> GetAllKnownFacts();
+		std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> GetAllKnownFacts();
 
 
 	protected:
@@ -68,7 +68,7 @@ namespace ureasoner
 		std::shared_ptr< FactRepresentation<StoredType>> GetSettableFactByName(const std::string& name);
 		std::shared_ptr< FactRepresentation<StoredType>> AddFact(FactRepresentation<StoredType> fact, const std::string& name);
 		std::shared_ptr< FactRepresentation<StoredType>> AddFact(const StoredType& fact, const std::string& name);
-		shared_ptr<vector<shared_ptr<CheckableFact<COST>>>> GetAllKnownFacts();
+		std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> GetAllKnownFacts();
 
 	protected:
 		std::unordered_map<std::string, std::shared_ptr< FactRepresentation<StoredType>>> storage;
@@ -83,9 +83,9 @@ namespace ureasoner
 	//????????????????????????????????????? IMPLEMENTATION //////////////////////////////////////////////////////////////////////////////////
 
 	template <typename COST, typename FIRST_STORED_TYPE>
-	shared_ptr<vector<shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE>::GetAllKnownFacts()
+	std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE>::GetAllKnownFacts()
 	{
-		auto toRet = make_shared<vector<shared_ptr<CheckableFact<COST>>>>();
+		auto toRet = std::make_shared<vector<shared_ptr<CheckableFact<COST>>>>();
 		for each (auto fact in storage)
 		{
 			if (fact.second->GetValueShared()->IsKnown())
@@ -153,7 +153,7 @@ namespace ureasoner
 
 
 	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	shared_ptr<vector<shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetAllKnownFacts()
+	std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetAllKnownFacts()
 	{
 		auto toRet = FactsRepository<COST, STORED_TYPES...>::GetAllKnownFacts();
 		for each (auto fact in storage)

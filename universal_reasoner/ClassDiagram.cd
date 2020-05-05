@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ureasoner::CheckableFact&lt;COST&gt;" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>fact.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ureasoner::FactWithGet&lt;VALUE, COST&gt;" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAACAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>fact.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ureasoner::FactWithSet&lt;VALUE, COST&gt;" Collapsed="true">
+    <Position X="2.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>fact.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ureasoner::Fact&lt;VALUE, COST&gt;" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>fact.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ureasoner::FactConst&lt;VALUE, COST&gt;" Collapsed="true">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAIAAEAgAAACICAACgAAASAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>fact.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ureasoner::FactSettable&lt;VALUE, COST&gt;" Collapsed="true">
+    <Position X="2.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BBAAAAAAIABEAgACCCICAACgAAACAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>fact.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ureasoner::FactRepresentation&lt;VALUE, FACT_CONST, FACT_SETTABLE&gt;" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAFAgAAACAAAACQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>fact.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

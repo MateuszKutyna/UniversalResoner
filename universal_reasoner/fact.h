@@ -7,8 +7,8 @@
 #include "executableWithCost.h"
 #include "../knowledge_importers/knowledge_importers.h"
 
-using std::shared_ptr;
-using std::make_shared;
+// using std::shared_ptr;
+// using std::make_shared;
 
 
 namespace ureasoner
@@ -187,7 +187,7 @@ namespace ureasoner
 		};
 
 
-		FactRepresentation(shared_ptr<FactSettableType> fact) : factValue(fact)
+		FactRepresentation(std::shared_ptr<FactSettableType> fact) : factValue(fact)
 		{};
 		const ValueType GetValue() const { return factValue->GetValue(); };
 		std::shared_ptr<Fact<ValueType>> GetValueShared() { return factValue; };
