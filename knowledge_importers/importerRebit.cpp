@@ -1,9 +1,8 @@
 #include "importerRebit.h"
 #include <fstream>
 #include <initializer_list>
+#include <algorithm>
 #include <nlohmann/json.hpp>
-#include "../universal_reasoner/rule.h"
-#include "../universal_reasoner/fact.h"
 
 using std::vector;
 using std::string;
@@ -13,46 +12,41 @@ using equalPair = std::pair<std::string, std::string>;
 using namespace ureasoner;
 using namespace ureasoner::importer;
 
-std::vector<string> allowedTypes{ "EnumType","BasicType" }; //Types of types existing in Rebit
+vector<string> allowedTypes{ "EnumType","BasicType" }; //Types of types existing in Rebit
 
 json::const_iterator DigToNode(const json& currentNode, const vector<string>& labels)
 {
-	auto newNode = currentNode.find(labels[0]);
-	for (size_t i = 1; i < labels.size(); i++)
-	{
-		newNode = newNode->find(labels[i]);
-	}
+	auto newNode = currentNode.find(labels.front());
+	std::for_each(labels.cbegin() + 1, labels.cend(), [&newNode](auto& label) {newNode = newNode->find(label); });
 	return newNode;
 }
 
 json::const_iterator DigToNode(const json& currentNode, const std::initializer_list<string>& labels)
 {
-	return DigToNode(currentNode, std::vector<string>(labels));
+	return DigToNode(currentNode, vector<string>(labels));
 }
 
 json::const_iterator DigToNode(const json& currentNode, const string& label)
 {
-	auto newNode = currentNode.find(label);
-	return newNode;
+	return currentNode.find(label);
 }
 
-std::string ExtractStringValue(const json& currentNode, const string& label)
+string ExtractStringValue(const json& currentNode, const string& label)
 {
 	auto strDigged = DigToNode(currentNode, label)->dump();
 	strDigged.erase(std::remove(strDigged.begin(), strDigged.end(), '"'), strDigged.end());
 	return strDigged;
 }
 
-std::string ExtractOneOfStringValue(const json& currentNode, const std::vector<string>& onesToFind, const string& label)
+string ExtractOneOfStringValue(const json& currentNode, const vector<string>& onesToFind, const string& label)
 {
-	string strDigged;
-	for(const auto& one: onesToFind)
+	string strDigged("");
+	for (const auto& one : onesToFind)
 	{
 		auto found = DigToNode(currentNode, one);
-		if (found!=currentNode.end())
+		if (found != currentNode.end())
 		{
-			strDigged = DigToNode(*found,label)->dump();
-			strDigged.erase(std::remove(strDigged.begin(), strDigged.end(), '"'), strDigged.end());
+			strDigged = ExtractStringValue(*found, label);
 			break; //breaks if at least one in collection found
 		}
 		throw std::invalid_argument("None of labels in the list found");
@@ -60,7 +54,7 @@ std::string ExtractOneOfStringValue(const json& currentNode, const std::vector<s
 	return strDigged;
 }
 
-std::string ExtractStringValue(const json& currentNode, const std::initializer_list<string>& labels)
+string ExtractStringValue(const json& currentNode, const std::initializer_list<string>& labels)
 {
 	auto strDigged = DigToNode(currentNode, labels)->dump();
 	strDigged.erase(std::remove(strDigged.begin(), strDigged.end(), '"'), strDigged.end());
@@ -89,16 +83,16 @@ json ReadJson(const string& filename)
 	return j;
 }
 
-void AddFact(std::vector<ImportedPremise> &premises, const json& value)
+void AddFact(vector<ImportedPremise>& premises, const json& value)
 {
 	auto premise = PrintSingleCondition(value);
-	premises.push_back(ImportedPremise({premise.first, premise.second}));
+	premises.push_back(ImportedPremise({ premise.first, premise.second }));
 }
 
-void AddFact(std::vector<ImportedConclusion> &conclusions, const json& value)
+void AddFact(vector<ImportedConclusion>& conclusions, const json& value)
 {
 	auto conclusion = PrintSingleCondition(value);
-	conclusions.push_back(ImportedConclusion({conclusion.first, conclusion.second}));
+	conclusions.push_back(ImportedConclusion({ conclusion.first, conclusion.second }));
 }
 
 vector<ImportedFact> ReadFactsIntoContainer(json::const_iterator facts)
@@ -107,7 +101,7 @@ vector<ImportedFact> ReadFactsIntoContainer(json::const_iterator facts)
 	for (auto& [key, value] : facts->items())
 	{
 		auto id = ExtractStringValue(value, "@Id");
-		auto type = ExtractOneOfStringValue(value, allowedTypes , "@IdRef");
+		auto type = ExtractOneOfStringValue(value, allowedTypes, "@IdRef");
 		factsContainer.push_back({ id,type });
 	}
 	return std::move(factsContainer);
@@ -120,66 +114,57 @@ vector<ImportedRule> ReadRulesIntoContainer(json::const_iterator rules)
 	{
 		auto ifs = value.find("If");
 		auto thens = value.find("Then");
-		std::vector<ImportedPremise> premises;
+		vector<ImportedPremise> premises;
 		AddFacts(ifs, premises);
-		std::vector<ImportedConclusion> conclusions;
+		vector<ImportedConclusion> conclusions;
 		AddFacts(thens, conclusions);
 		rulesStorage.push_back(ImportedRule({ premises, conclusions }));
 	}
 	return std::move(rulesStorage);
 }
 
-
-// Why here?
-
-
-std::vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFactsFromFirstRulesSetRebitJSON(const std::string& filename)
+vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFactsFromFirstRulesSetRebitJSON(const std::string& filename)
 {
 	auto j = ReadJson(filename);
 	auto facts = DigToNode(j, { "RuleSets" , "RuleSet", "Variables" });
 	return ReadFactsIntoContainer(facts);
 }
 
-std::vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFactsFromRebitJSON(const std::string& filename, const std::string& rulesetName)
+vector<ureasoner::importer::ImportedFact> ureasoner::importer::ReadFactsFromRebitJSON(const std::string& filename, const std::string& rulesetName)
 {
 	auto j = ReadJson(filename);
 	auto rulesets = DigToNode(j, "RuleSets");
 	for (auto& [key, value] : rulesets->items())
 	{
 		auto id = ExtractStringValue(value, "@Id");
-		if (id==rulesetName)
+		if (id == rulesetName)
 		{
-			auto facts = DigToNode(value, "Variables"); //many rulestes!
+			auto facts = DigToNode(value, "Variables"); //many rulesets!
 			return vector<ImportedFact>(ReadFactsIntoContainer(facts));
 			break;	//the rulesSet name is unique
 		}
 		throw std::invalid_argument("Ruleset with name " + rulesetName + "not found");
 	}
-	return std::vector<ureasoner::importer::ImportedFact>();
+	return vector<ureasoner::importer::ImportedFact>();
 }
 
 vector<ureasoner::importer::ImportedRule> ureasoner::importer::ReadRulesFromFirstRulesSetRebitJSON(const std::string& filename)
- {
- 	auto j = ReadJson(filename);
- 	auto rules = DigToNode(j, { "RuleSets" , "RuleSet", "Rules" });
- 	vector <ImportedRule> rulesStorage;
-// 
- 	for (auto&[key, value] : rules->items())
- 	{
- 		auto ifs = value.find("If");
- 		auto thens = value.find("Then");
-// 
- 		std::vector<ImportedPremise> premises;
- 		AddFacts(ifs, premises);
-// 
- 		std::vector<ImportedConclusion> conclusions;
- 		AddFacts(thens, conclusions);
-// 
- 		rulesStorage.push_back(ImportedRule({premises, conclusions}));
- 	}
- 	return rulesStorage;
- }
-
+{
+	auto j = ReadJson(filename);
+	auto rules = DigToNode(j, { "RuleSets" , "RuleSet", "Rules" });
+	vector <ImportedRule> rulesStorage;
+	for (auto& [key, value] : rules->items())
+	{
+		auto ifs = value.find("If");
+		auto thens = value.find("Then");
+		vector<ImportedPremise> premises;
+		AddFacts(ifs, premises);
+		vector<ImportedConclusion> conclusions;
+		AddFacts(thens, conclusions);
+		rulesStorage.push_back(ImportedRule({ premises, conclusions }));
+	}
+	return rulesStorage;
+}
 
 vector<ureasoner::importer::ImportedRule> ureasoner::importer::ReadRulesFromRebitJSON(const std::string& filename, const std::string& rulesetName)
 {
@@ -196,8 +181,5 @@ vector<ureasoner::importer::ImportedRule> ureasoner::importer::ReadRulesFromRebi
 		}
 		throw std::invalid_argument("Ruleset with name " + rulesetName + "not found");
 	}
-	return std::vector<ureasoner::importer::ImportedRule>();
+	return vector<ureasoner::importer::ImportedRule>();
 }
-// 
-// 
-// 
