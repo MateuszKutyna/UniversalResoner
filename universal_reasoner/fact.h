@@ -1,19 +1,15 @@
 #ifndef universal_reasoner_fact_h__
 #define universal_reasoner_fact_h__
-#include <memory>
 
-#include <concepts>
+#include <memory>
+//#include <concepts>
 #include <stdexcept>
 #include "executableWithCost.h"
 #include "../knowledge_importers/knowledge_importers.h"
 
-// using std::shared_ptr;
-// using std::make_shared;
-
-
 namespace ureasoner
 {
-	template<typename COST = double>
+	template<totally_ordered COST = double>
 	class CheckableFact: public ExecutableWithCost<COST>
 	{
 	public:
