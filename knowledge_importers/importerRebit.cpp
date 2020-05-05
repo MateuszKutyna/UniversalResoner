@@ -6,14 +6,14 @@
 #include "../universal_reasoner/fact.h"
 
 using std::vector;
-using namespace ureasoner;
 using std::string;
 using json = nlohmann::json;
 using equalPair = std::pair<std::string, std::string>;
 
+using namespace ureasoner;
 using namespace ureasoner::importer;
 
-std::vector<string> allowedTypes{ "EnumType","BasicType" };
+std::vector<string> allowedTypes{ "EnumType","BasicType" }; //Types of types existing in Rebit
 
 json::const_iterator DigToNode(const json& currentNode, const vector<string>& labels)
 {

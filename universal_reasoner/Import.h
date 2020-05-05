@@ -15,8 +15,8 @@ namespace ureasoner
 	class FactWrapperInterface
 	{
 	public:
-		virtual std::shared_ptr<Premise<typename METADATA::CostType>> MakePremise(const string& expectedvalue) = 0;
-		virtual std::shared_ptr<Conclusion<typename METADATA::CostType>> MakeConclusion(const string& settabledvalue) = 0;
+		virtual std::shared_ptr<Premise<typename METADATA::CostType>> MakePremise(const std::string& expectedvalue) = 0;
+		virtual std::shared_ptr<Conclusion<typename METADATA::CostType>> MakeConclusion(const std::string& settabledvalue) = 0;
 	};
 
 	template <typename METADATA, typename T>
@@ -32,12 +32,12 @@ namespace ureasoner
 		FactWrapper(METADATA& metadata, const importer::EmptyVar<T>& emptyVar, const importer::ImportedFact& importedFact) : fact(metadata.AddFact(FactRepresentation<T>(), importedFact.name)) {}
 
 
-		virtual std::shared_ptr<Premise> MakePremise(const string& expectedvalue) override
+		virtual std::shared_ptr<Premise> MakePremise(const std::string& expectedvalue) override
 		{
 			return make_shared<PremiseWithType<T>>(fact->GetValueShared(), (T)expectedvalue);
 		}
 
-		virtual std::shared_ptr<Conclusion> MakeConclusion(const string& settabledvalue) override
+		virtual std::shared_ptr<Conclusion> MakeConclusion(const std::string& settabledvalue) override
 		{
 			return make_shared<ConclusionSettingFact<T>>(std::dynamic_pointer_cast<FactSettable<T>>(fact->GetValueShared()), (T)settabledvalue);
 		}

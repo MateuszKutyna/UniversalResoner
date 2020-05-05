@@ -6,6 +6,7 @@
 #include "../universal_reasoner/metadata.h"
 #include "../universal_reasoner/planner.h"
 
+using std::string;
 using namespace ureasoner;
 using COST = double;
 TEST(BasicPlanner, ImportFromFile)
