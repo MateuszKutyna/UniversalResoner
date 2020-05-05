@@ -13,6 +13,7 @@ namespace ureasoner
 	class CheckableFact: public ExecutableWithCost<COST>
 	{
 	public:
+		virtual ~CheckableFact() {};
 		virtual bool IsKnown() const = 0;
 	};
 
@@ -20,8 +21,9 @@ namespace ureasoner
 	class FactWithGet: virtual public CheckableFact<COST>
 	{
 	public:
-		typedef VALUE ValueType;
+		using ValueType = VALUE;
 
+		virtual ~FactWithGet() {};
 		virtual const ValueType GetValue() const = 0;
 		virtual std::shared_ptr<ValueType> GetValueShared() = 0;	
 		virtual const COST GetEstimatedGetCost() const = 0;
@@ -29,21 +31,24 @@ namespace ureasoner
 	};
 
 	template<typename VALUE, typename COST = double>
-	class FactWithSet: virtual public CheckableFact<COST>
+	class FactWithSet: virtual public FactWithGet<VALUE, COST>
 	{
 	public:
-		typedef VALUE ValueType;
+		using ValueType = FactWithGet<VALUE, COST>::ValueType;
 
+		virtual ~FactWithSet() {};
 		virtual void SetValue(const ValueType&) = 0;
 		virtual const COST GetEstimatedSetCost() const = 0;
 
 	};
 
 	template<typename VALUE, typename COST = double>
-	class Fact : public FactWithGet<VALUE, COST>, public FactWithSet<VALUE, COST>
+	class Fact : /*public FactWithGet<VALUE, COST>,*/ public FactWithSet<VALUE, COST>
 	{
 	public:
-		typedef VALUE ValueType;
+		using ValueType = FactWithSet<VALUE, COST>::ValueType;
+
+		virtual ~Fact() {}
 		virtual bool IsSettable() const = 0;
 	};
 
@@ -51,12 +56,11 @@ namespace ureasoner
 	class FactConst : public Fact<VALUE, COST>
 	{
 	public:
-		using ValueType = VALUE;
-
+		using ValueType = Fact<VALUE, COST>::ValueType;
 		FactConst(std::shared_ptr<ValueType> factValue, const COST& cost = 0) : factValue(factValue), cost(cost) {};
 		FactConst(const ValueType& factValue, const COST& cost = 0) : factValue(std::make_shared<ValueType>(factValue))/*, Fact::FactWithGet::CheckableFact::CheckableFact::cost(cost)*/ { Fact::FactWithGet::CheckableFact::ExecutableWithCost::cost = cost; };
 
-		//FactConst() {};
+		virtual ~FactConst() {};
 
 		virtual const ValueType GetValue() const override {
 			return *factValue;
@@ -99,6 +103,7 @@ namespace ureasoner
 		FactSettable(const COST& cost = 0, const COST& costGet = 0, const COST& costSet = 0) : costGet(costGet), costSet(costSet) {
 			Fact::CheckableFact::ExecutableWithCost::SetCost(cost);
 		};
+		virtual ~FactSettable() {};
 		virtual const ValueType GetValue() const override
 		{
 			if (settable)
