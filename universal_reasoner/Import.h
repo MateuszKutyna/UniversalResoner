@@ -149,7 +149,7 @@ namespace ureasoner
 		{
 			//auto fact = repo->GetFactByNameDynamic<T>(name);
 			auto fact = repo->GetFactByNameDynamic<std::remove_cvref_t<T>>(name);
-			auto test = fact->GetValueShared();
+			//auto test = fact->GetValueShared();
 //			auto test2 = make_shared<ConclusionSettingFact<std::remove_cv_t<T>>>(test, expectedValue);
 		auto test2 = make_shared<ConclusionSettingFact<std::remove_cvref_t<T>>>(std::dynamic_pointer_cast<FactSettable<std::remove_cvref_t<T>>>(fact), expectedValue);
 		cont->push_back(test2);
