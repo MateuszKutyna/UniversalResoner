@@ -28,7 +28,7 @@ namespace ureasoner
 		}
 
 		template <typename STORED_TYPE>
-		std::shared_ptr< FactRepresentation<STORED_TYPE>> AddFact(FactRepresentation<STORED_TYPE> fact, const std::string& name) { return factsRepository->AddFact(fact, name); }
+		std::shared_ptr< Fact<STORED_TYPE>> AddFact(std::shared_ptr<Fact<STORED_TYPE>> fact, const std::string& name) { return factsRepository->AddFact(fact, name); }
 		Metadata(shared_ptr<FactsRepository> factsRepository) : factsRepository(factsRepository) {};
 // 		std::unordered_map<Fact, bool> GetAllFacts();
 		shared_ptr<vector<shared_ptr<CheckableFact<CostType>>>> GetKnownFacts();

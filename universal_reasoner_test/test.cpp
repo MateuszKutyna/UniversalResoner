@@ -4,6 +4,7 @@
 #include "../universal_reasoner/factsRepository.h"
 
 using namespace ureasoner;
+using std::make_shared;
 using COST = double;
 TEST(BasicPremises, MakingPremise) 
 {
@@ -26,28 +27,28 @@ TEST(BasicPremises, MakingPremiseWithComparer)
 TEST(BasicPremises, MakingPremiseFromRepo)
 {
 	FactsRepository<COST, double, int, std::string> repo;
-	FactRepresentation<int> i1(1);
-	FactRepresentation<std::string> s1("test");
-	FactRepresentation<double> fempty;
+	auto i1 = make_shared<FactConst<int>>(1);
+	auto s1 = make_shared<FactConst<std::string>>("test");
+	auto fempty = make_shared<FactSettable<double>>();
 	
 	
 	repo.AddFact(i1, "i1");
 	repo.AddFact(s1, "s1");
 	repo.AddFact(fempty, "fempty");
 
-	auto resi1 = repo.GetFactByName<int>("i1")->GetValueShared();
+	auto resi1 = repo.GetFactByName<int>("i1");
 
 	PremiseWithType<int> p(resi1, 1);
 	EXPECT_TRUE(p.Evaluate());
 
-	auto ress1 = repo.GetFactByName<std::string>("s1")->GetValueShared();
+	auto ress1 = repo.GetFactByName<std::string>("s1");
 
 	PremiseWithType<std::string> p2(ress1, "test");
 //	PremiseWithType<std::string> p2 = *MakePremise(ress1, (std::string)"test1");
 
 	EXPECT_TRUE(p2.Evaluate());
 
-	auto resd1 = repo.GetFactByName<double>("fempty")->GetValueShared();
+	auto resd1 = repo.GetFactByName<double>("fempty");
 
 	PremiseWithType<double> p3(resd1, 2.0);
 	EXPECT_THROW(p3.Evaluate(), std::logic_error);
@@ -69,12 +70,13 @@ TEST(FRepo, basicTest)
 // Command below, if uncommented, must result with compilation error since the list of types is not unique
 //	FactsRepository<COST, double, short, double, int, long, bool> d;
 
-	FactRepresentation<double> f1(2.0);
-	FactRepresentation<int> i1(1);
-	FactRepresentation<bool> b1(true);
-	FactRepresentation<std::string> s1("test");
+	auto i1 = make_shared<FactConst<int>>(1);
+	auto f1 = make_shared<FactConst<double>>(2.0);
+	auto b1 = make_shared<FactConst<bool>>(true);
+	auto s1 = make_shared<FactConst<std::string>>("test");
+	auto fempty = make_shared<FactSettable<double>>();
 
-	FactRepresentation<double> fempty;
+
 	b.AddFact(fempty, "fempty");
 
 	a.AddFact(f1, "f1");
@@ -119,12 +121,12 @@ TEST(FRepo, gettingAllKnownFacts)
 	FactsRepository<COST, double, int, std::string> b;
 	FactsRepository<COST, int, short, double, long, bool> c;
 	
-	FactRepresentation<double> f1(2.0);
-	FactRepresentation<int> i1(1);
-	FactRepresentation<bool> b1(true);
-	FactRepresentation<std::string> s1("test");
+	auto i1 = make_shared<FactConst<int>>(1);
+	auto f1 = make_shared<FactConst<double>>(2.0);
+	auto b1 = make_shared<FactConst<bool>>(true);
+	auto s1 = make_shared<FactConst<std::string>>("test");
+	auto fempty = make_shared<FactSettable<double>>();
 
-	FactRepresentation<double> fempty;
 	b.AddFact(fempty, "fempty");
 
 	a.AddFact(f1, "f1");

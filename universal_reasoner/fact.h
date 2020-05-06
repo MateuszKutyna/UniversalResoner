@@ -30,26 +30,28 @@ namespace ureasoner
 		virtual const COST GetEstimatedGetCost() const = 0;	
 	};
 
+
 	template<typename VALUE, typename COST = double>
-	class FactWithSet: public FactWithGet<VALUE, COST>
+	class Fact : public FactWithGet<VALUE, COST>
 	{
 	public:
 		using ValueType = FactWithGet<VALUE, COST>::ValueType;
 
-		virtual ~FactWithSet() noexcept {};
+		virtual ~Fact() noexcept {}
 
+// 		Fact(const importer::EmptyVar<ValueType>&)
+// 		{};
+// 
+// 		template <typename T>
+// 		Fact(const importer::EmptyVar<T>&)
+// 		{
+// 			throw std::logic_error("Wrong type conversion during input");
+// 		};
+
+		virtual bool IsSettable() const noexcept = 0;
 		virtual void SetValue(const ValueType&) = 0;
 		virtual const COST GetEstimatedSetCost() const = 0;
-	};
 
-	template<typename VALUE, typename COST = double>
-	class Fact : public FactWithSet<VALUE, COST>
-	{
-	public:
-		using ValueType = FactWithSet<VALUE, COST>::ValueType;
-
-		virtual ~Fact() noexcept {}
-		virtual bool IsSettable() const noexcept = 0;
 	};
 
 	template<typename VALUE, typename COST = double>
@@ -63,16 +65,15 @@ namespace ureasoner
 		virtual ~FactConst() {};
 
 		virtual const ValueType GetValue() const override {return *factValue;}
-		virtual  std::shared_ptr<ValueType> GetValueShared() override {	return std::shared_ptr<ValueType>(factValue);
-		};
-		virtual void SetValue(const ValueType&) override {throw std::logic_error("Value of the fact is already set.");}
-		virtual bool IsSettable() const noexcept override { return false; }
+		virtual  std::shared_ptr<ValueType> GetValueShared() override {return std::shared_ptr<ValueType>(factValue);};
+ 		virtual void SetValue(const ValueType&) override {throw std::logic_error("Value of the fact is already set.");}
+ 		virtual bool IsSettable() const noexcept override { return false; }
 		virtual bool IsKnown() const noexcept override { return true; };
 
 
 		virtual const COST GetEstimatedCost() const override
 		{
-			return GetEstimatedGetCost() + GetEstimatedSetCost();
+			return GetEstimatedGetCost()/* + GetEstimatedSetCost()*/;
 		}
 
 	protected:
@@ -84,7 +85,6 @@ namespace ureasoner
 		{
 			return 0;
 		}
-
 
 		std::shared_ptr<ValueType> factValue;
 		COST cost;
@@ -100,7 +100,31 @@ namespace ureasoner
 		FactSettable(const COST& cost = 0, const COST& costGet = 0, const COST& costSet = 0) : costGet(costGet), costSet(costSet) {
 			Fact::CheckableFact::ExecutableWithCost::SetCost(cost);
 		};
+
+// 		FactSettable(const ValueType& val, const COST& cost = 0, const COST& costGet = 0, const COST& costSet = 0) : costGet(costGet), costSet(costSet) ,factValue(std::make_shared<ValueType>(val)){
+// 			Fact::CheckableFact::ExecutableWithCost::SetCost(cost);
+// 		};
+
 		virtual ~FactSettable() {};
+
+// 		FactSettable() : costGet(0), costSet(0)
+// 		{
+// 			Fact::CheckableFact::ExecutableWithCost::SetCost(0);
+// 		};
+
+		FactSettable(const importer::EmptyVar<ValueType>&) : costGet(0), costSet(0) 
+		{
+			Fact::CheckableFact::ExecutableWithCost::SetCost(0);
+		};
+
+		template <typename T>
+		FactSettable(const importer::EmptyVar<T>&) : costGet(0), costSet(0)
+		{
+			Fact::CheckableFact::ExecutableWithCost::SetCost(0);
+			throw std::logic_error("Wrong type conversion during input");
+		};
+
+
 		virtual const ValueType GetValue() const override
 		{
 			if (settable)
@@ -131,11 +155,6 @@ namespace ureasoner
 			return Fact::CheckableFact::ExecutableWithCost::GetCost() + GetEstimatedGetCost() + GetEstimatedSetCost();
 		}
 
-
-// 		virtual void SetValue(const ValueType&) override
-// 		{
-// 			throw std::logic_error("The method or operation is not implemented.");
-// 		}
 
 	protected:
 		bool IsStillSettable() { return settable; };
