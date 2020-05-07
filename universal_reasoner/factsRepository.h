@@ -4,7 +4,6 @@
 #include "fact.h"
 #include <unordered_map>
 #include <type_traits>
-using std::vector;
 
 namespace ureasoner
 {
@@ -174,7 +173,7 @@ namespace ureasoner
 	template <typename COST, typename FIRST_STORED_TYPE>
 	std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE>::GetAllKnownFacts()
 	{
-		auto toRet = std::make_shared<vector<shared_ptr<CheckableFact<COST>>>>();
+		auto toRet = std::make_shared<std::vector<std::shared_ptr<CheckableFact<COST>>>>();
 		for each (auto fact in storage)
 		{
 			if (fact.second->IsKnown())

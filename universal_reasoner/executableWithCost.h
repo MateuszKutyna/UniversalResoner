@@ -25,6 +25,7 @@ namespace ureasoner
 	{
 	public:
 		typedef COST CostType;
+		//ExecutableWithCost(const CostType& cost) :cost(cost) {}
 		virtual ~ExecutableWithCost() noexcept{};
 		virtual const CostType GetEstimatedCost() const = 0;
 		virtual void SetCost(const CostType& cost) { this->cost = cost; }

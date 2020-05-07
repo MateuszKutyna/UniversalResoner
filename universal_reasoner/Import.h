@@ -101,7 +101,7 @@ namespace ureasoner
 // 	}
 
 	template <typename  REPO>
-	std::map<std::string, std::string> AddFacts(vector<importer::ImportedFact>& facts, REPO& repository)
+	std::map<std::string, std::string> AddFacts(std::vector<importer::ImportedFact>& facts, REPO& repository)
 	{
 		std::map<std::string, std::string> nameTypeMapper;
 		for each (auto fact in facts)
@@ -118,8 +118,8 @@ namespace ureasoner
 	class PremiseInserter
 	{
 	public:
-		void SetContainer(shared_ptr < CONTAINER> cont) { this->cont = cont; }
-		void SetRepo(shared_ptr < REPO> repo) { this->repo = repo; }
+		void SetContainer(std::shared_ptr < CONTAINER> cont) { this->cont = cont; }
+		void SetRepo(std::shared_ptr < REPO> repo) { this->repo = repo; }
 		template <typename T>
 		void Insert(const std::string& name, T&& expectedValue)
 		{
@@ -131,8 +131,8 @@ namespace ureasoner
 		}
 			;
 	protected:
-		shared_ptr<CONTAINER> cont;
-		shared_ptr<REPO> repo;
+		std::shared_ptr<CONTAINER> cont;
+		std::shared_ptr<REPO> repo;
 
 	};
 
@@ -142,8 +142,8 @@ namespace ureasoner
 	class ConclusionInserter
 	{
 	public:
-		void SetContainer(shared_ptr < CONTAINER> cont) { this->cont = cont; }
-		void SetRepo(shared_ptr < REPO> repo) { this->repo = repo; }
+		void SetContainer(std::shared_ptr < CONTAINER> cont) { this->cont = cont; }
+		void SetRepo(std::shared_ptr < REPO> repo) { this->repo = repo; }
 		template <typename T>
 		void Insert(const std::string& name, T&& expectedValue)
 		{
@@ -156,17 +156,17 @@ namespace ureasoner
 		}
 		;
 	protected:
-		shared_ptr<CONTAINER> cont;
-		shared_ptr<REPO> repo;
+		std::shared_ptr<CONTAINER> cont;
+		std::shared_ptr<REPO> repo;
 
 	};
 
 	template <typename  METADATA>
-	void AddRules(vector<importer::ImportedRule>& rules, METADATA& data, std::map<std::string, std::string>& map)
+	void AddRules(std::vector<importer::ImportedRule>& rules, METADATA& data, std::map<std::string, std::string>& map)
 	{
 		using Premise = Premise<typename METADATA::CostType>;
 		using Conclusion = Conclusion<typename METADATA::CostType>;
-		shared_ptr< METADATA::FactsRepository> factsRepo = data.GetFactsRepository();
+		std::shared_ptr< METADATA::FactsRepository> factsRepo = data.GetFactsRepository();
 
 		for each (auto rule in rules)
 		{

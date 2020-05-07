@@ -1,15 +1,11 @@
 #ifndef universal_reasoner_rule_h__
 #define universal_reasoner_rule_h__
 
-#include "executableWithCost.h"
-#include "fact.h"
 #include <memory>
 #include <functional>
 #include <vector>
-
-using std::shared_ptr;
-using std::unique_ptr;
-using std::vector;
+#include "executableWithCost.h"
+#include "fact.h"
 
 namespace ureasoner
 {
@@ -17,132 +13,88 @@ namespace ureasoner
 	class Premise : public ExecutableWithCost<COST>
 	{
 	public:
-		virtual bool Evaluate() const = 0 ;
+		virtual bool Evaluate() const = 0;
 		virtual bool Evaluate() = 0;
-		virtual const shared_ptr<CheckableFact<COST>> GetFact() const = 0;
+		virtual const std::shared_ptr<CheckableFact<COST>> GetFact() const = 0;
 	};
 
-	template<typename T, template<typename> typename FACT_PROVIDER = FactWithGet, typename COST = double>
+	template<typename T, template<typename> typename FACT_TYPE = FactWithGet, typename COST = double>
 	class PremiseWithType : public Premise<COST>
 	{
 	public:
-		template<typename TF>
-		using FactProvider = FACT_PROVIDER<TF>;
-		typedef FactProvider<T> LocalFact;
-		using FactValue = T;
+		template<typename FACT_VALUE_TYPE>
+		using FactType = FACT_TYPE<FACT_VALUE_TYPE>;
+		using LocalFact = FactType<T>;
+		using FactValueType = T;
 
-		PremiseWithType(const std::shared_ptr<LocalFact> compareLeft, const FactValue& compareRight, const COST& cost = 0,
-			bool (*constComparer)(const FactValue&, const FactValue&) = [](const FactValue& x, const FactValue& y)->bool { return x == y; },
-			bool (*comparer)(FactValue&, FactValue&) = [](FactValue& x, FactValue& y)->bool { return x == y; })
+		PremiseWithType(const std::shared_ptr<LocalFact> compareLeft, const FactValueType& compareRight, const COST& cost = 0,
+			bool (*constComparer)(const FactValueType&, const FactValueType&) = [](const FactValueType& x, const FactValueType& y)->bool { return x == y; },
+			bool (*comparer)(FactValueType&, FactValueType&) = [](FactValueType& x, FactValueType& y)->bool { return x == y; })
 			: compareLeft(compareLeft), compareRight(std::make_unique<FactConst<T>>(compareRight)), comparer(comparer), constComparer(constComparer)/*, cost(cost)*/ {
 			Premise::ExecutableWithCost::SetCost(cost);
 		};
 
-		template<typename WRONG_TYPE>
-		PremiseWithType(const std::shared_ptr<FactProvider<WRONG_TYPE>> compareLeft, const WRONG_TYPE& compareRight, const COST& cost = 0,
-			bool (*constComparer)(const FactValue&, const FactValue&) = [](const FactValue& x, const FactValue& y)->bool { return x == y; },
-			bool (*comparer)(FactValue&, FactValue&) = [](FactValue& x, FactValue& y)->bool { return x == y; })
-			{
-			throw "Wrong type in premise initialization";
-		};
-
-		virtual bool Evaluate() const override
-		{
-			return constComparer(compareLeft->GetValue(), compareRight->GetValue());
-		}
-		virtual bool Evaluate() override
-		{
-			auto r = compareRight->GetValueShared();
-			auto l = compareLeft->GetValueShared();
-			return comparer(*l, *r);
-		}
-
-		virtual const shared_ptr<CheckableFact<COST>> GetFact() const override
-		{
-			return compareLeft;
-		}
-
-
-		virtual const COST GetEstimatedCost() const override
-		{
-			return Premise::ExecutableWithCost::GetCost() + compareLeft->GetEstimatedCost() + compareRight->GetEstimatedCost();
-		}
+		virtual bool Evaluate() const override { return constComparer(compareLeft->GetValue(), compareRight->GetValue()); }
+		virtual bool Evaluate() override { return comparer(*compareLeft->GetValueShared(), *compareRight->GetValueShared()); }
+		virtual const std::shared_ptr<CheckableFact<COST>> GetFact() const override { return compareLeft; }
+		virtual const COST GetEstimatedCost() const override { return Premise::ExecutableWithCost::GetCost() + compareLeft->GetEstimatedCost() + compareRight->GetEstimatedCost(); }
 
 	protected:
 		const std::shared_ptr<LocalFact> compareLeft;
 		const std::unique_ptr<LocalFact> compareRight;
-		bool (*comparer)(FactValue&, FactValue&);
-		bool (*constComparer)(const FactValue&, const FactValue&);
-		//COST cost;
+		bool (*comparer)(FactValueType&, FactValueType&);
+		bool (*constComparer)(const FactValueType&, const FactValueType&);
 	};
-
-	template<typename T, template<typename> typename FACT_PROVIDER = FactWithGet>
-	shared_ptr<PremiseWithType<T, FACT_PROVIDER>> MakePremise(const std::shared_ptr<FACT_PROVIDER<T>> compareLeft, const T& compareRight)
-	{
-		return make_shared< PremiseWithType<T, FACT_PROVIDER>>(compareLeft, compareRight);
-	}
 
 	template< typename COST = double>
 	class Conclusion : public ExecutableWithCost<COST>
 	{
 	public:
 		virtual void Execute() = 0;
-		virtual const shared_ptr<CheckableFact<COST>> GetFact() const = 0;
+		virtual const std::shared_ptr<CheckableFact<COST>> GetFact() const = 0;
 	};
 
 	template<typename T, typename COST = double>
 	class ConclusionSettingFact : public Conclusion<COST>
 	{
 	public:
-		ConclusionSettingFact(std::shared_ptr<FactSettable<T>> factToSet, const T& valueToBeSet, COST cost = 0) : factToBeSet(factToSet), valueToBeSet(std::make_unique<T>(valueToBeSet))/*, cost(cost)*/ {
+		using FactValue = T;
+		ConclusionSettingFact(std::shared_ptr<FactSettable<T>> factToSet, const T& valueToBeSet, COST cost = 0) : factToBeSet(factToSet), valueToBeSet(std::make_unique<T>(valueToBeSet)) {
 			Conclusion::ExecutableWithCost::SetCost(cost);
 		};
-		using FactValue = T;
-		virtual void Execute() override
-		{
-			factToBeSet->SetValue(*valueToBeSet);
-		}
 
-
-		virtual const shared_ptr<CheckableFact<COST>> GetFact() const override
-		{
-			return (shared_ptr<FactSettable<T>>)factToBeSet;
-		}
-
-
-		virtual const COST GetEstimatedCost() const override
-		{
-			return Conclusion::ExecutableWithCost::GetCost() + factToBeSet->GetEstimatedCost();
-		}
+		virtual void Execute() override												{factToBeSet->SetValue(*valueToBeSet);}
+		virtual const std::shared_ptr<CheckableFact<COST>> GetFact() const override	{return factToBeSet;}
+		virtual const COST GetEstimatedCost() const override						{return Conclusion::ExecutableWithCost::GetCost() + factToBeSet->GetEstimatedCost();}
 
 	protected:
 		std::shared_ptr<FactSettable<FactValue>> factToBeSet;
 		const std::unique_ptr<FactValue> valueToBeSet;
-		//COST cost;
 	};
 
-	template<std::invocable T, typename COST = double>
-	class ConclusionInvokingFunction : public Conclusion<COST>
-	{
-	public:
-//		using FactValue = T;
-		virtual void Execute() override
-		{
-			toInvoke();
-		}
-
-	protected:
-		const T toInvoke();
-	};
+// NOT USED
+// 	template<std::invocable T, typename COST = double>
+// 	class ConclusionInvokingFunction : public Conclusion<COST>
+// 	{
+// 	public:
+// 		using FactValue = T;
+// 		virtual void Execute() override
+// 		{
+// 			toInvoke();
+// 		}
+// 
+// 	protected:
+// 		const T toInvoke();
+// 	};
 
 	template<typename COST>
 	class Rule :
 		public ExecutableWithCost<COST>
 	{
-	public: 
+	public:
 		virtual bool CheckAndFire() = 0;
-		virtual vector<shared_ptr<CheckableFact<COST>>> GetFactsForFiring() = 0;
-		virtual vector<shared_ptr<CheckableFact<COST>>> GetFactsConcluding() = 0;
+		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() = 0;
+		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() = 0;
 	};
 
 	template<typename COST = double>
@@ -150,8 +102,8 @@ namespace ureasoner
 	{
 	public:
 		using CostType = COST;
-		
-		RuleImpl(std::vector<std::shared_ptr<Premise<CostType>>> premises, std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(premises), conclusions(conclusions)/*, cost(cost)*/ {
+
+		RuleImpl(std::vector<std::shared_ptr<Premise<CostType>>> premises, std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(premises), conclusions(conclusions) {
 			Rule::ExecutableWithCost::SetCost(cost);
 		};
 		RuleImpl(std::shared_ptr<Premise<CostType>> premise, std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(std::vector<std::shared_ptr<Premise>>{premise}), conclusions(conclusions) { Rule::ExecutableWithCost::SetCost(cost); };
@@ -160,7 +112,6 @@ namespace ureasoner
 			conclusions(std::vector<std::shared_ptr<Conclusion<CostType>>>{conclusion}) {
 			Rule::ExecutableWithCost::SetCost(cost);
 		};
-
 
 		virtual bool CheckAndFire() override
 		{
@@ -176,10 +127,9 @@ namespace ureasoner
 				{
 					conclusion->Execute();
 				}
-			} 
+			}
 			return allSatisfied;
 		}
-
 
 		virtual const CostType GetEstimatedCost() const override
 		{
@@ -196,10 +146,9 @@ namespace ureasoner
 			return sumCost;
 		}
 
-
-		virtual vector<shared_ptr<CheckableFact<COST>>> GetFactsForFiring() override
+		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() override
 		{
-			vector<shared_ptr<CheckableFact<COST>>> toRet;
+			std::vector<std::shared_ptr<CheckableFact<COST>>> toRet;
 			for each (std::shared_ptr<Premise<CostType>> premise in premises)
 			{
 				toRet.push_back(premise->GetFact());
@@ -207,10 +156,9 @@ namespace ureasoner
 			return toRet;
 		}
 
-
-		virtual vector<shared_ptr<CheckableFact<COST>>> GetFactsConcluding() override
+		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() override
 		{
-			vector<shared_ptr<CheckableFact<COST>>> toRet;
+			std::vector<std::shared_ptr<CheckableFact<COST>>> toRet;
 			for each (std::shared_ptr<Conclusion<CostType>> conclusion in conclusions)
 			{
 				toRet.push_back(conclusion->GetFact());
@@ -221,7 +169,6 @@ namespace ureasoner
 	protected:
 		std::vector<std::shared_ptr<Premise<CostType>>> premises;
 		std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions;
-		//const COST cost = 0;
 	};
 }
 #endif // universal_reasoner_rule_h__
