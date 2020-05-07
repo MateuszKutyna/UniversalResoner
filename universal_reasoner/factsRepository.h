@@ -26,7 +26,7 @@ namespace ureasoner
 
 
 	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	class FactsRepository : public FactsRepository<COST,STORED_TYPES...>
+	class FactsRepository : public FactsRepository<COST, STORED_TYPES...>
 	{
 		static_assert(!IsContained<FIRST_STORED_TYPE, STORED_TYPES...>::value, "No duplicate types allowed");
 
@@ -47,10 +47,8 @@ namespace ureasoner
 		std::shared_ptr< Fact<StoredType>> AddFact(const FactSettable<StoredType>& fact, const std::string& name)
 		{
 			return storage.insert(std::pair<std::string, std::shared_ptr< Fact<StoredType>>>(name, std::make_shared< FactSettable<StoredType>>(fact))).first->second;
-			//return std::make_shared< FactSettable<StoredType>>(fact); 
 		};
 		std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> GetAllKnownFacts();
-
 
 	protected:
 		std::unordered_map<std::string, std::shared_ptr< Fact<StoredType>>> storage;
@@ -69,14 +67,12 @@ namespace ureasoner
 		std::shared_ptr< Fact<StoredType>> GetFactByName(const std::string& name);
 		template<typename T>
 		std::shared_ptr< Fact<T>> GetFactByNameDynamic(const std::string& name);
-		//std::shared_ptr< Fact<StoredType>> GetFactByNameDynamic(const std::string& name);
 		std::shared_ptr< Fact<StoredType>> GetSettableFactByName(const std::string& name);
 		std::shared_ptr< Fact<StoredType>> AddFact(std::shared_ptr<Fact<StoredType>> fact, const std::string& name);
 		std::shared_ptr< Fact<StoredType>> AddFact(const StoredType& fact, const std::string& name);
-		std::shared_ptr< Fact<StoredType>> AddFact(const FactSettable<StoredType>& fact, const std::string& name) 
-		{ 
+		std::shared_ptr< Fact<StoredType>> AddFact(const FactSettable<StoredType>& fact, const std::string& name)
+		{
 			return storage.insert(std::pair<std::string, std::shared_ptr< Fact<StoredType>>>(name, std::make_shared< FactSettable<StoredType>>(fact))).first->second;
-			//return std::make_shared< FactSettable<StoredType>>(fact); 
 		};
 		std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> GetAllKnownFacts();
 
@@ -84,6 +80,7 @@ namespace ureasoner
 		std::unordered_map<std::string, std::shared_ptr< Fact<StoredType>>> storage;
 		std::shared_ptr< Fact<StoredType>> GetFact(const std::string& name, const StoredType*);
 		std::shared_ptr< FactSettable<StoredType, COST>> GetSettableFact(const std::string& name, const StoredType*);
+
 	};
 
 
@@ -92,54 +89,12 @@ namespace ureasoner
 
 	//????????????????????????????????????? IMPLEMENTATION //////////////////////////////////////////////////////////////////////////////////
 
-	template <typename COST, typename FIRST_STORED_TYPE>
-	std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE>::GetAllKnownFacts()
+	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
+	template<typename T>
+	auto FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetFactByName(const std::string& name)
 	{
-		auto toRet = std::make_shared<vector<shared_ptr<CheckableFact<COST>>>>();
-		for each (auto fact in storage)
-		{
-			if (fact.second->IsKnown())
-			{
-				toRet->push_back(fact.second);
-			}
-		}
-		return toRet;
-	}
-
-
-	template <typename COST, typename FIRST_STORED_TYPE>
-	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE>::AddFact(const FIRST_STORED_TYPE& fact, const std::string& name)
-	{
-		//auto toRet std::make_shared<FactSettable<FIRST_STORED_TYPE>>(fact);
-		return AddFact(std::make_shared<FactConst<FIRST_STORED_TYPE>>(fact), name);
-	}
-
-
-	template <typename COST, typename FIRST_STORED_TYPE>
-	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE>::AddFact(std::shared_ptr<Fact<FIRST_STORED_TYPE>> fact, const std::string& name)
-	{
-		auto toRet = storage.insert(std::pair<std::string, std::shared_ptr< Fact<StoredType>>>(name, fact)).first->second;
-		return toRet;
-	}
-
-	template <typename COST, typename FIRST_STORED_TYPE>
-	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE>::GetFact(const std::string& name, const StoredType*)
-	{
-		return storage.at(name);
-	}
-
-	template <typename COST, typename FIRST_STORED_TYPE>
-	std::shared_ptr<FactSettable<FIRST_STORED_TYPE, COST>> FactsRepository<COST, FIRST_STORED_TYPE>::GetSettableFact(const std::string& name, const StoredType*)
-	{
-		auto toRet = storage.at(name);
-		if (storage->IsSettable())
-		{
-			return toRet;
-		}
-		else
-		{
-			throw std::logic_error("Value of the fact is not settable.");
-		}
+		T* trait = nullptr;
+		return GetFact(name, trait);
 	}
 
 	template <typename COST, typename FIRST_STORED_TYPE>
@@ -151,17 +106,56 @@ namespace ureasoner
 		return GetFact(name, trait);
 	};
 
+	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
+	template<typename T>
+	auto FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetFactByNameDynamic(const std::string& name)
+	{
+		return GetFactByName<T>(name);
+	}
+
 	template <typename COST, typename FIRST_STORED_TYPE>
 	template<typename T>
-	//std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE>::GetFactByNameDynamic(const std::string& name)
 	std::shared_ptr<Fact<T>> FactsRepository<COST, FIRST_STORED_TYPE>::GetFactByNameDynamic(const std::string& name)
 	{
-		if constexpr (std::is_same<T,FIRST_STORED_TYPE>::value)
+		if constexpr (std::is_same<T, FIRST_STORED_TYPE>::value)
 			return GetFactByName<T>(name);
 		else
 			throw std::logic_error("Error during type conversion");
 	};
 
+	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
+	template<typename T>
+	auto FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetSettableFactByName(const std::string& name)
+	{
+		T* trait = nullptr;
+		return GetSettableFact(name, trait);
+	}
+
+	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
+	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::AddFact(const FIRST_STORED_TYPE& fact, const std::string& name)
+	{
+		return AddFact(std::make_shared<FactConst<FIRST_STORED_TYPE>>(fact), name);
+	}
+
+	template <typename COST, typename FIRST_STORED_TYPE>
+	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE>::AddFact(const FIRST_STORED_TYPE& fact, const std::string& name)
+	{
+		return AddFact(std::make_shared<FactConst<FIRST_STORED_TYPE>>(fact), name);
+	}
+
+	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
+	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::AddFact(std::shared_ptr<Fact<FIRST_STORED_TYPE>> fact, const std::string& name)
+	{
+		auto toRet = storage.insert(std::pair<std::string, std::shared_ptr< Fact<StoredType>>>(name, fact)).first->second;
+		return toRet;
+	}
+
+	template <typename COST, typename FIRST_STORED_TYPE>
+	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE>::AddFact(std::shared_ptr<Fact<FIRST_STORED_TYPE>> fact, const std::string& name)
+	{
+		auto toRet = storage.insert(std::pair<std::string, std::shared_ptr< Fact<StoredType>>>(name, fact)).first->second;
+		return toRet;
+	}
 
 	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
 	std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetAllKnownFacts()
@@ -177,22 +171,28 @@ namespace ureasoner
 		return toRet;
 	}
 
-	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::AddFact(const FIRST_STORED_TYPE& fact, const std::string& name)
+	template <typename COST, typename FIRST_STORED_TYPE>
+	std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE>::GetAllKnownFacts()
 	{
-		return AddFact(std::make_shared<FactConst<FIRST_STORED_TYPE>>(fact), name);
-	}
-
-
-	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::AddFact(std::shared_ptr<Fact<FIRST_STORED_TYPE>> fact, const std::string& name)
-	{
-		auto toRet = storage.insert(std::pair<std::string, std::shared_ptr< Fact<StoredType>>>(name, fact)).first->second;
+		auto toRet = std::make_shared<vector<shared_ptr<CheckableFact<COST>>>>();
+		for each (auto fact in storage)
+		{
+			if (fact.second->IsKnown())
+			{
+				toRet->push_back(fact.second);
+			}
+		}
 		return toRet;
 	}
 
 	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
 	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetFact(const std::string& name, const FIRST_STORED_TYPE*)
+	{
+		return storage.at(name);
+	}
+
+	template <typename COST, typename FIRST_STORED_TYPE>
+	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE>::GetFact(const std::string& name, const StoredType*)
 	{
 		return storage.at(name);
 	}
@@ -204,35 +204,25 @@ namespace ureasoner
 		if (toRet->IsSettable())
 		{
 			return dynamic_pointer_cast<FactSettable<FIRST_STORED_TYPE>>(toRet/*->GetValueShared()*/);
-		} 
+		}
 		else
 		{
 			throw std::logic_error("Value of the fact is not settable.");
 		}
 	}
 
-	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	template<typename T>
-	auto FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetFactByName(const std::string& name)
+	template <typename COST, typename FIRST_STORED_TYPE>
+	std::shared_ptr<FactSettable<FIRST_STORED_TYPE, COST>> FactsRepository<COST, FIRST_STORED_TYPE>::GetSettableFact(const std::string& name, const StoredType*)
 	{
-		T* trait = nullptr;
-		return GetFact(name, trait);
+		auto toRet = storage.at(name);
+		if (storage->IsSettable())
+		{
+			return toRet;
+		}
+		else
+		{
+			throw std::logic_error("Value of the fact is not settable.");
+		}
 	}
-
-	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	template<typename T>
-	auto FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetFactByNameDynamic(const std::string& name)
-	{
-		return GetFactByName<T>(name);
-	}
-
-	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	template<typename T>
-	auto FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetSettableFactByName(const std::string& name)
-	{
-		T* trait = nullptr;
-		return GetSettableFact(name, trait);
-	}
-
 }
 #endif // universal_reasoner_factsRepository_h__

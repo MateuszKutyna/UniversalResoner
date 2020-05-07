@@ -2,7 +2,6 @@
 #define universal_reasoner_fact_h__
 
 #include <memory>
-//#include <concepts>
 #include <stdexcept>
 #include "executableWithCost.h"
 #include "../knowledge_importers/knowledge_importers.h"
