@@ -9,15 +9,15 @@ using namespace ureasoner;
 using namespace std;
 
 using COST = double;
-TEST(BasicImport, ImportFact)
-{
-	importer::ImportedFact if1 { "OcenaCechOsobowych","ocena" };
-	FactsRepository<COST, std::string> repo;
-	auto s1 = FactFromImport<std::string>(if1);
-	repo.AddFact(s1,if1.name);
-	auto  ressempty = repo.GetFactByName<std::string>("OcenaCechOsobowych");
-	EXPECT_THROW(ressempty->GetValue(), std::logic_error);
-}
+// TEST(BasicImport, ImportFact)
+// {
+// 	importer::ImportedFact if1 { "OcenaCechOsobowych","ocena" };
+// 	FactsRepository<COST, std::string> repo;
+// 	auto s1 = FactFromImport<std::string>(if1);
+// 	repo.AddFact(s1,if1.name);
+// 	auto  ressempty = repo.GetFactByName<std::string>("OcenaCechOsobowych");
+// 	EXPECT_THROW(ressempty->GetValue(), std::logic_error);
+// }
 
 TEST(BasicImport, ImportFactSmarterWay)
 {
