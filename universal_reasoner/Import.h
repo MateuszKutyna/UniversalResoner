@@ -10,13 +10,6 @@
 
 namespace ureasoner
 {
-	// 	template<typename VALUE>
-	// 	std::shared_ptr < Fact<VALUE>> FactFromImport(const importer::ImportedFact& importedFact)
-	// 	{
-	// 		return make_shared<FactSettable<VALUE>>();
-	// 	}
-
-
 	template <typename  REPO>
 	void AddToRepo(const importer::ImportedFact& importedFact, REPO& repository)
 	{
@@ -84,22 +77,18 @@ namespace ureasoner
 		for each (auto rule in rules)
 		{
 			auto premises = make_shared<vector<shared_ptr<Premise>>>();
-			for each (auto premise in rule.premises)	// might be redesigned for template lambda!
+			PremiseInserter<Premise, vector<shared_ptr<Premise>>, METADATA::FactsRepository> premiseInserter(premises, factsRepo);
+			for each (auto premise in rule.premises)
 			{
-				auto factName = premise.factName;
-				auto factType = map.find(factName)->second;
-
-				PremiseInserter<Premise, vector<shared_ptr<Premise>>, METADATA::FactsRepository> premiseInserter(premises, factsRepo);
-				importer::ConvertImportedTypes(premiseInserter, factName, factType, premise.expectedValue);
+				const auto factName = premise.factName;
+				importer::ConvertImportedTypes(premiseInserter, factName, map.find(factName)->second, premise.expectedValue);
 			}
 			auto conclusions = make_shared<vector<shared_ptr<Conclusion>>>();
+			ConclusionInserter<Conclusion, vector<shared_ptr<Conclusion>>, METADATA::FactsRepository> conclusionInserter(conclusions, factsRepo);
 			for each (auto conclusion in rule.conclusions)
 			{
-				auto factName = conclusion.factName;
-				auto factType = map.find(factName)->second;
-
-				ConclusionInserter<Conclusion, vector<shared_ptr<Conclusion>>, METADATA::FactsRepository> conclusionInserter(conclusions, factsRepo);
-				importer::ConvertImportedTypes(conclusionInserter, factName, factType, conclusion.valueToSet);
+				const auto factName = conclusion.factName;
+				importer::ConvertImportedTypes(conclusionInserter, factName, map.find(factName)->second, conclusion.valueToSet);
 			}
 			data.AddRule(make_shared<RuleImpl<double>>(*premises, *conclusions));
 		}
