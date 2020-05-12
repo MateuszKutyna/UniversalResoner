@@ -88,8 +88,7 @@ namespace ureasoner
 // 	};
 
 	template<typename COST>
-	class Rule :
-		public ExecutableWithCost<COST>
+	class Rule : public ExecutableWithCost<COST>
 	{
 	public:
 		virtual bool CheckAndFire() = 0;
@@ -134,22 +133,21 @@ namespace ureasoner
 		virtual const CostType GetEstimatedCost() const override
 		{
 			CostType sumCost = Rule::ExecutableWithCost::GetCost();
-			for each (auto premise in premises)
+			for (auto premise: premises)
 			{
 				sumCost += premise->GetEstimatedCost();
 			}
-			for each (auto conclusion in conclusions)
+			for (auto conclusion: conclusions)
 			{
 				sumCost += conclusion->GetEstimatedCost();
 			}
-
 			return sumCost;
 		}
 
 		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() override
 		{
 			std::vector<std::shared_ptr<CheckableFact<COST>>> toRet;
-			for each (std::shared_ptr<Premise<CostType>> premise in premises)
+			for (std::shared_ptr<Premise<CostType>> premise: premises)
 			{
 				toRet.push_back(premise->GetFact());
 			}
@@ -159,7 +157,7 @@ namespace ureasoner
 		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() override
 		{
 			std::vector<std::shared_ptr<CheckableFact<COST>>> toRet;
-			for each (std::shared_ptr<Conclusion<CostType>> conclusion in conclusions)
+			for (std::shared_ptr<Conclusion<CostType>> conclusion: conclusions)
 			{
 				toRet.push_back(conclusion->GetFact());
 			}

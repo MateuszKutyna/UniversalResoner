@@ -3,7 +3,7 @@
 #include "../universal_reasoner/factsRepository.h"
 #include <string>
 #include "../universal_reasoner/Import.h"
-#include "../universal_reasoner/metadata.h"
+// #include "../universal_reasoner/metadata.h"
 #include "../universal_reasoner/planner.h"
 
 using std::string;
@@ -21,16 +21,13 @@ TEST(BasicPlanner, ImportFromFile)
 	auto repo = make_shared<FactsRepository<COST, std::string>>();
 	auto data = make_shared<Metadata<FactsRepository<COST, std::string>>>(repo);
 
-	//std::map<std::string, shared_ptr<FactWrapperInterface<Metadata<FactsRepository<COST, std::string>>>>> factsMap;
-// 
 	auto map = AddFacts(facts, *repo);
 	AddRules(rules, *data, map);
 
-// 
 	auto  ress = repo->GetFactByName<string>("StanZdrowia");
 	ress->SetValue("zly");
 	ress->SetCost(5.0);
-// 
+
  	Planner< Metadata<FactsRepository<double, std::string>>> plan(data);
 	auto availableRules = plan.BuildPlan();
 	EXPECT_EQ(availableRules.size(),1); 
