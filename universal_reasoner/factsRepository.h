@@ -67,7 +67,7 @@ namespace ureasoner
 		template<typename T>
 		std::shared_ptr< Fact<T>> GetFactByNameDynamic(const std::string& name);
 		std::shared_ptr< Fact<StoredType>> GetSettableFactByName(const std::string& name);
-		std::shared_ptr< Fact<StoredType>> AddFact(std::shared_ptr<Fact<StoredType>> fact, const std::string& name);
+		std::shared_ptr< Fact<StoredType>> AddFact(const std::shared_ptr<Fact<StoredType>>& fact, const std::string& name);
 		std::shared_ptr< Fact<StoredType>> AddFact(const StoredType& fact, const std::string& name);
 		std::shared_ptr< Fact<StoredType>> AddFact(const FactSettable<StoredType>& fact, const std::string& name)
 		{
@@ -150,7 +150,7 @@ namespace ureasoner
 	}
 
 	template <typename COST, typename FIRST_STORED_TYPE>
-	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE>::AddFact(std::shared_ptr<Fact<FIRST_STORED_TYPE>> fact, const std::string& name)
+	std::shared_ptr<Fact<FIRST_STORED_TYPE>> FactsRepository<COST, FIRST_STORED_TYPE>::AddFact(const std::shared_ptr<Fact<FIRST_STORED_TYPE>>& fact, const std::string& name)
 	{
 		auto toRet = storage.insert(std::pair<std::string, std::shared_ptr< Fact<StoredType>>>(name, fact)).first->second;
 		return toRet;
@@ -160,7 +160,7 @@ namespace ureasoner
 	std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetAllKnownFacts()
 	{
 		auto toRet = FactsRepository<COST, STORED_TYPES...>::GetAllKnownFacts();
-		for each (auto fact in storage)
+		for(const auto& fact: storage)
 		{
 			if (fact.second->IsKnown())
 			{
@@ -174,7 +174,7 @@ namespace ureasoner
 	std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE>::GetAllKnownFacts()
 	{
 		auto toRet = std::make_shared<std::vector<std::shared_ptr<CheckableFact<COST>>>>();
-		for each (auto fact in storage)
+		for (const auto fact: storage)
 		{
 			if (fact.second->IsKnown())
 			{

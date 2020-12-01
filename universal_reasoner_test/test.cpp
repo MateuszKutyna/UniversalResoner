@@ -19,7 +19,7 @@ TEST(BasicPremises, MakingPremiseWithComparer)
 	auto constComparer = [](const double& x, const double& y)->bool { return x < y; };
 	auto comparer = [](double& x, double& y)->bool { return x < y; };
 
-	PremiseWithType<double> p(a1, 3.0, 0.0, constComparer, comparer);
+	PremiseWithType<double> p(a1, 3.0, 0.0, constComparer);
 	EXPECT_TRUE(p.Evaluate());
 }
 

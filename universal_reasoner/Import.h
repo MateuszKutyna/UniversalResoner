@@ -6,7 +6,7 @@
 #include "rule.h"
 #include <memory>
 #include "../knowledge_importers/knowledge_importers.h"
-
+#include<map>
 
 namespace ureasoner
 {
@@ -74,18 +74,18 @@ namespace ureasoner
 		using Conclusion = Conclusion<typename METADATA::CostType>;
 		std::shared_ptr< METADATA::FactsRepository> factsRepo = data.GetFactsRepository();
 
-		for each (auto rule in rules)
+		for (const auto& rule: rules)
 		{
 			auto premises = make_shared<vector<shared_ptr<Premise>>>();
 			PremiseInserter<Premise, vector<shared_ptr<Premise>>, METADATA::FactsRepository> premiseInserter(premises, factsRepo);
-			for each (auto premise in rule.premises)
+			for (const auto& premise: rule.premises)
 			{
 				const auto factName = premise.factName;
 				importer::ConvertImportedTypes(premiseInserter, factName, map.find(factName)->second, premise.expectedValue);
 			}
 			auto conclusions = make_shared<vector<shared_ptr<Conclusion>>>();
 			ConclusionInserter<Conclusion, vector<shared_ptr<Conclusion>>, METADATA::FactsRepository> conclusionInserter(conclusions, factsRepo);
-			for each (auto conclusion in rule.conclusions)
+			for (const auto& conclusion: rule.conclusions)
 			{
 				const auto factName = conclusion.factName;
 				importer::ConvertImportedTypes(conclusionInserter, factName, map.find(factName)->second, conclusion.valueToSet);
