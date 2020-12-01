@@ -72,20 +72,6 @@ namespace ureasoner
 		const std::unique_ptr<FactValue> valueToBeSet;
 	};
 
-// NOT USED
-// 	template<std::invocable T, typename COST = double>
-// 	class ConclusionInvokingFunction : public Conclusion<COST>
-// 	{
-// 	public:
-// 		using FactValue = T;
-// 		virtual void Execute() override
-// 		{
-// 			toInvoke();
-// 		}
-// 
-// 	protected:
-// 		const T toInvoke();
-// 	};
 
 	template<typename COST>
 	class Rule : public ExecutableWithCost<COST>
@@ -97,7 +83,7 @@ namespace ureasoner
 	};
 
 	template<typename COST = double>
-	class RuleImpl : public Rule<COST>
+	class RuleImpl : public Rule<COST> //RuleImplementaion?
 	{
 	public:
 		using CostType = COST;

@@ -53,9 +53,7 @@ namespace ureasoner
 			{
 			case str2int("Real"):
 			{
-//				auto tr = std::make_shared<Fact<float>>(FactSettable<float>(EmptyVar<float>()));
 				repo.AddFact(EmptyVar<float>(), fact.name);
-//				repo.AddFact(tr, fact.name);
 				break;
 			}
 			default:

@@ -9,6 +9,7 @@ namespace ureasoner
 		typedef double CostType;
 
 		ExecutionCost(CostType cost) noexcept :cost(cost) {};
+		//returns estimatedCost, of ?
 		CostType EstimatedCost()  const noexcept{
 			return cost;
 		};
