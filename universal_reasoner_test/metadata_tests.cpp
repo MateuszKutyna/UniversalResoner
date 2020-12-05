@@ -14,13 +14,16 @@ TEST(BasicMetadata, AddingFacts)
 	auto repo = make_shared<FactsRepository<COST, std::string>>();
 	Metadata<FactsRepository<COST, std::string>> data(repo);
 
+	//Adding 3 different facts
 	repo->AddFact(std::make_shared<FactConst<string>>("test1"), "test1");
 	repo->AddFact("test2", "test2");
 	repo->AddFact(FactSettable<string>(),"test3");
-
+	
+	//Taking out the first one from repo 
 	auto  ress1 = repo->GetFactByName<std::string>("test1");
 	EXPECT_EQ(ress1->GetValue(), "test1");
-
+	
+	//Logic error because FactSettable isn't set yet
 	auto  ress2 = repo->GetFactByName<string>("test3");
 	EXPECT_THROW(ress2->GetValue(), std::logic_error);
 }
@@ -28,8 +31,10 @@ TEST(BasicMetadata, AddingFacts)
 TEST(BasicMetadata, AddingMoreComplexFacts)
 {
 	auto repo = make_shared<FactsRepository<COST, string, int, double>>();
+	//decltype takes repo type and element_type takes type of element that repo points to.
 	Metadata<decltype(repo)::element_type> data(repo);
 
+	//Adding 5 different facts
 	repo->AddFact(std::make_shared<FactConst<string>>("test1"), "test1");
 	repo->AddFact("test2", "test2");
 	repo->AddFact(FactSettable<string>(), "test3");
@@ -42,6 +47,7 @@ TEST(BasicMetadata, AddingMoreComplexFacts)
 	auto  resi1 = repo->GetFactByName<int>("i1");
 	EXPECT_EQ(resi1->GetValue(), 2);
 
+	//Logic error because FactSettable isn't set yet
 	auto  ress2 = repo->GetFactByName<string>("test3");
 	EXPECT_THROW(ress2->GetValue(), std::logic_error);
 }
@@ -54,9 +60,8 @@ TEST(BasicMetadata, AddingRules)
 
 	repo->AddFact(std::make_shared<FactConst<string>>("test1"), "test1");
 	repo->AddFact("test2", "test2");
-
-	
 	repo->AddFact(FactSettable<string>(), "test3");
+
  	auto s3 = repo->GetSettableFactByName<string>("test3");
 	repo->AddFact(2.0, "d1");
 	repo->AddFact(2, "i1");
@@ -65,12 +70,15 @@ TEST(BasicMetadata, AddingRules)
 	auto conclusion1 = std::make_shared<ConclusionSettingFact<string>>(s3, "test3");
 
 
- 	std::shared_ptr<Premise<double>> premis1 = std::make_shared<PremiseWithType<string>>(repo->GetFactByName<std::string>("test1"), "test1");
+ 	auto premis1 = std::make_shared<PremiseWithType<string>>(repo->GetFactByName<std::string>("test1"), "test1");
 
 	auto  ress3 = repo->GetFactByName<string>("test3");
 	EXPECT_THROW(ress3->GetValue(), std::logic_error);
+
 	auto rule1 = make_shared<RuleImpl<double>>(premis1, conclusion1);
 	data.AddRule(rule1);
+	//Sets facts value to be test3
  	EXPECT_TRUE(rule1->CheckAndFire());
+
  	EXPECT_EQ(ress3->GetValue(), "test3");
 }

@@ -17,12 +17,15 @@ namespace ureasoner
 	}
 
 	template <typename  REPO>
-	std::map<std::string, std::string> AddFacts(std::vector<importer::ImportedFact>& facts, REPO& repository)
+	std::map<std::string, std::string> AddFacts(const std::vector<importer::ImportedFact>& facts, REPO& repository)
 	{
+
 		std::map<std::string, std::string> nameTypeMapper;
-		for each (auto fact in facts)
+		for(const auto& fact: facts)
 		{
+			//Inserts facts into repository
 			importer::fillFact(repository, fact);
+			//Inserts facts into map
 			nameTypeMapper.insert(std::pair(fact.name, fact.type));
 		}
 		return std::move(nameTypeMapper);
@@ -38,8 +41,7 @@ namespace ureasoner
 		void Insert(const std::string& name, T&& expectedValue)
 		{
 			cont->push_back(
-				make_shared<PremiseWithType<std::remove_cvref_t<T>>>
-					(repo->GetFactByNameDynamic<std::remove_cvref_t<T>>(name), expectedValue)
+				make_shared<PremiseWithType<std::remove_cvref_t<T>>>(repo->GetFactByNameDynamic<std::remove_cvref_t<T>>(name), expectedValue)
 			);
 
 		};
@@ -70,10 +72,11 @@ namespace ureasoner
 	template <typename  METADATA>
 	void AddRules(std::vector<importer::ImportedRule>& rules, METADATA& data, std::map<std::string, std::string>& map)
 	{
-		using Premise = Premise<typename METADATA::CostType>;
-		using Conclusion = Conclusion<typename METADATA::CostType>;
-		std::shared_ptr< METADATA::FactsRepository> factsRepo = data.GetFactsRepository();
+		using Premise = Premise<METADATA::CostType>;
+		using Conclusion = Conclusion<METADATA::CostType>;
+		std::shared_ptr<METADATA::FactsRepository> factsRepo = data.GetFactsRepository();
 
+		//POTENCJALNE MIEJSCE NA ZROWNOLEGLENIE 
 		for (const auto& rule: rules)
 		{
 			auto premises = make_shared<vector<shared_ptr<Premise>>>();
@@ -83,6 +86,7 @@ namespace ureasoner
 				const auto factName = premise.factName;
 				importer::ConvertImportedTypes(premiseInserter, factName, map.find(factName)->second, premise.expectedValue);
 			}
+
 			auto conclusions = make_shared<vector<shared_ptr<Conclusion>>>();
 			ConclusionInserter<Conclusion, vector<shared_ptr<Conclusion>>, METADATA::FactsRepository> conclusionInserter(conclusions, factsRepo);
 			for (const auto& conclusion: rule.conclusions)
@@ -90,6 +94,7 @@ namespace ureasoner
 				const auto factName = conclusion.factName;
 				importer::ConvertImportedTypes(conclusionInserter, factName, map.find(factName)->second, conclusion.valueToSet);
 			}
+
 			data.AddRule(make_shared<RuleImpl<double>>(*premises, *conclusions));
 		}
 	}

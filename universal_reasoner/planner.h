@@ -13,9 +13,12 @@ namespace ureasoner
 	
 		using Metadata = METADATA;
 		using CostType = typename Metadata::CostType;
+
 		Planner(shared_ptr<Metadata> metadata) : metadata(metadata) {}
+
 		std::multimap < typename METADATA::CostType, shared_ptr<Rule<typename METADATA::CostType>>> BuildPlan();
 	protected:
+
 		const shared_ptr<Metadata> metadata;
 	};
 
@@ -25,9 +28,10 @@ namespace ureasoner
 		auto facts = metadata->GetKnownFacts();
 		auto rules = metadata->GetRules();
 
+		//Map with keys that aren't unique
 		std::multimap < CostType, shared_ptr<Rule<CostType>>> allowedRules;
 
-		for each (shared_ptr<Rule<Metadata::CostType>> rule in rules)
+		for (const auto& rule: rules)
 		{
 			auto neededFacts = rule->GetFactsForFiring();
 			auto providedFacts = rule->GetFactsConcluding();

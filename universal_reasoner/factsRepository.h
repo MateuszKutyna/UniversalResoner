@@ -7,26 +7,25 @@
 
 namespace ureasoner
 {
-
 	template <typename T, typename... List>
 	struct IsContained;
 
+	//check if types aren't duplicating
 	template <typename T, typename Head, typename... Tail>
 	struct IsContained<T, Head, Tail...>
 	{
 		enum { value = std::is_same<T, Head>::value || (IsContained<T, Tail...>::value) };
 	};
 
+	// if there is odd an odd number of types 
 	template <typename T>
 	struct IsContained<T>
 	{
 		enum { value = false };
 	};
 
-
 	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	class FactsRepository : public FactsRepository<COST, STORED_TYPES...>
-	{
+	class FactsRepository : public FactsRepository<COST, STORED_TYPES...>{
 		static_assert(!IsContained<FIRST_STORED_TYPE, STORED_TYPES...>::value, "No duplicate types allowed");
 
 	public:
@@ -41,6 +40,7 @@ namespace ureasoner
 		auto GetFactByNameDynamic(const std::string& name);	// auto here allows to pass a result from inherited GetFact function!
 		template<typename T>
 		auto GetSettableFactByName(const std::string& name);	// auto here allows to pass a result from inherited GetFact function!
+
 		std::shared_ptr< Fact<StoredType>> AddFact(std::shared_ptr<Fact<StoredType>> fact, const std::string& name);
 		std::shared_ptr< Fact<StoredType>> AddFact(const StoredType& fact, const std::string& name);
 		std::shared_ptr< Fact<StoredType>> AddFact(const FactSettable<StoredType>& fact, const std::string& name)
@@ -50,14 +50,14 @@ namespace ureasoner
 		std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> GetAllKnownFacts();
 
 	protected:
+		//Keys must be unique (in this case std::string), it has no order
 		std::unordered_map<std::string, std::shared_ptr< Fact<StoredType>>> storage;
 		std::shared_ptr< Fact<StoredType>> GetFact(const std::string& name, const StoredType*);
 		std::shared_ptr< FactSettable<StoredType, COST>> GetSettableFact(const std::string& name, const StoredType*);
 	};
 
 	template <typename COST, typename FIRST_STORED_TYPE>
-	class FactsRepository< COST, FIRST_STORED_TYPE>
-	{
+	class FactsRepository< COST, FIRST_STORED_TYPE>{
 	public:
 		using StoredType = FIRST_STORED_TYPE;
 		using CostType = COST;
@@ -76,6 +76,7 @@ namespace ureasoner
 		std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> GetAllKnownFacts();
 
 	protected:
+		//Keys must be unique
 		std::unordered_map<std::string, std::shared_ptr< Fact<StoredType>>> storage;
 		std::shared_ptr< Fact<StoredType>> GetFact(const std::string& name, const StoredType*);
 		std::shared_ptr< FactSettable<StoredType, COST>> GetSettableFact(const std::string& name, const StoredType*);
@@ -174,7 +175,7 @@ namespace ureasoner
 	std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE>::GetAllKnownFacts()
 	{
 		auto toRet = std::make_shared<std::vector<std::shared_ptr<CheckableFact<COST>>>>();
-		for (const auto fact: storage)
+		for (const auto& fact: storage)
 		{
 			if (fact.second->IsKnown())
 			{
@@ -204,10 +205,7 @@ namespace ureasoner
 		{
 			return dynamic_pointer_cast<FactSettable<FIRST_STORED_TYPE>>(toRet/*->GetValueShared()*/);
 		}
-		else
-		{
 			throw std::logic_error("Value of the fact is not settable.");
-		}
 	}
 
 	template <typename COST, typename FIRST_STORED_TYPE>
@@ -218,10 +216,7 @@ namespace ureasoner
 		{
 			return toRet;
 		}
-		else
-		{
 			throw std::logic_error("Value of the fact is not settable.");
-		}
 	}
 }
 #endif // universal_reasoner_factsRepository_h__

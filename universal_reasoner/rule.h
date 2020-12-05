@@ -64,8 +64,8 @@ namespace ureasoner
 		};
 
 		virtual void Execute() override												{factToBeSet->SetValue(*valueToBeSet);}
-		virtual std::shared_ptr<CheckableFact<COST>> GetFact() const override	{return factToBeSet;}
-		virtual COST GetEstimatedCost() const override						{return Conclusion::ExecutableWithCost::GetCost() + factToBeSet->GetEstimatedCost();}
+		virtual std::shared_ptr<CheckableFact<COST>> GetFact() const override		{return factToBeSet;}
+		virtual COST GetEstimatedCost() const override								{return Conclusion::ExecutableWithCost::GetCost() + factToBeSet->GetEstimatedCost();}
 
 	protected:
 		std::shared_ptr<FactSettable<FactValue>> factToBeSet;
@@ -102,10 +102,12 @@ namespace ureasoner
 		{
 			bool allSatisfied = true;
 			auto iter = premises.begin();
+			//checkes if every premise is equal
 			while (allSatisfied && (iter != premises.end()))
 			{
 				allSatisfied = (*iter++)->Evaluate();
 			}
+			//if is then sets facts value
 			if (allSatisfied)
 			{
 				for (std::shared_ptr<Conclusion<CostType>> conclusion : conclusions)

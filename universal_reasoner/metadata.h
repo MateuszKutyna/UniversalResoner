@@ -37,7 +37,7 @@ namespace ureasoner
 		shared_ptr<FactsRepository> GetFactsRepository() { return factsRepository; }
 
 	protected:
-		shared_ptr< FACTS_REPOSITORY> factsRepository;
+		shared_ptr< FactsRepository> factsRepository;
 		vector<shared_ptr<Rule<COST_TYPE>>> rules;
 	};
 

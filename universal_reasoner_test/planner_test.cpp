@@ -11,24 +11,34 @@ using std::make_shared;
 using namespace ureasoner;
 using COST = double;
 TEST(BasicPlanner, ImportFromFile)
-{
+{	
+	//upload fact from JDUDa, (vector<ImportedFact>)
 	auto facts = ureasoner::importer::ReadFactsFromFirstRulesSetRebitJSON("JDuda.json"); //copy JDuda to universal reasoner\x64\Debug
 	EXPECT_EQ(facts.size(), 5);
 
+	//upload rules from JDUDa, (vector<ImportedRule>) 
 	auto rules = ureasoner::importer::ReadRulesFromFirstRulesSetRebitJSON("JDuda.json"); //copy JDuda to universal reasoner\x64\Debug
 	EXPECT_EQ(rules.size(), 18);
 
+	//empty repo unordered_map
 	auto repo = make_shared<FactsRepository<COST, std::string>>();
+
+	//empty data, has factRepo(ptr) and rules(vector)
 	auto data = make_shared<Metadata<FactsRepository<COST, std::string>>>(repo);
 
+	//Inserts facts into repo and map
 	auto map = AddFacts(facts, *repo);
+
+	//Creating rules
 	AddRules(rules, *data, map);
+
 
 	auto  ress = repo->GetFactByName<string>("StanZdrowia");
 	ress->SetValue("zly");
 	ress->SetCost(5.0);
+	
 
- 	Planner< Metadata<FactsRepository<double, std::string>>> plan(data);
+ 	Planner< Metadata<FactsRepository<COST, std::string>>> plan(data);
 	auto availableRules = plan.BuildPlan();
 	EXPECT_EQ(availableRules.size(),1); 
 
@@ -51,6 +61,7 @@ TEST(BasicPlanner, ImportFromFile)
 	availableRules = plan.BuildPlan();
 	EXPECT_EQ(availableRules.size(), 18);
 
+	//18 rules 
 	EXPECT_EQ(availableRules.count(5), 1);
 	EXPECT_EQ(availableRules.count(30), 5);
 	EXPECT_EQ(availableRules.count(65), 2);

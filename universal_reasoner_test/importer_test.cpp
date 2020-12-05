@@ -15,9 +15,8 @@ TEST(BasicImport, ImportFactSmarterWay)
 	importer::ImportedFact if1{ "OcenaCechOsobowych","ocena" };
 	FactsRepository<COST, std::string> repo;
 	AddToRepo(if1, repo);
-
 	auto  ressempty = repo.GetFactByName<std::string>("OcenaCechOsobowych");
 
-	//How does the GetValue work, and why it is logic_error?
+	//It can't get it's value because it's not FactSettable
 	EXPECT_THROW(ressempty->GetValue(), std::logic_error);
 }
