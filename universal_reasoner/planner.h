@@ -25,7 +25,9 @@ namespace ureasoner
 	template<typename METADATA>
 	std::multimap < typename METADATA::CostType, shared_ptr<Rule<typename METADATA::CostType>>> ureasoner::Planner<METADATA>::BuildPlan()
 	{
+		//all facts that aren't settable = true or fact that are FactConst type
 		auto facts = metadata->GetKnownFacts();
+		//All rules (18)
 		auto rules = metadata->GetRules();
 
 		//Map with keys that aren't unique

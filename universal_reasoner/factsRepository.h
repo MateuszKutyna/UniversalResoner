@@ -85,7 +85,7 @@ namespace ureasoner
 
 
 	template <typename... STORED_TYPES>
-	using FactsRepositoryDouble = typename FactsRepository<double, STORED_TYPES...>;
+	using FactsRepositoryDouble = FactsRepository<double, STORED_TYPES...>;
 
 	//????????????????????????????????????? IMPLEMENTATION //////////////////////////////////////////////////////////////////////////////////
 
@@ -203,7 +203,7 @@ namespace ureasoner
 		auto toRet = storage.at(name);
 		if (toRet->IsSettable())
 		{
-			return dynamic_pointer_cast<FactSettable<FIRST_STORED_TYPE>>(toRet/*->GetValueShared()*/);
+			return std::dynamic_pointer_cast<FactSettable<FIRST_STORED_TYPE>>(toRet/*->GetValueShared()*/);
 		}
 			throw std::logic_error("Value of the fact is not settable.");
 	}

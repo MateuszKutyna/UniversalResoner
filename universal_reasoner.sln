@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "universal_reasoner", "universal_reasoner\universal_reasoner.vcxproj", "{85FD9B0C-84EC-4D45-B974-9234CB8E267B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{28DA478F-BF7F-49E7-A54A-4B3B81385BB0} = {28DA478F-BF7F-49E7-A54A-4B3B81385BB0}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "universal_reasoner_test", "universal_reasoner_test\universal_reasoner_test.vcxproj", "{FF6F4F19-9A45-415A-8E03-4A5EA483B01A}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -15,6 +18,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E06E7A2-D7FC-438B-952E-8475AD962D02}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "knowledge_importers_test", "knowledge_importers_test\knowledge_importers_test.vcxproj", "{C269C1FF-A8FF-456D-9B05-3911966DDCFC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main", "main\main.vcxproj", "{0F3D2424-16CF-473B-83A5-39FFE6BF616B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{85FD9B0C-84EC-4D45-B974-9234CB8E267B} = {85FD9B0C-84EC-4D45-B974-9234CB8E267B}
+		{28DA478F-BF7F-49E7-A54A-4B3B81385BB0} = {28DA478F-BF7F-49E7-A54A-4B3B81385BB0}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +65,12 @@ Global
 		{C269C1FF-A8FF-456D-9B05-3911966DDCFC}.Release|x64.Build.0 = Release|x64
 		{C269C1FF-A8FF-456D-9B05-3911966DDCFC}.Release|x86.ActiveCfg = Release|Win32
 		{C269C1FF-A8FF-456D-9B05-3911966DDCFC}.Release|x86.Build.0 = Release|Win32
+		{0F3D2424-16CF-473B-83A5-39FFE6BF616B}.Debug|x64.ActiveCfg = Debug|x64
+		{0F3D2424-16CF-473B-83A5-39FFE6BF616B}.Debug|x86.ActiveCfg = Debug|Win32
+		{0F3D2424-16CF-473B-83A5-39FFE6BF616B}.Debug|x86.Build.0 = Debug|Win32
+		{0F3D2424-16CF-473B-83A5-39FFE6BF616B}.Release|x64.ActiveCfg = Release|x64
+		{0F3D2424-16CF-473B-83A5-39FFE6BF616B}.Release|x86.ActiveCfg = Release|Win32
+		{0F3D2424-16CF-473B-83A5-39FFE6BF616B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

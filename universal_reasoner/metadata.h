@@ -15,8 +15,7 @@ using std::vector;
 namespace ureasoner
 {
 	template<typename FACTS_REPOSITORY, typename COST_TYPE = double, typename EXECUTABLE = ExecutableWithCost<COST_TYPE>>
-	class Metadata
-	{
+	class Metadata{
 	public:
 		using ExecutableWithCost = EXECUTABLE;
 		using FactsRepository = FACTS_REPOSITORY;

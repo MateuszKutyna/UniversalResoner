@@ -9,8 +9,7 @@
 namespace ureasoner
 {
 	template<totally_ordered COST = double>
-	class CheckableFact: public ExecutableWithCost<COST>
-	{
+	class CheckableFact: public ExecutableWithCost<COST>{
 	public:
 		virtual ~CheckableFact() noexcept{};
 		virtual bool IsKnown() const noexcept = 0;
@@ -94,7 +93,7 @@ namespace ureasoner
 		virtual std::shared_ptr<ValueType> GetValueShared() override;
 		virtual bool IsSettable() const noexcept override				{return settable; }
 		virtual bool IsKnown() const noexcept override					{return !IsSettable(); };
-		virtual COST GetEstimatedCost() const override					{return Fact::CheckableFact::ExecutableWithCost::GetCost() + GetEstimatedGetCost() + GetEstimatedSetCost();}
+		virtual COST GetEstimatedCost() const override					{return Fact<VALUE,COST>::CheckableFact::ExecutableWithCost::GetCost() + GetEstimatedGetCost() + GetEstimatedSetCost();}
 		virtual void SetCost(const COST& costs) override				{ this->cost = costs; }
 	protected:
 		bool settable = true;

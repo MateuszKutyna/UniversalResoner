@@ -20,19 +20,21 @@ TEST(BasicPlanner, ImportFromFile)
 	auto rules = ureasoner::importer::ReadRulesFromFirstRulesSetRebitJSON("JDuda.json"); //copy JDuda to universal reasoner\x64\Debug
 	EXPECT_EQ(rules.size(), 18);
 
+	
 	//empty repo unordered_map
 	auto repo = make_shared<FactsRepository<COST, std::string>>();
 
 	//empty data, has factRepo(ptr) and rules(vector)
+	//it is container for facts repo and rules
 	auto data = make_shared<Metadata<FactsRepository<COST, std::string>>>(repo);
 
-	//Inserts facts into repo and map
+	//Inserts facts into repo and into a map
 	auto map = AddFacts(facts, *repo);
 
 	//Creating rules
 	AddRules(rules, *data, map);
 
-
+	//Sets fact as "StanZdrowia jest zly" with a COST = 5.0
 	auto  ress = repo->GetFactByName<string>("StanZdrowia");
 	ress->SetValue("zly");
 	ress->SetCost(5.0);

@@ -10,8 +10,7 @@
 namespace ureasoner
 {
 	template<typename COST = double>
-	class Premise : public ExecutableWithCost<COST>
-	{
+	class Premise : public ExecutableWithCost<COST>{
 	public:
 		virtual bool Evaluate() const = 0;
 		virtual bool Evaluate() = 0;
@@ -19,8 +18,7 @@ namespace ureasoner
 	};
 
 	template<typename T, template<typename> typename FACT_TYPE = FactWithGet, typename COST = double>
-	class PremiseWithType : public Premise<COST>
-	{
+	class PremiseWithType : public Premise<COST>{
 	public:
 		template<typename FACT_VALUE_TYPE>
 		using FactType = FACT_TYPE<FACT_VALUE_TYPE>;
