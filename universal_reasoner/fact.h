@@ -64,7 +64,7 @@ namespace ureasoner
 		virtual void SetCost(const COST& costs) override					{ this->cost = costs; }
 
 	protected:
-		virtual COST GetEstimatedGetCost() const override					{return Fact::FactWithGet::CheckableFact::ExecutableWithCost::GetCost();}
+		virtual COST GetEstimatedGetCost() const override					{return Fact<VALUE,COST>::FactWithGet::CheckableFact::ExecutableWithCost::GetCost();}
 		constexpr virtual COST GetEstimatedSetCost() const override			{return 0;}
 
 		std::shared_ptr<ValueType> factValue;
@@ -80,7 +80,7 @@ namespace ureasoner
 
 		FactSettable(const COST& cost = 0, const COST& costGet = 0, const COST& costSet = 0) : costGet(costGet), costSet(costSet) 
 		{
-			Fact::CheckableFact::ExecutableWithCost::SetCost(cost);
+			Fact<VALUE,COST>::CheckableFact::ExecutableWithCost::SetCost(cost);
 		};
 		FactSettable(const importer::EmptyVar<ValueType>&) : costGet(0), costSet(0)	{};
 

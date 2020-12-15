@@ -31,13 +31,13 @@ namespace ureasoner
 			ComparerType constComparer = [](const FactValueType& x, const FactValueType& y) { return x == y; })
 			: compareLeft(compareLeft), compareRight(std::make_unique<FactConst<T>>(compareRight)),
 			constComparer(constComparer){
-			Premise::ExecutableWithCost::SetCost(cost);
+			Premise<COST>::ExecutableWithCost::SetCost(cost);
 		};
 
 		virtual bool Evaluate() const override { return constComparer(compareLeft->GetValue(), compareRight->GetValue()); }
 		virtual bool Evaluate() override { return constComparer(*compareLeft->GetValueShared(), *compareRight->GetValueShared()); }
 		virtual std::shared_ptr<CheckableFact<COST>> GetFact() const override { return compareLeft; }
-		virtual COST GetEstimatedCost() const override { return Premise::ExecutableWithCost::GetCost() + compareLeft->GetEstimatedCost() + compareRight->GetEstimatedCost(); }
+		virtual COST GetEstimatedCost() const override { return Premise<COST>::ExecutableWithCost::GetCost() + compareLeft->GetEstimatedCost() + compareRight->GetEstimatedCost(); }
 	protected:
 		const std::shared_ptr<LocalFact> compareLeft;
 		const std::unique_ptr<LocalFact> compareRight;
@@ -58,12 +58,12 @@ namespace ureasoner
 	public:
 		using FactValue = T;
 		ConclusionSettingFact(std::shared_ptr<FactSettable<T>> factToSet, const T& valueToBeSet, COST cost = 0) : factToBeSet(factToSet), valueToBeSet(std::make_unique<T>(valueToBeSet)) {
-			Conclusion::ExecutableWithCost::SetCost(cost);
+			Conclusion<COST>::ExecutableWithCost::SetCost(cost);
 		};
 
 		virtual void Execute() override												{factToBeSet->SetValue(*valueToBeSet);}
 		virtual std::shared_ptr<CheckableFact<COST>> GetFact() const override		{return factToBeSet;}
-		virtual COST GetEstimatedCost() const override								{return Conclusion::ExecutableWithCost::GetCost() + factToBeSet->GetEstimatedCost();}
+		virtual COST GetEstimatedCost() const override								{return Conclusion<COST>::ExecutableWithCost::GetCost() + factToBeSet->GetEstimatedCost();}
 
 	protected:
 		std::shared_ptr<FactSettable<FactValue>> factToBeSet;
@@ -87,13 +87,13 @@ namespace ureasoner
 		using CostType = COST;
 
 		RuleImpl(std::vector<std::shared_ptr<Premise<CostType>>> premises, std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(premises), conclusions(conclusions) {
-			Rule::ExecutableWithCost::SetCost(cost);
+			Rule<COST>::ExecutableWithCost::SetCost(cost);
 		};
 		RuleImpl(std::shared_ptr<Premise<CostType>> premise, std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(std::vector<std::shared_ptr<Premise>>{premise}), conclusions(conclusions) { Rule::ExecutableWithCost::SetCost(cost); };
 		RuleImpl(std::shared_ptr<Premise<CostType>> premise, std::shared_ptr<Conclusion<CostType>> conclusion, CostType cost = 0)
 			: premises(std::vector<std::shared_ptr<Premise<CostType>>>{premise}),
 			conclusions(std::vector<std::shared_ptr<Conclusion<CostType>>>{conclusion}) {
-			Rule::ExecutableWithCost::SetCost(cost);
+			Rule<CostType>::ExecutableWithCost::SetCost(cost);
 		};
 
 		virtual bool CheckAndFire() override
@@ -118,7 +118,7 @@ namespace ureasoner
 
 		virtual CostType GetEstimatedCost() const override
 		{
-			CostType sumCost = Rule::ExecutableWithCost::GetCost();
+			CostType sumCost = Rule<CostType>::ExecutableWithCost::GetCost();
 			for (const auto& premise: premises)
 			{
 				sumCost += premise->GetEstimatedCost();

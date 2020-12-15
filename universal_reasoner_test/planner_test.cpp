@@ -6,8 +6,6 @@
 // #include "../universal_reasoner/metadata.h"
 #include "../universal_reasoner/planner.h"
 
-using std::string;
-using std::make_shared;
 using namespace ureasoner;
 using COST = double;
 TEST(BasicPlanner, ImportFromFile)
@@ -22,11 +20,11 @@ TEST(BasicPlanner, ImportFromFile)
 
 	
 	//empty repo unordered_map
-	auto repo = make_shared<FactsRepository<COST, std::string>>();
+	auto repo = std::make_shared<FactsRepository<COST, std::string>>();
 
 	//empty data, has factRepo(ptr) and rules(vector)
 	//it is container for facts repo and rules
-	auto data = make_shared<Metadata<FactsRepository<COST, std::string>>>(repo);
+	auto data = std::make_shared<Metadata<FactsRepository<COST, std::string>>>(repo);
 
 	//Inserts facts into repo and into a map
 	auto map = AddFacts(facts, *repo);
@@ -35,7 +33,7 @@ TEST(BasicPlanner, ImportFromFile)
 	AddRules(rules, *data, map);
 
 	//Sets fact as "StanZdrowia jest zly" with a COST = 5.0
-	auto  ress = repo->GetFactByName<string>("StanZdrowia");
+	auto  ress = repo->GetFactByName<std::string>("StanZdrowia");
 	ress->SetValue("zly");
 	ress->SetCost(5.0);
 	
@@ -44,11 +42,11 @@ TEST(BasicPlanner, ImportFromFile)
 	auto availableRules = plan.BuildPlan();
 	EXPECT_EQ(availableRules.size(),1); 
 
-	ress = repo->GetFactByName<string>("Wiek");
+	ress = repo->GetFactByName<std::string>("Wiek");
 	ress->SetValue("ponizej 25 lat");
 	ress->SetCost(10.0);
 
-	ress = repo->GetFactByName<string>("Plec");
+	ress = repo->GetFactByName<std::string>("Plec");
 	ress->SetValue("M");
 	ress->SetCost(15.0);
 
@@ -56,7 +54,7 @@ TEST(BasicPlanner, ImportFromFile)
 	EXPECT_EQ(availableRules.size(), 6);
 
 
-	ress = repo->GetFactByName<string>("StanCywilny");
+	ress = repo->GetFactByName<std::string>("StanCywilny");
 	ress->SetValue("wolny");
 	ress->SetCost(50.0);
 
@@ -71,7 +69,7 @@ TEST(BasicPlanner, ImportFromFile)
 
 	availableRules.begin()->second->CheckAndFire();
 
-	ress = repo->GetFactByName<string>("OcenaCechOsobowych");
+	ress = repo->GetFactByName<std::string>("OcenaCechOsobowych");
 	auto value = ress->GetValue();
 	EXPECT_EQ("bardzo niska", value);
 }

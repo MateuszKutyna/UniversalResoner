@@ -4,7 +4,6 @@
 #include "../universal_reasoner/factsRepository.h"
 #include <memory>
 using namespace ureasoner;
-using std::make_shared;
 using COST = double;
 TEST(BasicPremises, MakingPremise) 
 {
@@ -29,11 +28,11 @@ TEST(BasicPremises, MakingPremiseFromRepo)
 {
 	FactsRepository<COST, double, int, std::string> repo;
 	//fact<int>(1) fact<string>(test) fact<double>(empty)
-	auto i1 = make_shared<FactConst<int>>(1);
-	auto s1 = make_shared<FactConst<std::string>>("test");
+	auto i1 = std::make_shared<FactConst<int>>(1);
+	auto s1 = std::make_shared<FactConst<std::string>>("test");
 
 	//Empty but it can be
-	auto fempty = make_shared<FactSettable<double>>();
+	auto fempty = std::make_shared<FactSettable<double>>();
 	
 	//Adding facts with a name
 	repo.AddFact(i1, "i1");
@@ -78,11 +77,11 @@ TEST(FRepo, basicTest)
 // Command below, if uncommented, must result with compilation error since the list of types is not unique		
 //	FactsRepository<COST, double, short, double, int, long, bool> d;
 
-	auto i1 = make_shared<FactConst<int>>(1);
-	auto f1 = make_shared<FactConst<double>>(2.0);
-	auto b1 = make_shared<FactConst<bool>>(true);
-	auto s1 = make_shared<FactConst<std::string>>("test");
-	auto fempty = make_shared<FactSettable<double>>();
+	auto i1 = std::make_shared<FactConst<int>>(1);
+	auto f1 = std::make_shared<FactConst<double>>(2.0);
+	auto b1 = std::make_shared<FactConst<bool>>(true);
+	auto s1 = std::make_shared<FactConst<std::string>>("test");
+	auto fempty = std::make_shared<FactSettable<double>>();
 
 
 	b.AddFact(fempty, "fempty");
@@ -128,11 +127,11 @@ TEST(FRepo, gettingAllKnownFacts)
 	FactsRepository<COST, double, int, std::string> b;
 	FactsRepository<COST, int, short, double, long, bool> c;
 	
-	auto i1 = make_shared<FactConst<int>>(1);
-	auto f1 = make_shared<FactConst<double>>(2.0);
-	auto b1 = make_shared<FactConst<bool>>(true);
-	auto s1 = make_shared<FactConst<std::string>>("test");
-	auto fempty = make_shared<FactSettable<double>>();
+	auto i1 = std::make_shared<FactConst<int>>(1);
+	auto f1 = std::make_shared<FactConst<double>>(2.0);
+	auto b1 = std::make_shared<FactConst<bool>>(true);
+	auto s1 = std::make_shared<FactConst<std::string>>("test");
+	auto fempty = std::make_shared<FactSettable<double>>();
 
 	b.AddFact(fempty, "fempty");
 

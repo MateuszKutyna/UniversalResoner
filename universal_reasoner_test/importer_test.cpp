@@ -6,7 +6,6 @@
 #include "../universal_reasoner/metadata.h"
 
 using namespace ureasoner;
-using namespace std;
 
 using COST = double;
 
