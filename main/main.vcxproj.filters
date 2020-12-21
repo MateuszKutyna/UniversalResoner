@@ -20,6 +20,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\knowledge_importers\JDuda.json" />
+    <None Include="..\knowledge_importers\JDuda.json">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

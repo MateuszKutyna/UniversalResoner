@@ -69,6 +69,7 @@ namespace ureasoner
 			case str2int("Real"):
 			{
 				inserter.Insert(factName, std::stof(setsValue));
+				break;
 			}
 			default:
 			{

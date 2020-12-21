@@ -9,6 +9,7 @@
 #include<type_traits>
 #include<concepts>
 #include<string>
+#include<fstream>
 
 using namespace ureasoner;
 using COST = double;
@@ -16,22 +17,26 @@ using COST = double;
 int main()
 {
 
-	auto f1 = std::make_shared<FactSettable<double>>();
-	double d = 2.0;
-	auto conclusion1 = std::make_shared<ConclusionSettingFact<double>>(f1, d);
+	auto facts = ureasoner::importer::ReadFactsFromRebitJSON("../JDuda.json", "CechyOsobowe_rules");
 
-	auto a1 = std::make_shared<FactConst<double>>(2.0);
-	std::shared_ptr<Premise<double>> premis1 = std::make_shared<PremiseWithType<double>>(a1, 2.0);
+	for (const auto& fact : facts) {
+		std::cout << "Name: " << fact.name << " Type: " << fact.type << std::endl;
+	}
 
+	auto rules = ureasoner::importer::ReadRulesFromRebitJSON("../JDuda.json", "CechyOsobowe_rules"); //copy JDuda to universal reasoner\x64\Debug
+	
+	for (const auto& rule : rules) {
+		std::cout << "If ";
+		for (const auto& premise : rule.premises) {
+			std::cout << premise.expectedValue << " ";
 
-	RuleImpl<double> rule1(premis1, conclusion1);
-	//Not set so logic error
-
-	//Basicly sets fact 
-	rule1.CheckAndFire();
-	//Because checkAndFire is setting value of the fact we can get it's value
-	auto res = f1->GetValue();
-
+		}
+		std::cout << " Then ";
+		for (const auto& conclusion : rule.conclusions) {
+			std::cout << conclusion.valueToSet;
+		}
+		std::cout << "\n";
+	}
 	
 	
 }

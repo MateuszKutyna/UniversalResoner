@@ -54,9 +54,10 @@ TEST(BasicMetadata, AddingMoreComplexFacts)
 TEST(BasicMetadata, AddingRules)
 {
 
-	auto repo = std::make_shared<FactsRepository<COST, std::string, int, double>>();
+	auto repo = std::make_shared<FactsRepository<COST, std::string, int>>();
 	Metadata<decltype(repo)::element_type> data(repo);
 
+	//Drugi argument add fact jest kluczem do mapy, pod tak¹ nazw¹ znajdziemy fakt ale nie musi byæ on znany
 	repo->AddFact(std::make_shared<FactConst<std::string>>("test1"), "test1");
 	repo->AddFact("test2", "test2");
 	repo->AddFact(FactSettable<std::string>(), "test3");

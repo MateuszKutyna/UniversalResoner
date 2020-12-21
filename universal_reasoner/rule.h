@@ -26,7 +26,7 @@ namespace ureasoner
 		using FactValueType = T;
 		using ComparerType = std::function<bool(const FactValueType&, const FactValueType&)>;
 
-
+		//Bierze znany fakt i sprawdza czy jest rowny premisowi
 		PremiseWithType(const std::shared_ptr<LocalFact> compareLeft, const FactValueType& compareRight, const COST& cost = 0,
 			ComparerType constComparer = [](const FactValueType& x, const FactValueType& y) { return x == y; })
 			: compareLeft(compareLeft), compareRight(std::make_unique<FactConst<T>>(compareRight)),
@@ -100,12 +100,12 @@ namespace ureasoner
 		{
 			bool allSatisfied = true;
 			auto iter = premises.begin();
-			//checkes if every premise is equal
+			//Sprawdza czy premisy zgadzaja sie z faktem
 			while (allSatisfied && (iter != premises.end()))
 			{
 				allSatisfied = (*iter++)->Evaluate();
 			}
-			//if is then sets facts value
+			//Jezeli sie zgadza to ustawia konkluzje jako nowy fakt
 			if (allSatisfied)
 			{
 				for (std::shared_ptr<Conclusion<CostType>> conclusion : conclusions)

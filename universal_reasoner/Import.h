@@ -65,8 +65,8 @@ namespace ureasoner
 		{
 			auto fact = repo->GetFactByNameDynamic<remove_cvref_t<T>>(name);
 			cont->push_back(std::make_shared<ConclusionSettingFact<remove_cvref_t<T>>>(std::dynamic_pointer_cast<FactSettable<remove_cvref_t<T>>>(fact), expectedValue));	// remove cast if possible
-		}
-		;
+		};
+
 	protected:
 		std::shared_ptr<CONTAINER> cont;
 		std::shared_ptr<REPO> repo;
@@ -79,10 +79,11 @@ namespace ureasoner
 		using Premise = Premise<METADATA::CostType>;
 		using Conclusion = Conclusion<METADATA::CostType>;
 		std::shared_ptr<METADATA::FactsRepository> factsRepo = data.GetFactsRepository();
-
+		//Wyci¹ga regu³y z importowanych i dodaje je w postaci ImportedRule
 		//POTENCJALNE MIEJSCE NA ZROWNOLEGLENIE 
 		for (const auto& rule: rules)
 		{
+			//Tymczasowy premise
 			auto premises = std::make_shared<std::vector<std::shared_ptr<Premise>>>();
 			PremiseInserter<Premise, std::vector<std::shared_ptr<Premise>>, METADATA::FactsRepository> premiseInserter(premises, factsRepo);
 			for (const auto& premise: rule.premises)
@@ -91,6 +92,7 @@ namespace ureasoner
 				importer::ConvertImportedTypes(premiseInserter, factName, map.find(factName)->second, premise.expectedValue);
 			}
 
+			//Tymczasowa konkluzja
 			auto conclusions = std::make_shared < std:: vector < std::shared_ptr<Conclusion >> > ();
 			ConclusionInserter<Conclusion, std::vector<std::shared_ptr<Conclusion>>, METADATA::FactsRepository> conclusionInserter(conclusions, factsRepo);
 			for (const auto& conclusion: rule.conclusions)
@@ -98,7 +100,7 @@ namespace ureasoner
 				const auto factName = conclusion.factName;
 				importer::ConvertImportedTypes(conclusionInserter, factName, map.find(factName)->second, conclusion.valueToSet);
 			}
-
+			
 			data.AddRule(std::make_shared<RuleImpl<double>>(*premises, *conclusions));
 		}
 	}
