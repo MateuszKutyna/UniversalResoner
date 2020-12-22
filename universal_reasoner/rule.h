@@ -17,11 +17,11 @@ namespace ureasoner
 		virtual std::shared_ptr<CheckableFact<COST>> GetFact() const = 0;
 	};
 
-	template<typename T, template<typename> typename FACT_TYPE = FactWithGet, typename COST = double>
+	template<typename T,  typename FACT_TYPE = FactWithGet<T>, typename COST = double>
 	class PremiseWithType : public Premise<COST>{
 	public:
 		template<typename FACT_VALUE_TYPE>
-		using FactType = FACT_TYPE<FACT_VALUE_TYPE>;
+		using FactType = FACT_TYPE;
 		using LocalFact = FactType<T>;
 		using FactValueType = T;
 		using ComparerType = std::function<bool(const FactValueType&, const FactValueType&)>;
@@ -98,6 +98,7 @@ namespace ureasoner
 
 		virtual bool CheckAndFire() override
 		{
+			//Ta funckja ewentualnie tez moze zostac zrownoleglona 
 			bool allSatisfied = true;
 			auto iter = premises.begin();
 			//Sprawdza czy premisy zgadzaja sie z faktem

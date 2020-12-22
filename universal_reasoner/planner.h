@@ -25,6 +25,7 @@ namespace ureasoner
 
 			//Map with keys that aren't unique
 			std::multimap < CostType, shared_ptr<Rule<CostType>>> allowedRules;
+
 			//TUTAJ TEZ MOZNA SPROWBOWAC COS ZROWNOLEGLIC
 			for (const auto& rule : rules)
 			{

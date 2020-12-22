@@ -4,10 +4,13 @@
 
 #include "fact.h"
 #include "rule.h"
+#include "metadata.h"
 #include <memory>
 #include "../knowledge_importers/knowledge_importers.h"
 #include<map>
 #include <type_traits>
+#include<future>
+
 
 namespace ureasoner
 {
@@ -32,7 +35,7 @@ namespace ureasoner
 			//Inserts facts into map
 			nameTypeMapper.insert(std::pair(fact.name, fact.type));
 		}
-		return std::move(nameTypeMapper);
+		return nameTypeMapper;
 	}
 
 	template<typename PREMISE, typename CONTAINER, typename REPO>
@@ -73,36 +76,52 @@ namespace ureasoner
 
 	};
 
+	template<typename METADATA>
+	std::shared_ptr<std::vector<std::shared_ptr<Premise<typename METADATA::CostType>>>> convertPremise(const importer::ImportedRule& rule,  std::shared_ptr<typename METADATA::FactsRepository> repo, const std::map < std::string, std::string>& map) {
+		using Premise = Premise<typename METADATA::CostType>;
+
+		auto premises = std::make_shared<std::vector < std::shared_ptr<Premise>>>();
+		
+		PremiseInserter<Premise, std::vector<std::shared_ptr<Premise>>, typename METADATA::FactsRepository> premiseInserter(premises, repo);
+		for (const auto& premise : rule.premises)
+		{
+			const auto factName = premise.factName;
+			importer::ConvertImportedTypes(premiseInserter, factName, map.find(factName)->second, premise.expectedValue);
+		}
+		return premises;
+	}
+
+	template<typename METADATA>
+	std::shared_ptr<std::vector<std::shared_ptr<Conclusion<typename METADATA::CostType>>>> convertConclusion(const importer::ImportedRule& rule, std::shared_ptr<typename METADATA::FactsRepository> repo, const std::map < std::string, std::string>& map) {
+		using Conclusion = Conclusion<typename METADATA::CostType>;
+
+		auto conclusions = std::make_shared < std::vector < std::shared_ptr<Conclusion >> >();
+		ConclusionInserter<Conclusion, std::vector<std::shared_ptr<Conclusion>>, typename METADATA::FactsRepository> conclusionInserter(conclusions, repo);
+		for (const auto& conclusion : rule.conclusions)
+		{
+			const auto factName = conclusion.factName;
+			importer::ConvertImportedTypes(conclusionInserter, factName, map.find(factName)->second, conclusion.valueToSet);
+		}
+		return conclusions;
+	}
+
 	template <typename  METADATA>
 	void AddRules(std::vector<importer::ImportedRule>& rules, METADATA& data, std::map<std::string, std::string>& map)
 	{
-		using Premise = Premise<METADATA::CostType>;
-		using Conclusion = Conclusion<METADATA::CostType>;
-		std::shared_ptr<METADATA::FactsRepository> factsRepo = data.GetFactsRepository();
-		//Wyci¹ga regu³y z importowanych i dodaje je w postaci ImportedRule
+		using Premise = Premise<typename METADATA::CostType>;
+		using Conclusion = Conclusion<typename METADATA::CostType>;
+		
+		std::shared_ptr<typename METADATA::FactsRepository> factsRepo = data.GetFactsRepository();
 		//POTENCJALNE MIEJSCE NA ZROWNOLEGLENIE 
-		for (const auto& rule: rules)
+		for (const auto& rule : rules)
 		{
-			//Tymczasowy premise
-			auto premises = std::make_shared<std::vector<std::shared_ptr<Premise>>>();
-			PremiseInserter<Premise, std::vector<std::shared_ptr<Premise>>, METADATA::FactsRepository> premiseInserter(premises, factsRepo);
-			for (const auto& premise: rule.premises)
-			{
-				const auto factName = premise.factName;
-				importer::ConvertImportedTypes(premiseInserter, factName, map.find(factName)->second, premise.expectedValue);
-			}
 
-			//Tymczasowa konkluzja
-			auto conclusions = std::make_shared < std:: vector < std::shared_ptr<Conclusion >> > ();
-			ConclusionInserter<Conclusion, std::vector<std::shared_ptr<Conclusion>>, METADATA::FactsRepository> conclusionInserter(conclusions, factsRepo);
-			for (const auto& conclusion: rule.conclusions)
-			{
-				const auto factName = conclusion.factName;
-				importer::ConvertImportedTypes(conclusionInserter, factName, map.find(factName)->second, conclusion.valueToSet);
-			}
-			
-			data.AddRule(std::make_shared<RuleImpl<double>>(*premises, *conclusions));
+			auto premises = std::async(std::launch::async, convertPremise<METADATA>, rule, factsRepo, map);
+			auto conclusions = std::async(std::launch::async, convertConclusion<METADATA>, rule, factsRepo, map);
+
+			data.AddRule(std::make_shared<RuleImpl<double>>(*premises.get(), *conclusions.get()));
 		}
 	}
+	
 }
 #endif // Import_h__

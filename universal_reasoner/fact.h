@@ -33,7 +33,7 @@ namespace ureasoner
 	class Fact : public FactWithGet<VALUE, COST>
 	{
 	public:
-		using ValueType = FactWithGet<VALUE, COST>::ValueType;
+		using ValueType = typename FactWithGet<VALUE, COST>::ValueType;
 
 		virtual ~Fact() noexcept {}
 
@@ -49,7 +49,7 @@ namespace ureasoner
 	{
 	public:
 		using CostType = COST;
-		using ValueType = Fact<VALUE, COST>::ValueType;
+		using ValueType = typename Fact<VALUE, COST>::ValueType;
 
 		FactConst(const std::shared_ptr<ValueType>& factValue, const COST& cost = 0) : factValue(factValue), cost(cost) {};
 		FactConst(const ValueType& factValue, const COST& cost = 0) : factValue(std::make_shared<ValueType>(factValue)) {this->cost = cost; };
@@ -76,7 +76,7 @@ namespace ureasoner
 	{
 	public:
 		using CostType = COST;
-		using ValueType = Fact<VALUE, COST>::ValueType;
+		using ValueType = typename Fact<VALUE, COST>::ValueType;
 
 		FactSettable(const COST& cost = 0, const COST& costGet = 0, const COST& costSet = 0) : costGet(costGet), costSet(costSet) 
 		{
