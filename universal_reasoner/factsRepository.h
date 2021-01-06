@@ -4,7 +4,9 @@
 #include "fact.h"
 #include <unordered_map>
 #include <type_traits>
-
+#include<concurrent_unordered_map.h>
+#include<concurrent_vector.h>
+#include<ppl.h>
 namespace ureasoner
 {
 	template <typename T, typename... List>
@@ -47,11 +49,11 @@ namespace ureasoner
 		{
 			return storage.insert(std::pair<std::string, std::shared_ptr< Fact<StoredType>>>(name, std::make_shared< FactSettable<StoredType>>(fact))).first->second;
 		};
-		std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> GetAllKnownFacts();
+		std::shared_ptr<Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>>> GetAllKnownFacts();
 
 	protected:
 		//Keys must be unique (in this case std::string), it has no order
-		std::unordered_map<std::string, std::shared_ptr< Fact<StoredType>>> storage;
+		Concurrency::concurrent_unordered_map<std::string, std::shared_ptr<Fact<StoredType>>> storage;
 		std::shared_ptr< Fact<StoredType>> GetFact(const std::string& name, const StoredType*);
 		std::shared_ptr< FactSettable<StoredType, COST>> GetSettableFact(const std::string& name, const StoredType*);
 	};
@@ -73,11 +75,12 @@ namespace ureasoner
 		{
 			return storage.insert(std::pair<std::string, std::shared_ptr< Fact<StoredType>>>(name, std::make_shared< FactSettable<StoredType>>(fact))).first->second;
 		};
-		std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> GetAllKnownFacts();
+		std::shared_ptr<Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>>> GetAllKnownFacts();
 
 	protected:
 		//Keys must be unique
-		std::unordered_map<std::string, std::shared_ptr< Fact<StoredType>>> storage;
+		Concurrency::concurrent_unordered_map<std::string, std::shared_ptr<Fact<StoredType>>> storage;
+		//std::unordered_map<std::string, std::shared_ptr< Fact<StoredType>>> storage;
 		std::shared_ptr< Fact<StoredType>> GetFact(const std::string& name, const StoredType*);
 		std::shared_ptr< FactSettable<StoredType, COST>> GetSettableFact(const std::string& name, const StoredType*);
 
@@ -158,30 +161,28 @@ namespace ureasoner
 	}
 
 	template <typename COST, typename FIRST_STORED_TYPE, typename... STORED_TYPES>
-	std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetAllKnownFacts()
+	std::shared_ptr<Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE, STORED_TYPES...>::GetAllKnownFacts()
 	{
 		auto toRet = FactsRepository<COST, STORED_TYPES...>::GetAllKnownFacts();
-		for(const auto& fact: storage)
-		{
-			if (fact.second->IsKnown())
-			{
+		Concurrency::parallel_for_each(std::begin(storage), std::end(storage), [&](auto& fact) {
+			if (fact.second->IsKnown()) {
 				toRet->push_back(fact.second);
 			}
-		}
+			});
 		return toRet;
 	}
 
 	template <typename COST, typename FIRST_STORED_TYPE>
-	std::shared_ptr<std::vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE>::GetAllKnownFacts()
+	std::shared_ptr<Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>>> FactsRepository<COST, FIRST_STORED_TYPE>::GetAllKnownFacts()
 	{
-		auto toRet = std::make_shared<std::vector<std::shared_ptr<CheckableFact<COST>>>>();
-		for (const auto& fact: storage)
-		{
-			if (fact.second->IsKnown())
-			{
+
+		auto toRet = std::make_shared<Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>>>();
+		Concurrency::parallel_for_each(std::begin(storage), std::end(storage), [&](auto& fact) {
+			if (fact.second->IsKnown()) {
 				toRet->push_back(fact.second);
 			}
-		}
+		});
+
 		return toRet;
 	}
 

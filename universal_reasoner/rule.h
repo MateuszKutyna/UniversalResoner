@@ -1,11 +1,13 @@
 #ifndef universal_reasoner_rule_h__
 #define universal_reasoner_rule_h__
-
+#include<iostream>
 #include <memory>
 #include <functional>
 #include <vector>
 #include "executableWithCost.h"
 #include "fact.h"
+#include<ppl.h>
+#include<concurrent_vector.h>
 
 namespace ureasoner
 {
@@ -76,8 +78,8 @@ namespace ureasoner
 	{
 	public:
 		virtual bool CheckAndFire() = 0;
-		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() = 0;
-		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() = 0;
+		virtual Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() = 0;
+		virtual Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() = 0;
 	};
 
 	template<typename COST = double>
@@ -86,10 +88,10 @@ namespace ureasoner
 	public:
 		using CostType = COST;
 
-		RuleImpl(std::vector<std::shared_ptr<Premise<CostType>>> premises, std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(premises), conclusions(conclusions) {
+		RuleImpl(Concurrency::concurrent_vector<std::shared_ptr<Premise<CostType>>> premises, Concurrency::concurrent_vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(premises), conclusions(conclusions) {
 			Rule<COST>::ExecutableWithCost::SetCost(cost);
 		};
-		RuleImpl(std::shared_ptr<Premise<CostType>> premise, std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(std::vector<std::shared_ptr<Premise>>{premise}), conclusions(conclusions) { Rule::ExecutableWithCost::SetCost(cost); };
+		RuleImpl(std::shared_ptr<Premise<CostType>> premise, Concurrency::concurrent_vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(Concurrency::concurrent_vector<std::shared_ptr<Premise>>{premise}), conclusions(conclusions) { Rule::ExecutableWithCost::SetCost(cost); };
 		RuleImpl(std::shared_ptr<Premise<CostType>> premise, std::shared_ptr<Conclusion<CostType>> conclusion, CostType cost = 0)
 			: premises(std::vector<std::shared_ptr<Premise<CostType>>>{premise}),
 			conclusions(std::vector<std::shared_ptr<Conclusion<CostType>>>{conclusion}) {
@@ -108,10 +110,10 @@ namespace ureasoner
 			//Jezeli sie zgadza to ustawia konkluzje jako nowy fakt
 			if (allSatisfied)
 			{
-				for (std::shared_ptr<Conclusion<CostType>> conclusion : conclusions)
-				{
+				Concurrency::parallel_for_each(std::begin(conclusions), std::end(conclusions), [&](auto conclusion) {
 					conclusion->Execute();
-				}
+					});
+
 			}
 			return allSatisfied;
 		}
@@ -119,40 +121,38 @@ namespace ureasoner
 		virtual CostType GetEstimatedCost() const override
 		{
 			CostType sumCost = Rule<CostType>::ExecutableWithCost::GetCost();
-			for (const auto& premise: premises)
-			{
+			Concurrency::parallel_for_each(std::begin(premises), std::end(premises), [&](auto premise) {
 				sumCost += premise->GetEstimatedCost();
-			}
-			for (const auto& conclusion: conclusions)
-			{
+			});
+
+			Concurrency::parallel_for_each(std::begin(conclusions), std::end(conclusions), [&](auto conclusion) {
 				sumCost += conclusion->GetEstimatedCost();
-			}
+			});
+			
 			return sumCost;
 		}
 
-		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() override
+		virtual Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() override
 		{
-			std::vector<std::shared_ptr<CheckableFact<COST>>> toRet;
-			for (const std::shared_ptr<Premise<CostType>>& premise: premises)
-			{
+			Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> toRet;
+			Concurrency::parallel_for_each(std::begin(premises), std::end(premises), [&](auto premise) {
 				toRet.push_back(premise->GetFact());
-			}
+			});
 			return toRet;
 		}
 
-		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() override
+		virtual Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() override
 		{
-			std::vector<std::shared_ptr<CheckableFact<COST>>> toRet;
-			for (const std::shared_ptr<Conclusion<CostType>>& conclusion: conclusions)
-			{
+			Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> toRet;
+			Concurrency::parallel_for_each(std::begin(conclusions), std::end(conclusions), [&](auto conclusion) {
 				toRet.push_back(conclusion->GetFact());
-			}
+				});
 			return toRet;
 		}
 
 	protected:
-		std::vector<std::shared_ptr<Premise<CostType>>> premises;
-		std::vector<std::shared_ptr<Conclusion<CostType>>> conclusions;
+		Concurrency::concurrent_vector<std::shared_ptr<Premise<CostType>>> premises;
+		Concurrency::concurrent_vector<std::shared_ptr<Conclusion<CostType>>> conclusions;
 	};
 }
 #endif // universal_reasoner_rule_h__

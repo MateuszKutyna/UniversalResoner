@@ -8,6 +8,8 @@
 #include "../knowledge_importers/knowledge_importers.h"
 #include<map>
 #include <type_traits>
+#include<concurrent_vector.h>
+#include<ppl.h>
 
 namespace ureasoner
 {
@@ -79,28 +81,20 @@ namespace ureasoner
 		using Premise = Premise<METADATA::CostType>;
 		using Conclusion = Conclusion<METADATA::CostType>;
 		std::shared_ptr<METADATA::FactsRepository> factsRepo = data.GetFactsRepository();
-		//Wyci¹ga regu³y z importowanych i dodaje je w postaci ImportedRule
-		//POTENCJALNE MIEJSCE NA ZROWNOLEGLENIE 
+	
 		for (const auto& rule: rules)
 		{
-			//Tymczasowy premise
-			auto premises = std::make_shared<std::vector<std::shared_ptr<Premise>>>();
-			PremiseInserter<Premise, std::vector<std::shared_ptr<Premise>>, METADATA::FactsRepository> premiseInserter(premises, factsRepo);
-			for (const auto& premise: rule.premises)
-			{
-				const auto factName = premise.factName;
-				importer::ConvertImportedTypes(premiseInserter, factName, map.find(factName)->second, premise.expectedValue);
-			}
+			auto premises = std::make_shared<Concurrency::concurrent_vector<std::shared_ptr<Premise>>>();
+			PremiseInserter<Premise, Concurrency::concurrent_vector<std::shared_ptr<Premise>>, METADATA::FactsRepository> premiseInserter(premises, factsRepo);
+			Concurrency::parallel_for_each(std::begin(rule.premises), std::end(rule.premises), [&](auto premise) {
+				importer::ConvertImportedTypes(premiseInserter, premise.factName, map.find(premise.factName)->second, premise.expectedValue);
+			});
 
-			//Tymczasowa konkluzja
-			auto conclusions = std::make_shared < std:: vector < std::shared_ptr<Conclusion >> > ();
-			ConclusionInserter<Conclusion, std::vector<std::shared_ptr<Conclusion>>, METADATA::FactsRepository> conclusionInserter(conclusions, factsRepo);
-			for (const auto& conclusion: rule.conclusions)
-			{
-				const auto factName = conclusion.factName;
-				importer::ConvertImportedTypes(conclusionInserter, factName, map.find(factName)->second, conclusion.valueToSet);
-			}
-			
+			auto conclusions = std::make_shared < Concurrency::concurrent_vector < std::shared_ptr<Conclusion >> > ();
+			ConclusionInserter<Conclusion, Concurrency::concurrent_vector<std::shared_ptr<Conclusion>>, METADATA::FactsRepository> conclusionInserter(conclusions, factsRepo);
+			Concurrency::parallel_for_each(std::begin(rule.conclusions), std::end(rule.conclusions), [&](auto conclusion) {
+				importer::ConvertImportedTypes(conclusionInserter, conclusion.factName, map.find(conclusion.factName)->second, conclusion.valueToSet);
+				});
 			data.AddRule(std::make_shared<RuleImpl<double>>(*premises, *conclusions));
 		}
 	}
