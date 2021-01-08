@@ -81,8 +81,8 @@ namespace ureasoner
 	{
 	public:
 		virtual bool CheckAndFire() = 0;
-		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() = 0;
-		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() = 0;
+		virtual Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() = 0;
+		virtual Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() = 0;
 	};
 
 	template<typename COST = double>
@@ -140,18 +140,18 @@ namespace ureasoner
 			return sumCost;
 		}
 
-		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() override
+		virtual Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() override
 		{
-			std::vector<std::shared_ptr<CheckableFact<COST>>> toRet;
+			Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> toRet;
 			Concurrency::parallel_for_each(std::begin(premises), std::end(premises), [&](auto premise) {
 				toRet.push_back(premise->GetFact());
 			});
 			return toRet;
 		}
 
-		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() override
+		virtual Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() override
 		{
-			std::vector<std::shared_ptr<CheckableFact<COST>>> toRet;
+			Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> toRet;
 			Concurrency::parallel_for_each(std::begin(conclusions), std::end(conclusions), [&](auto conclusion) {
 				toRet.push_back(conclusion->GetFact());
 				});
