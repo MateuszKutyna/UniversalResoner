@@ -8,6 +8,9 @@
 #include "fact.h"
 #include<ppl.h>
 #include<concurrent_vector.h>
+#include <thread>
+#include <random>
+#include <chrono>
 
 namespace ureasoner
 {
@@ -78,8 +81,8 @@ namespace ureasoner
 	{
 	public:
 		virtual bool CheckAndFire() = 0;
-		virtual Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() = 0;
-		virtual Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() = 0;
+		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() = 0;
+		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() = 0;
 	};
 
 	template<typename COST = double>
@@ -102,6 +105,11 @@ namespace ureasoner
 		{
 			bool allSatisfied = true;
 			auto iter = premises.begin();
+
+			std::mt19937_64 eng{ std::random_device{}() };  
+			std::uniform_int_distribution<> dist( 10, 1000 );
+			std::this_thread::sleep_for(std::chrono::milliseconds{ dist(eng) });
+			
 			//Sprawdza czy premisy zgadzaja sie z faktem
 			while (allSatisfied && (iter != premises.end()))
 			{
@@ -132,18 +140,18 @@ namespace ureasoner
 			return sumCost;
 		}
 
-		virtual Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() override
+		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsForFiring() override
 		{
-			Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> toRet;
+			std::vector<std::shared_ptr<CheckableFact<COST>>> toRet;
 			Concurrency::parallel_for_each(std::begin(premises), std::end(premises), [&](auto premise) {
 				toRet.push_back(premise->GetFact());
 			});
 			return toRet;
 		}
 
-		virtual Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() override
+		virtual std::vector<std::shared_ptr<CheckableFact<COST>>> GetFactsConcluding() override
 		{
-			Concurrency::concurrent_vector<std::shared_ptr<CheckableFact<COST>>> toRet;
+			std::vector<std::shared_ptr<CheckableFact<COST>>> toRet;
 			Concurrency::parallel_for_each(std::begin(conclusions), std::end(conclusions), [&](auto conclusion) {
 				toRet.push_back(conclusion->GetFact());
 				});

@@ -69,12 +69,15 @@ int main()
 
 	auto availableRules = plan.BuildPlan();
 
+	Concurrency::parallel_for_each(std::begin(availableRules), std::end(availableRules), [&](auto rule) {
+		rule.second->CheckAndFire();
+		});
 
-	auto rule = availableRules.cbegin();
-	while (rule != availableRules.cend()) {
-		rule->second->CheckAndFire();
-		rule++;
-	}
+	/*for (auto rule : availableRules) {
+		rule.second->CheckAndFire();
+	}*/
+
+	
 
 	ress = repo->GetFactByName<std::string>("OcenaCechOsobowych");
 	auto value = ress->GetValue();

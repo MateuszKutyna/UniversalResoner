@@ -26,16 +26,16 @@ namespace ureasoner
 			//Map with keys that aren't unique
 			std::multimap < CostType, shared_ptr<Rule<CostType>>> allowedRules;
 			//TUTAJ TEZ MOZNA SPROWBOWAC COS ZROWNOLEGLIC
-			for (const auto& rule : rules)
-			{
-				//Bierze fakty ktore sa potrzebne do spelnienia premise nie wszystkie musza byc znane
+			std::mutex block_multimap;
+			Concurrency::parallel_for_each(std::begin(rules), std::end(rules), [&](auto rule) {
 				auto neededFacts = rule->GetFactsForFiring();
 
 				//Zwraca fakt ktory ma byc ustawiony
-				auto providedFacts = rule->GetFactsConcluding(); //Nie u¿yte?? 
+				//auto providedFacts = rule->GetFactsConcluding(); //Nie u¿yte?? 
 
 				bool allNeededFactsAvailable = true;
 				auto factIter = neededFacts.cbegin();
+
 				while (factIter != neededFacts.cend() && allNeededFactsAvailable)
 				{
 					auto found = std::find(facts->cbegin(), facts->cend(), *factIter);
@@ -46,11 +46,11 @@ namespace ureasoner
 				//Dodaje spelniona regule tylko wtedy gdy wszystkie potrzebne fakty do jej wypelnienia sa dostepne
 				if (allNeededFactsAvailable)
 				{
+					std::lock_guard<std::mutex> guardian(block_multimap);
 					allowedRules.insert(std::pair{ rule->GetEstimatedCost(), rule });
 				}
-
-			}
-
+				});
+	
 			return allowedRules;
 		};
 
