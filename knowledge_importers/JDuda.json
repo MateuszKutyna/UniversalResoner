@@ -1,4 +1,1427 @@
 {
+  "PackageHeader": {
+    "KnowledgeBaseName": [],
+    "Description": [],
+    "Version": [],
+    "Author": [],
+    "CreationDate": "2017-04-11",
+    "LastModifiedDate": "2017-04-11"
+  },
+  "DecisionTables": {
+    "DecisionTable": {
+      "@Id": "CechyOsobowe",
+      "Types": [
+        {
+          "EnumType": {
+            "@Id": "KM",
+            "String": [
+              {
+                "@Id": "KID0",
+                "@Value": "K"
+              },
+              {
+                "@Id": "MID1",
+                "@Value": "M"
+              }
+            ]
+          }
+        },
+        {
+          "EnumType": {
+            "@Id": "wiek",
+            "String": [
+              {
+                "@Id": "ponizej_25_latID0",
+                "@Value": "ponizej 25 lat"
+              },
+              {
+                "@Id": "od_25_do_40_latID1",
+                "@Value": "od 25 do 40 lat"
+              },
+              {
+                "@Id": "powyzej_40_latID2",
+                "@Value": "powyzej 40 lat"
+              }
+            ]
+          }
+        },
+        {
+          "EnumType": {
+            "@Id": "ZSD",
+            "String": [
+              {
+                "@Id": "zlyID0",
+                "@Value": "zly"
+              },
+              {
+                "@Id": "sredniID1",
+                "@Value": "sredni"
+              },
+              {
+                "@Id": "dobryID2",
+                "@Value": "dobry"
+              }
+            ]
+          }
+        },
+        {
+          "EnumType": {
+            "@Id": "WZ",
+            "String": [
+              {
+                "@Id": "wolnyID0",
+                "@Value": "wolny"
+              },
+              {
+                "@Id": "zajetyID1",
+                "@Value": "zajety"
+              }
+            ]
+          }
+        },
+        {
+          "EnumType": {
+            "@Id": "ocena",
+            "String": [
+              {
+                "@Id": "bardzo_niskaID0",
+                "@Value": "bardzo niska"
+              },
+              {
+                "@Id": "niskaID1",
+                "@Value": "niska"
+              },
+              {
+                "@Id": "przecietnaID2",
+                "@Value": "przecietna"
+              },
+              {
+                "@Id": "dobraID3",
+                "@Value": "dobra"
+              },
+              {
+                "@Id": "bardzo_dobraID4",
+                "@Value": "bardzo dobra"
+              }
+            ]
+          }
+        }
+      ],
+      "PremiseRows": [
+        {
+          "@Id": "Plec",
+          "PremiseRowType": {
+            "EnumType": {
+              "@IdRef": "KM"
+            }
+          },
+          "PremiseCells": [
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "K"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "M"
+              }
+            }
+          ]
+        },
+        {
+          "@Id": "Wiek",
+          "PremiseRowType": {
+            "EnumType": {
+              "@IdRef": "wiek"
+            }
+          },
+          "PremiseCells": [
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "ponizej 25 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "ponizej 25 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "ponizej 25 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "ponizej 25 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "ponizej 25 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "ponizej 25 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "od 25 do 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "od 25 do 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "od 25 do 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "od 25 do 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "od 25 do 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "od 25 do 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "powyzej 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "powyzej 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "powyzej 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "powyzej 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "powyzej 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "powyzej 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "ponizej 25 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "ponizej 25 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "ponizej 25 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "ponizej 25 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "ponizej 25 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "ponizej 25 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "od 25 do 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "od 25 do 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "od 25 do 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "od 25 do 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "od 25 do 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "od 25 do 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "powyzej 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "powyzej 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "powyzej 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "powyzej 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "powyzej 40 lat"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "powyzej 40 lat"
+              }
+            }
+          ]
+        },
+        {
+          "@Id": "StanZdrowia",
+          "PremiseRowType": {
+            "EnumType": {
+              "@IdRef": "ZSD"
+            }
+          },
+          "PremiseCells": [
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zly"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zly"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "sredni"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "sredni"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "dobry"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "dobry"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zly"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zly"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "sredni"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "sredni"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "dobry"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "dobry"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zly"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zly"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "sredni"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "sredni"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "dobry"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "dobry"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zly"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zly"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "sredni"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "sredni"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "dobry"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "dobry"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zly"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zly"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "sredni"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "sredni"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "dobry"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "dobry"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zly"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zly"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "sredni"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "sredni"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "dobry"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "dobry"
+              }
+            }
+          ]
+        },
+        {
+          "@Id": "StanCywilny",
+          "PremiseRowType": {
+            "EnumType": {
+              "@IdRef": "WZ"
+            }
+          },
+          "PremiseCells": [
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "wolny"
+              }
+            },
+            {
+              "@Operator": "eq",
+              "Constant": {
+                "@Multiplicity": "Single",
+                "String": "zajety"
+              }
+            }
+          ]
+        }
+      ],
+      "ConclusionRow": {
+        "@Id": "OcenaCechOsobowych",
+        "ConclusionRowType": {
+          "EnumType": {
+            "@IdRef": "ocena"
+          }
+        },
+        "ConclusionCells": [
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "przecietna"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "przecietna"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "dobra"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "dobra"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo dobra"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "przecietna"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "dobra"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "dobra"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo dobra"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "przecietna"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "przecietna"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "dobra"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo dobra"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "bardzo niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "niska"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "przecietna"
+            }
+          },
+          {
+            "@Operator": "eq",
+            "Constant": {
+              "@Multiplicity": "Single",
+              "String": "dobra"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Grids": [],
   "RuleSets": {
     "RuleSet": {
       "@Id": "CechyOsobowe_rules",

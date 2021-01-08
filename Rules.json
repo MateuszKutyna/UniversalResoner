@@ -1,0 +1,380 @@
+{
+  "RuleSets": {
+    "RuleSet": {
+      "@Id": "CechyOsobowe_rules",
+      "@IdRef": "CechyOsobowe",
+      "Variables": [
+        {
+          "@Id": "Zmienna_a",
+          "EnumType": {
+            "@IdRef": "a"
+          }
+        },
+        {
+          "@Id": "Zmienna_b",
+          "EnumType": {
+            "@IdRef": "b"
+          }
+        },
+        {
+          "@Id": "Zmienna_c",
+          "EnumType": {
+            "@IdRef": "c"
+          }
+        },
+        {
+          "@Id": "Zmienna_d",
+          "EnumType": {
+            "@IdRef": "d"
+          }
+        },
+        {
+          "@Id": "Zmienna_e",
+          "EnumType": {
+            "@IdRef": "e"
+          }
+        },
+        {
+          "@Id": "Zmienna_f",
+          "EnumType": {
+            "@IdRef": "f"
+          }
+        },
+        {
+          "@Id": "Zmienna_g",
+          "EnumType": {
+            "@IdRef": "g"
+          }
+        },
+        {
+          "@Id": "Zmienna_h",
+          "EnumType": {
+            "@IdRef": "h"
+          }
+        }
+      ],
+      "Rules": [
+        {
+          "If": [
+            {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_a"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+
+                  "Constant": {
+
+                    "String": "a"
+                  }
+                }
+              }
+            },
+            {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_b"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+                  "Constant": {
+                    "String": "b"
+                  }
+                }
+              }
+            }
+          ],
+          "Then": {
+            "Atom": {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_c"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+
+                  "Constant": {
+
+                    "String": "c"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "If": [
+            {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_b"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+
+                  "Constant": {
+
+                    "String": "b"
+                  }
+                }
+              }
+            },
+            {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_c"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+                  "Constant": {
+                    "String": "c"
+                  }
+                }
+              }
+            }
+          ],
+          "Then": {
+            "Atom": {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_d"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+
+                  "Constant": {
+
+                    "String": "d"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "If": [
+            {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_c"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+
+                  "Constant": {
+
+                    "String": "c"
+                  }
+                }
+              }
+            },
+            {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_d"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+                  "Constant": {
+                    "String": "d"
+                  }
+                }
+              }
+            }
+          ],
+          "Then": {
+            "Atom": {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_e"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+
+                  "Constant": {
+
+                    "String": "e"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "If": [
+            {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_d"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+
+                  "Constant": {
+
+                    "String": "d"
+                  }
+                }
+              }
+            },
+            {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_e"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+                  "Constant": {
+                    "String": "e"
+                  }
+                }
+              }
+            }
+          ],
+          "Then": {
+            "Atom": {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_f"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+
+                  "Constant": {
+
+                    "String": "f"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "If": [
+            {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_e"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+
+                  "Constant": {
+
+                    "String": "e"
+                  }
+                }
+              }
+            },
+            {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_f"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+                  "Constant": {
+                    "String": "f"
+                  }
+                }
+              }
+            }
+          ],
+          "Then": {
+            "Atom": {
+              "@Operator": "eq",
+              "LeftHand": {
+                "Term": {
+                  "@Content": "Variable",
+                  "Variable": {
+                    "@IdRef": "Zmienna_g"
+                  }
+                }
+              },
+              "RightHand": {
+                "Term": {
+
+                  "Constant": {
+
+                    "String": "g"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

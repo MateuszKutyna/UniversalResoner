@@ -96,8 +96,9 @@ namespace ureasoner
 		};
 		RuleImpl(std::shared_ptr<Premise<CostType>> premise, Concurrency::concurrent_vector<std::shared_ptr<Conclusion<CostType>>> conclusions, CostType cost = 0) : premises(Concurrency::concurrent_vector<std::shared_ptr<Premise>>{premise}), conclusions(conclusions) { Rule::ExecutableWithCost::SetCost(cost); };
 		RuleImpl(std::shared_ptr<Premise<CostType>> premise, std::shared_ptr<Conclusion<CostType>> conclusion, CostType cost = 0)
-			: premises(std::vector<std::shared_ptr<Premise<CostType>>>{premise}),
-			conclusions(std::vector<std::shared_ptr<Conclusion<CostType>>>{conclusion}) {
+		{
+			premises.push_back(premise);
+			conclusions.push_back(conclusion);
 			Rule<CostType>::ExecutableWithCost::SetCost(cost);
 		};
 
